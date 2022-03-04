@@ -1,0 +1,28 @@
+{
+  "name": "golive",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "nodemon BackEnd/server.js",
+    "start": "node BackEnd/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TrickkyRicky/GoLive.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TrickkyRicky/GoLive/issues"
+  },
+  "homepage": "https://github.com/TrickkyRicky/GoLive#readme",
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "mongoose": "^6.2.4",
+    "node-media-server": "^2.3.8",
+    "nodemon": "^2.0.15"
+  }
+}
