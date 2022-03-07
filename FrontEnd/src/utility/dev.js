@@ -1,1 +1,0 @@
-export const vPath = "http://localhost:8000";
