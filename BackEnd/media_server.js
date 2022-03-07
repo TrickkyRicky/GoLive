@@ -1,4 +1,6 @@
 const NodeMediaServer = require("node-media-server");
+require("dotenv").config();
+
 const config = {
   rtmp: {
     port: 1935,
@@ -13,7 +15,7 @@ const config = {
     allow_origin: "*",
   },
   trans: {
-    ffmpeg: "C:/ProgramData/chocolatey/lib/ffmpeg/tools/ffmpeg/bin/ffmpeg.exe",
+    ffmpeg: process.env.ffpath,
     tasks: [
       {
         app: "live",

@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
+import { vPath } from "../utility/dev.js";
 
 const Home = (props) => {
   const videoRef = useRef(null);
@@ -29,8 +30,7 @@ const Home = (props) => {
       fluid: true,
       sources: [
         {
-          src:
-            "http://localhost:8000/live/STREAM_NAME/index.m3u8",
+          src: `${vPath}/live/STREAM_NAME/index.m3u8`,
           type: "application/x-mpegURL",
         },
       ],
