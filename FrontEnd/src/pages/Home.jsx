@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
+import { vPath } from "../utility/dev.js";
 
 const Home = (props) => {
   const videoRef = useRef(null);
@@ -29,8 +30,7 @@ const Home = (props) => {
       fluid: true,
       sources: [
         {
-          src:
-            "https://7aaa-2603-8081-1604-91e7-d867-4e09-92c7-d20a.ngrok.io/live/STREAM_NAME/index.m3u8",
+          src: `${vPath}/live/STREAM_NAME/index.m3u8`,
           type: "application/x-mpegURL",
         },
       ],
