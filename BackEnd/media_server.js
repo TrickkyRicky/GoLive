@@ -13,7 +13,7 @@ const config = {
     allow_origin: "*",
   },
   trans: {
-    ffmpeg: "/usr/local/Cellar/ffmpeg/5.0/bin/ffmpeg",
+    ffmpeg: "C:/ProgramData/chocolatey/lib/ffmpeg/tools/ffmpeg/bin/ffmpeg.exe",
     tasks: [
       {
         app: "live",
