@@ -6,14 +6,14 @@ const Schema = mongoose.Schema;
 
 const videoSchema = new Schema(
   {
-    //   will have to figure out if this needs to be a type or ref for gridFS
-    video: {
-      //   type: Binary,
-      required: true,
-    },
     // this is here as a checker to see if a video was livestreamed or just uploaded. We need to know this so we know to send the video back with comments
     isStreamed: {
       type: Boolean,
+      required: true,
+    },
+
+    category: {
+      type: String,
       required: true,
     },
 

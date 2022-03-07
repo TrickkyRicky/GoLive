@@ -15,7 +15,7 @@ const config = {
     allow_origin: "*",
   },
   trans: {
-    ffmpeg: process.env.ffpath,
+    ffmpeg: process.env.FFPATH,
     tasks: [
       {
         app: "live",
