@@ -7,10 +7,10 @@ import Settings from "./pages/Settings";
 import Error404 from "./pages/Error404.jsx";
 import Upload from "./pages/Upload";
 import Stream from "./pages/Stream";
-import Layout from "./components/Layout";
-import AuthLayout from "./components/AuthLayout";
+import MainLayout from "./components/layouts/MainLayout";
+import AuthLayout from "./components/layouts/AuthLayout";
 
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 function App() {
   return (
@@ -22,7 +22,15 @@ function App() {
         <Route path="NewPass/:id" element={<NewPass />} /> */}
       </Route>
 
-      <Route path="/" element={<Layout />}>
+      <Route
+        path="/"
+        element={
+          <>
+            <MainLayout />
+            <Navigate to="/Home" />
+          </>
+        }
+      >
         <Route path="Home" element={<Home />} />
         <Route path="Settings" element={<Settings />} />
         <Route path="Upload" element={<Upload />} />
