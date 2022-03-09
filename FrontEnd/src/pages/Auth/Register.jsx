@@ -1,8 +1,12 @@
 import React, { useState } from "react";
-
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Container, Row, Col, Form, Button, Modal } from "react-bootstrap";
+import { postRegister } from "../../store/auth/auth-actions";
 
 const Register = (props) => {
+  const dispatch = useDispatch();
+
   const [values, setValues] = useState({
     username: '',
     email: '',
@@ -10,9 +14,13 @@ const Register = (props) => {
     error: ''
   });
 
+  const [modalShow, setModalShow] = useState(false);
+
   const handleChange = (event, field) => {
     setValues({ ...values, [field]: event.target.value })
   }
+
+  const handleModalClose = () => setModalShow(false);
 
   const clickSubmit = (e) => {
     e.preventDefault();
@@ -23,15 +31,12 @@ const Register = (props) => {
       password: values.password || undefined
     }
 
-    console.log(user)
-
-    // create(user).then((data) => {
-    //   if (data.error) {
-    //     setValues({ ...values, error: data.error})
-    //   } else {
-    //     setValues({ ...values, error: ''})
-    //   }
-    // })
+    //dispatch
+    dispatch(postRegister(user.username, user.email, user.password)).then((data) => {
+      if(data) {
+        setModalShow(true);
+      }
+    });
 
   } 
 
@@ -66,6 +71,31 @@ const Register = (props) => {
             </Button>
           </Form>
         </Col>
+        
+        <Modal
+            show={modalShow}
+            size="lg"
+            aria-labelledby="contained-modal-title-vcenter"
+            centered
+          >
+            <Modal.Header closeButton>
+              <Modal.Title id="contained-modal-title-vcenter">
+                Successful Sign Up
+              </Modal.Title>
+            </Modal.Header>
+            <Modal.Body>
+              <p>
+                You can now login!
+              </p>
+            </Modal.Body>
+            <Modal.Footer>
+              <Link to="/auth/login" className="btn btn-success">
+                Login
+              </Link>
+              <Button onClick={handleModalClose}>Close</Button>
+            </Modal.Footer>
+          </Modal>
+        
       </Row>
     </Container>
   );

@@ -28,17 +28,11 @@ const Login = (props) => {
       password: values.password || undefined,
     };
 
-    dispatch(postLogin(user.username, user.password));
-
-    console.log(user);
-
-    // signin(user).then((data) => {
-    //   if (data.error) {
-    //     setValues({ ...values, error: data.error})
-    //   } else {
-    //     setValues({ ...values, error: '', redirect: true})
-    //   }
-    // })
+    dispatch(postLogin(user.username, user.password)).then((data) => {
+      if(data) {
+        setValues({ ...values, error: '', redirect: true})
+      }
+    });
   };
 
   const { from } = location.state || {
@@ -59,7 +53,7 @@ const Login = (props) => {
         <Col>
           <Form className="auth-form">
             <Form.Group className="mb-3" controlId="formBasicEmail">
-              <Form.Label>Email address</Form.Label>
+              <Form.Label>Username</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter username"
