@@ -1,6 +1,6 @@
 const cors = require("cors");
 const express = require("express");
-
+const path = require("path");
 const multer = require("multer");
 const mongoose = require("mongoose");
 const media_server = require("./media_server");
@@ -16,14 +16,14 @@ const content = require("./routes/content");
 
 server.use(cors());
 server.use(express.json());
-server.use(
-  multer({
-    limits: { fieldSize: 25 * 1024 * 1024 },
-  }).single("image")
-);
+// server.use(
+//   multer({
+//     limits: { fieldSize: 25 * 1024 * 1024 },
+//   }).single("image")
+// );
 
 server.use("/auth", auth);
-// server.use("/user", user);
+server.use("/user", user);
 server.use("/content", content);
 
 server.use((error, req, res, next) => {

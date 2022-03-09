@@ -80,7 +80,14 @@ exports.login = async (req, res, next) => {
       process.env.JPASS
       // { expiresIn: "1h" }
     );
+
+    //cookies
+    res.cookie("t", token, {
+      expire: new Date() + 9999
+    })
+
     res.status(200).json({ token: token, userId: user.id.toString() });
+
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -88,3 +95,11 @@ exports.login = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.logout = (req, res) => {
+  res.clearCookie("t");
+
+  return res.status('200').json({
+      message: "signed out"
+  })
+}
