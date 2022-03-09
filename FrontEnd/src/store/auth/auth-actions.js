@@ -20,7 +20,7 @@ export const postLogin = (username, password) => {
 
       if (result.status === 401) {
         //   could be wrong
-        throw new Error(result.error);
+        throw new Error(result.statusText);
       }
       if (result.status !== 200 && result.status !== 201) {
         throw new Error("Could not authenticate");
