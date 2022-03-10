@@ -1,6 +1,6 @@
 import Home from "./pages/Home";
-import Login from "./pages/auth/Login.jsx";
-import Register from "./pages/auth/Register.jsx";
+import Login from "./pages/Auth/Login.jsx";
+import Register from "./pages/Auth/Register.jsx";
 // import ForgotPass from "./pages/auth/ForgotPass.jsx";
 // import NewPass from "./pages/auth/NewPass.jsx";
 import Settings from "./pages/Settings";
