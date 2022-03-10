@@ -64,12 +64,13 @@ export const postLogin = (username, password) => {
           authActions.LoggedIn({
             jwt: result.token,
             userIdLogin: result.userId,
+            username: result.username,
           })
         );
         // maybe expire in future
         localStorage.setItem("token", result.token);
         localStorage.setItem("userId", result.userId);
-        
+        localStorage.setItem("username", result.username);
         return result;
       } else {
         throw new Error("could not get data");

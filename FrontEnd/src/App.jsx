@@ -23,8 +23,15 @@ const App = () => {
     if (!jwtToken) {
       return;
     }
-    const user = localStorage.getItem("userId");
-    dispatch(authActions.LoggedIn({ jwt: jwtToken, userIdLogin: user }));
+    const userId = localStorage.getItem("userId");
+    const username = localStorage.getItem("username");
+    dispatch(
+      authActions.LoggedIn({
+        jwt: jwtToken,
+        userIdLogin: userId,
+        username: username,
+      })
+    );
   }, [dispatch]);
 
   return (
