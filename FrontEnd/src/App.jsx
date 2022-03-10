@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Home from "./pages/Home";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
@@ -11,8 +13,20 @@ import MainLayout from "./layouts/MainLayout";
 import AuthLayout from "./layouts/AuthLayout";
 
 import { Routes, Route } from "react-router-dom";
+import { authActions } from "./store/auth/auth-slice";
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const jwtToken = localStorage.getItem("token");
+    if (!jwtToken) {
+      return;
+    }
+    const user = localStorage.getItem("userId");
+    dispatch(authActions.LoggedIn({ jwt: jwtToken, userIdLogin: user }));
+  }, [dispatch]);
+
   return (
     <Routes>
       <Route path="Auth" element={<AuthLayout />}>
@@ -35,6 +49,6 @@ function App() {
       </Route>
     </Routes>
   );
-}
+};
 
 export default App;
