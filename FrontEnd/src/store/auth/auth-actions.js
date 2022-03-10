@@ -80,3 +80,16 @@ export const postLogin = (username, password) => {
     }
   };
 };
+
+//logout
+export const logout = async () => {
+  try {
+      let response = await fetch("http://localhost:8080/auth/logout", {
+          method: "GET"
+      })
+
+      return await response.json();
+  } catch (e) {
+      console.log(e)
+  }
+}

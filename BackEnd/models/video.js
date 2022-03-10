@@ -6,6 +6,16 @@ const Schema = mongoose.Schema;
 
 const videoSchema = new Schema(
   {
+    title: {
+      type: String,
+      required: 'title is required'
+    },
+    description: String,
+    genre: String,
+    views: {
+        type: Number,
+        default: 0
+    },
     // this is here as a checker to see if a video was livestreamed or just uploaded. We need to know this so we know to send the video back with comments
     isStreamed: {
       type: Boolean,
@@ -35,6 +45,10 @@ const videoSchema = new Schema(
       ref: "User",
       required: true,
     },
+    created: {
+      type: Date,
+      default: Date.now
+    }
   },
   { timestamps: true }
 );
