@@ -13,7 +13,9 @@ router.route('/defaultAvatar')
     .get(userController.defaultAvatar)
 
 router.route('/:userId')
-    .put(isAuth, userController.update)
+    .get(isAuth, userController.getUser)
+    .put(isAuth, userController.updateUser)
+    .delete(isAuth, userController.deleteUser)
 
 router.param('userId', userController.userByID);
 

@@ -11,7 +11,6 @@ const videoSchema = new Schema(
       required: 'title is required'
     },
     description: String,
-    genre: String,
     views: {
         type: Number,
         default: 0
@@ -39,7 +38,6 @@ const videoSchema = new Schema(
         },
       ],
     },
-
     userId: {
       type: Schema.Types.ObjectId,
       ref: "User",

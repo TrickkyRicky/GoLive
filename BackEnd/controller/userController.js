@@ -24,7 +24,11 @@ exports.userByID = async (req, res, next, id) => {
     }
 }
 
-exports.update = async(req, res) => {
+exports.getUser = (req, res) => {
+    return res.json(req.user);
+}
+
+exports.updateUser = async (req, res) => {
     let form = new formidable.IncomingForm();
 
     //include extentions of files
@@ -39,7 +43,7 @@ exports.update = async(req, res) => {
 
         let user = req.user;
 
-        console.log(files.avatar)
+        // console.log(files.avatar)
         if(files.avatar) {
             user.avatar.data = fs.readFileSync(files.avatar.filepath);
             user.avatar.contentType = files.avatar.type;
@@ -54,6 +58,20 @@ exports.update = async(req, res) => {
             })
         }
     });
+}
+
+exports.deleteUser = async (req, res)  => {
+    try {
+        let user = req.user;
+
+        let deletedUser = await user.remove();
+
+        res.json(deletedUser);
+    } catch(e) {
+        return res.status(400).json({ 
+            error: "Could not delete."
+        })
+    }
 }
 
 exports.getAvatar = (req, res, next) => {
