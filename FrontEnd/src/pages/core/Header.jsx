@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 
 //Bootstrap 
 import Container from 'react-bootstrap/Container';
@@ -6,35 +6,66 @@ import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import Dropdown from 'react-bootstrap/Dropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import Image from 'react-bootstrap/Image'
+
 import { LinkContainer } from 'react-router-bootstrap';
+import auth from '../../storage/auth-jwt';
 
 export default function Header() {
   return (
     <header id="site-header">
-        <Navbar bg="light" expand="lg" sticky="top">
+        <Navbar bg="light" expand="md" sticky="top">
         <Container fluid>
             <LinkContainer to="/">
                 <Navbar.Brand>Go Live</Navbar.Brand>
             </LinkContainer>
 
+            
             <Nav>
-                <Nav.Item>
-                    <LinkContainer to="/auth/login">
-                        <Nav.Link>
-                            Login
-                        </Nav.Link>
-                    </LinkContainer>
-                </Nav.Item>
+                {
+                    !auth.isAuthenticated() && (
+                        <Fragment>
+                            <Nav.Item>
+                                <LinkContainer to="/auth/login">
+                                    <Nav.Link>
+                                        Login
+                                    </Nav.Link>
+                                </LinkContainer>
+                            </Nav.Item>
 
-                <Nav.Item>
-                    <LinkContainer to="/auth/register">
-                        <Nav.Link>
-                            Register
-                        </Nav.Link>
-                    </LinkContainer>
-                </Nav.Item>
+                            <Nav.Item>
+                                <LinkContainer to="/auth/register">
+                                    <Nav.Link>
+                                        Register
+                                    </Nav.Link>
+                                </LinkContainer>
+                            </Nav.Item>
+                        </Fragment>
+                    )
+                }
+                {
+                    auth.isAuthenticated() && (
+                        <Dropdown>
+                            <Dropdown.Toggle>
+                                <Image className="avatar"
+                                src={
+                                    auth.isAuthenticated() ?
+                                    'http://localhost:8080/user/avatar/' + auth.isAuthenticated() + '?' + new Date().getTime()
+                                    : 'http://localhost:8080/user/avatar/defaultAvatar'
+                                }
+                                roundedCircle={true} />
+                            </Dropdown.Toggle>
+
+                            <Dropdown.Menu>
+                                <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                                <Dropdown.Item href="#/action-2">Settings</Dropdown.Item>
+                                <Dropdown.Item href="#/action-3">Logout</Dropdown.Item>
+                            </Dropdown.Menu>
+                        </Dropdown>
+                    )
+                }
             </Nav>
 
             <Navbar.Toggle aria-controls="offcanvasNavbar" />
@@ -46,14 +77,6 @@ export default function Header() {
                     <Nav className="justify-content-end flex-grow-1 pe-3">
                     <Nav.Link href="#action1">Home</Nav.Link>
                     <Nav.Link href="#action2">Link</Nav.Link>
-                    <NavDropdown title="Dropdown" id="offcanvasNavbarDropdown">
-                        <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                        <NavDropdown.Item href="#action4">Another action</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.Item href="#action5">
-                        Something else here
-                        </NavDropdown.Item>
-                    </NavDropdown>
                     </Nav>
                     <Form className="d-flex">
                     <Form.Control

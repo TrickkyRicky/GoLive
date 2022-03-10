@@ -55,7 +55,7 @@ export const postLogin = (username, password) => {
         throw new Error("Could not authenticate");
       }
       return await response.json();
-    };
+    }; 
 
     try {
       const result = await postData();
@@ -69,6 +69,7 @@ export const postLogin = (username, password) => {
         // maybe expire in future
         localStorage.setItem("token", result.token);
         localStorage.setItem("userId", result.userId);
+        
         return result;
       } else {
         throw new Error("could not get data");

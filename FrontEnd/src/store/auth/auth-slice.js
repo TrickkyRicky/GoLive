@@ -13,7 +13,7 @@ const authSlice = createSlice({
       state.userIdLogin = action.payload.userIdLogin;
       state.isAuth = true;
     },
-  },
+  }, 
 });
 
 export const authActions = authSlice.actions;
