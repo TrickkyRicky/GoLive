@@ -83,11 +83,14 @@ exports.login = async (req, res, next) => {
 
     //cookies
     res.cookie("t", token, {
-      expire: new Date() + 9999
-    })
+      expire: new Date() + 9999,
+    });
 
-    res.status(200).json({ token: token, userId: user.id.toString() });
-
+    res.status(200).json({
+      token: token,
+      userId: user.id.toString(),
+      username: user.username,
+    });
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
@@ -99,7 +102,7 @@ exports.login = async (req, res, next) => {
 exports.logout = (req, res) => {
   res.clearCookie("t");
 
-  return res.status('200').json({
-      message: "signed out"
-  })
-}
+  return res.status("200").json({
+    message: "signed out",
+  });
+};
