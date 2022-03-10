@@ -6,23 +6,23 @@ export const postRegister = (username, email, password) => {
       const response = await fetch("http://localhost:8080/auth/register", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: username,
           email: email,
-          password: password
-        })
+          password: password,
+        }),
       });
 
       return await response.json();
-    }
+    };
 
     try {
       const result = await postData();
 
       if (result.userId) {
-        return result
+        return result;
       }
       // else {
       //   throw new Error("could not get data");
@@ -35,7 +35,6 @@ export const postRegister = (username, email, password) => {
 
 export const postLogin = (username, password) => {
   return async (dispatch) => {
-
     const postData = async () => {
       const response = await fetch("http://localhost:8080/auth/login", {
         method: "POST",
@@ -46,7 +45,7 @@ export const postLogin = (username, password) => {
           username: username,
           password: password,
         }),
-      }); 
+      });
 
       if (response.status === 401) {
         //   could be wrong
@@ -67,8 +66,9 @@ export const postLogin = (username, password) => {
             userIdLogin: result.userId,
           })
         );
-        // save to local
-
+        // maybe expire in future
+        localStorage.setItem("token", result.token);
+        localStorage.setItem("userId", result.userId);
         return result;
       } else {
         throw new Error("could not get data");
@@ -76,6 +76,5 @@ export const postLogin = (username, password) => {
     } catch (e) {
       console.log(e);
     }
-
   };
 };

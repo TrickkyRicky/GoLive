@@ -5,12 +5,13 @@ const authSlice = createSlice({
   initialState: {
     jwtToken: null,
     userIdLogin: null,
+    isAuth: false,
   },
   reducers: {
     LoggedIn(state, action) {
-      console.log(action.payload);
       state.jwtToken = action.payload.jwt;
       state.userIdLogin = action.payload.userIdLogin;
+      state.isAuth = true;
     },
   },
 });
