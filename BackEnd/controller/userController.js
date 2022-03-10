@@ -46,6 +46,7 @@ exports.update = async(req, res) => {
         }
 
         try {
+            await user.save();
             res.json(user)
         } catch (e) {
             res.status('400').json({
@@ -53,6 +54,16 @@ exports.update = async(req, res) => {
             })
         }
     });
+}
+
+exports.getAvatar = (req, res, next) => {
+    //send back data
+    if(req.user.avatar){
+        res.set("Content-Type", req.user.avatar.contentType)
+        return res.send(req.user.avatar.data)
+    }
+
+    next();
 }
 
 exports.defaultAvatar = (req, res) => {

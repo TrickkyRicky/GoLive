@@ -6,8 +6,8 @@ const router = express.Router();
 const userController = require("../controller/userController");
 const isAuth = require("../middleware/isAuth");
 
-// router.route('/avatar/:userId')
-//     .get(userController.avatar, userController.defaultAvatar)
+router.route('/avatar/:userId')
+    .get(userController.getAvatar, userController.defaultAvatar)
 
 router.route('/defaultAvatar')
     .get(userController.defaultAvatar)
