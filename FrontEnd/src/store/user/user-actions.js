@@ -5,9 +5,9 @@ export const getUser = (jwt) => {
     const getData = async () => {
       const res = await fetch("http://localhost:8080/user/info", {
         method: "GET",
-        headers: { 
-          Authorization: "Bearer " + jwt 
-        }
+        headers: {
+          Authorization: "Bearer " + jwt,
+        },
       });
       if (res.status !== 200) {
         throw new Error("Failed to fetch user data");
@@ -17,7 +17,26 @@ export const getUser = (jwt) => {
     try {
       const response = await getData();
       console.log(response);
-      dispatch(userActions.getUserInfo(response));
+      const {
+        avatar,
+        media,
+        subscribed,
+        subscribers,
+        email,
+        username,
+        streamKey,
+      } = response;
+      dispatch(
+        userActions.getUserInfo({
+          avatar: avatar,
+          media: media,
+          subscribed: subscribed,
+          subscribers: subscribers,
+          email: email,
+          username: username,
+          streamKey: streamKey,
+        })
+      );
     } catch (e) {
       console.log(e);
     }
@@ -25,21 +44,21 @@ export const getUser = (jwt) => {
 };
 
 export const updateUser = (jwt, updatedUser) => {
-  return async (dispatch)  => {
+  return async (dispatch) => {
     const updateData = async () => {
       const response = await fetch("http://localhost:8080/user/updateinfo", {
         method: "PUT",
         headers: {
-          Accept: 'application/json',
-          Authorization: "Bearer " + jwt 
+          Accept: "application/json",
+          Authorization: "Bearer " + jwt,
         },
-        body: updatedUser
+        body: updatedUser,
       });
       if (response.status !== 200) {
         throw new Error("Failed to update user data");
       }
       return response.json();
-    }
+    };
     try {
       const response = await updateData();
       console.log(response);
@@ -47,5 +66,5 @@ export const updateUser = (jwt, updatedUser) => {
     } catch (e) {
       console.log(e);
     }
-  }
-}
+  };
+};

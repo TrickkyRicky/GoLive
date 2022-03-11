@@ -15,6 +15,7 @@ import { LinkContainer } from "react-router-bootstrap";
 // import auth from "../../storage/auth-jwt";
 import { logout } from "../../store/auth/auth-actions";
 import { getUser } from "../../store/user/user-actions";
+import { Buffer } from "buffer";
 
 export default function Header() {
   let navigate = useNavigate();
@@ -29,19 +30,18 @@ export default function Header() {
   });
 
   const user = useSelector((state) => {
-
     return {
       username: state.user.username,
       avatar: state.user.avatar,
     };
   });
-  
+
+  console.log(user);
   useEffect(() => {
     if (auth.jwt) {
       dispatch(getUser(auth.jwt));
     }
-  }, [dispatch, auth]);
-
+  }, [dispatch, auth.jwt]);
 
   //logout
   const clickSubmit = (e) => {
@@ -86,10 +86,9 @@ export default function Header() {
                     className="avatar"
                     src={
                       user.avatar
-                        ? "http://localhost:8080/user/avatar/" +
-                          auth.userId +
-                          "?" +
-                          new Date().getTime()
+                        ? `data:${user.avatar.contentType};base64,${Buffer.from(
+                            user.avatar.data.data
+                          ).toString("base64")}`
                         : "http://localhost:8080/user/defaultAvatar"
                     }
                     roundedCircle={true}

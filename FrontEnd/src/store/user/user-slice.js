@@ -13,7 +13,8 @@ const userSlice = createSlice({
   },
   reducers: {
     getUserInfo(state, action) {
-      state = { ...state, ...action.payload };
+      state.avatar = action.payload.avatar;
+      state.username = action.payload.username;
     },
   },
 });
