@@ -6,7 +6,7 @@ const router = express.Router();
 const userController = require("../controller/userController");
 const isAuth = require("../middleware/isAuth");
 
-router 
+router
   .route("/avatar/:userId")
   .get(userController.getAvatar, userController.defaultAvatar);
 
@@ -14,6 +14,8 @@ router.route("/defaultAvatar").get(userController.defaultAvatar);
 
 router.get("/info", isAuth, userController.getUserInfo);
 router.put("/updateinfo", isAuth, userController.updateUser);
+
+router.post("/uploadvideo", isAuth, userController.uploadvideo);
 
 // router
 //   .route("/:userId")
