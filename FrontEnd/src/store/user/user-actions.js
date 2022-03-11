@@ -68,3 +68,28 @@ export const updateUser = (jwt, updatedUser) => {
     }
   };
 };
+
+export const uploadVideo = (jwt, newVideo) => {
+  return async (dispatch) => {
+    const uploadVideo = async () => {
+      const response = await fetch("http://localhost:8080/user/uploadvideo", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer " + jwt,
+        },
+        body: newVideo,
+      });
+      if (response.status !== 200) {
+        throw new Error("Failed to upload video");
+      }
+      return response.json();
+    };
+    try {
+      const response = await uploadVideo();
+      console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};

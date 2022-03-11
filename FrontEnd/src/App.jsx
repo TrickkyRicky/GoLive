@@ -46,7 +46,7 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="Home" element={<Home />} />
         <Route path="Settings" element={<Settings jwt={jwtToken} />} />
-        <Route path="Upload" element={<Upload />} />
+        <Route path="Upload" element={<Upload jwt={jwtToken} />} />
 
         {/* after Stream will be Stream/username */}
         <Route path="Stream/:username" element={<Stream />} />

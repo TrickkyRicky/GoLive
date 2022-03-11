@@ -68,7 +68,11 @@ const userSchema = new Schema(
   },
   { timestamps: true }
 );
-userSchema.methods.addToVideos = function (id) {};
+
+// userSchema.methods.addToVideos = function (id) {
+
+// };
+
 userSchema.methods.addToClips = function (id) {};
 
 // add and remove people you subscribed to

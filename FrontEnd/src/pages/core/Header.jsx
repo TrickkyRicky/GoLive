@@ -64,49 +64,60 @@ export default function Header() {
           </LinkContainer>
 
           <Nav>
-            {!auth.isAuth && (
-              <Fragment>
-                <Nav.Item>
-                  <LinkContainer to="/auth/login">
-                    <Nav.Link>Login</Nav.Link>
-                  </LinkContainer>
-                </Nav.Item>
+            {
+              !auth.isAuth && (
+                <Fragment>
+                  <Nav.Item>
+                    <LinkContainer to="/auth/login">
+                      <Nav.Link>Login</Nav.Link>
+                    </LinkContainer>
+                  </Nav.Item>
 
-                <Nav.Item>
-                  <LinkContainer to="/auth/register">
-                    <Nav.Link>Register</Nav.Link>
-                  </LinkContainer>
-                </Nav.Item>
-              </Fragment>
-            )}
-            {auth.isAuth && (
-              <Dropdown align="end">
-                <Dropdown.Toggle>
-                  <Image
-                    className="avatar"
-                    src={
-                      user.avatar
-                        ? `data:${user.avatar.contentType};base64,${Buffer.from(
-                            user.avatar.data.data
-                          ).toString("base64")}`
-                        : "http://localhost:8080/user/defaultAvatar"
-                    }
-                    roundedCircle={true}
-                  />
-                </Dropdown.Toggle>
+                  <Nav.Item>
+                    <LinkContainer to="/auth/register">
+                      <Nav.Link>Register</Nav.Link>
+                    </LinkContainer>
+                  </Nav.Item>
+                </Fragment>
+              )
+            }
+            {
+              auth.isAuth && (
+                <Fragment>
+                  <Nav.Item>
+                    <LinkContainer to="/upload">
+                      <Nav.Link>Upload</Nav.Link>
+                    </LinkContainer>
+                  </Nav.Item>
+                  <Dropdown align="end">
+                    <Dropdown.Toggle>
+                      <Image
+                        className="avatar"
+                        src={
+                          user.avatar
+                            ? `data:${user.avatar.contentType};base64,${Buffer.from(
+                                user.avatar.data.data
+                              ).toString("base64")}`
+                            : "http://localhost:8080/user/defaultAvatar"
+                        }
+                        roundedCircle={true}
+                      />
+                    </Dropdown.Toggle>
 
-                <Dropdown.Menu>
-                  <Dropdown.Item>{user.username}</Dropdown.Item>
-                  <LinkContainer to="/settings">
-                    <Dropdown.Item>Settings</Dropdown.Item>
-                  </LinkContainer>
-                  <Dropdown.Divider />
-                  <Dropdown.Item>
-                    <Button onClick={clickSubmit}>Logout</Button>
-                  </Dropdown.Item>
-                </Dropdown.Menu>
-              </Dropdown>
-            )}
+                    <Dropdown.Menu>
+                      <Dropdown.Item>{user.username}</Dropdown.Item>
+                      <LinkContainer to="/settings">
+                        <Dropdown.Item>Settings</Dropdown.Item>
+                      </LinkContainer>
+                      <Dropdown.Divider />
+                      <Dropdown.Item>
+                        <Button onClick={clickSubmit}>Logout</Button>
+                      </Dropdown.Item>
+                    </Dropdown.Menu>
+                  </Dropdown>
+                </Fragment>
+              )
+            }
           </Nav>
 
           <Navbar.Toggle aria-controls="offcanvasNavbar" />
