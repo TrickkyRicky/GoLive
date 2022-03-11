@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Home from "./pages/Home";
-import Login from "./pages/auth/Login";
-import Register from "./pages/auth/Register";
+import Login from "./pages/Auth/Login";
+import Register from "./pages/Auth/Register";
 // import ForgotPass from "./pages/auth/ForgotPass.jsx";
 // import NewPass from "./pages/auth/NewPass.jsx";
 import Settings from "./pages/Settings";
@@ -24,12 +24,10 @@ const App = () => {
       return;
     }
     const userId = localStorage.getItem("userId");
-    const username = localStorage.getItem("username");
     dispatch(
       authActions.LoggedIn({
         jwt: jwtToken,
         userIdLogin: userId,
-        username: username,
       })
     );
   }, [dispatch]);

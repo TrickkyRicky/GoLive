@@ -55,7 +55,7 @@ export const postLogin = (username, password) => {
         throw new Error("Could not authenticate");
       }
       return await response.json();
-    }; 
+    };
 
     try {
       const result = await postData();
@@ -64,13 +64,11 @@ export const postLogin = (username, password) => {
           authActions.LoggedIn({
             jwt: result.token,
             userIdLogin: result.userId,
-            username: result.username,
           })
         );
         // maybe expire in future
         localStorage.setItem("token", result.token);
         localStorage.setItem("userId", result.userId);
-        localStorage.setItem("username", result.username);
         return result;
       } else {
         throw new Error("could not get data");
@@ -82,14 +80,20 @@ export const postLogin = (username, password) => {
 };
 
 //logout
-export const logout = async () => {
-  try {
+
+export const logout = () => {
+  return async (dispatch) => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    dispatch(authActions.LoggedOut());
+    try {
       let response = await fetch("http://localhost:8080/auth/logout", {
-          method: "GET"
-      })
+        method: "GET",
+      });
 
       return await response.json();
-  } catch (e) {
-      console.log(e)
-  }
-}
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
