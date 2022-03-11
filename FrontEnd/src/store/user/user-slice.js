@@ -4,6 +4,7 @@ const userSlice = createSlice({
   name: "user",
   initialState: {
     username: null,
+    email: null,
     avatar: null,
     media: null,
     streamKey: null,

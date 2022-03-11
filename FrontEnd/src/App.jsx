@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Home from "./pages/Home";
-import Login from "./pages/Auth/Login";
-import Register from "./pages/Auth/Register";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 // import ForgotPass from "./pages/auth/ForgotPass.jsx";
 // import NewPass from "./pages/auth/NewPass.jsx";
 import Settings from "./pages/Settings";
@@ -18,8 +18,8 @@ import { authActions } from "./store/auth/auth-slice";
 const App = () => {
   const dispatch = useDispatch();
 
+  const jwtToken = localStorage.getItem("token");
   useEffect(() => {
-    const jwtToken = localStorage.getItem("token");
     if (!jwtToken) {
       return;
     }
@@ -30,7 +30,7 @@ const App = () => {
         userIdLogin: userId,
       })
     );
-  }, [dispatch]);
+  }, [dispatch, jwtToken]);
 
   return (
     <Routes>
@@ -45,7 +45,7 @@ const App = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="Home" element={<Home />} />
-        <Route path="Settings" element={<Settings />} />
+        <Route path="Settings" element={<Settings jwt={jwtToken} />} />
         <Route path="Upload" element={<Upload />} />
 
         {/* after Stream will be Stream/username */}

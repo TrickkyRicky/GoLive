@@ -54,9 +54,10 @@ exports.updateUser = async (req, res) => {
       });
     }
 
-    let user = req.user;
+    const user = await User.findById(req.userId);
 
-    // console.log(files.avatar)
+    console.log(user)
+    console.log(files.avatar)
     if (files.avatar) {
       user.avatar.data = fs.readFileSync(files.avatar.filepath);
       user.avatar.contentType = files.avatar.type;

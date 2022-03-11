@@ -27,18 +27,21 @@ export default function Header() {
       jwt: state.auth.jwtToken,
     };
   });
+
   const user = useSelector((state) => {
+
     return {
       username: state.user.username,
       avatar: state.user.avatar,
     };
   });
-
+  
   useEffect(() => {
     if (auth.jwt) {
       dispatch(getUser(auth.jwt));
     }
   }, [dispatch, auth]);
+
 
   //logout
   const clickSubmit = (e) => {
