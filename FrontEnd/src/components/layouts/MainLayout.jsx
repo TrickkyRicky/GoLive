@@ -1,11 +1,11 @@
 import React from "react";
-import Header from "../pages/core/Header";
+import Header from "../../pages/core/Header";
 import { Outlet } from "react-router-dom";
 
 const MainLayout = () => {
   return (
     <div className="main-layout">
-      <Header/>
+      <Header />
       <div className="content">
         <Outlet />
       </div>

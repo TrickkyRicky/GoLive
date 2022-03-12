@@ -11,9 +11,9 @@ const mongoose = require("mongoose");
 
 let gridfs = null;
 
-mongoose.connection.on('connected', () => {
-  gridfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db)
-})
+mongoose.connection.on("connected", () => {
+  gridfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db);
+});
 
 exports.getUserInfo = async (req, res, next) => {
   try {
@@ -112,17 +112,15 @@ exports.defaultAvatar = (req, res) => {
   return res.sendFile(path.resolve("BackEnd/assets/default-avatar.png"));
 };
 
-
 exports.uploadvideo = async (req, res) => {
-  
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
 
   form.parse(req, async (err, fields, files) => {
-    if(err) {
-      return res.status('400').json({
-        error: "Video could not be uploaded"
-      })
+    if (err) {
+      return res.status("400").json({
+        error: "Video could not be uploaded",
+      });
     }
 
     console.log(fields);
@@ -132,24 +130,28 @@ exports.uploadvideo = async (req, res) => {
     newVideo.userId = req.userId;
 
     //If video then store in gridfs
-    if(files.video) {
+    if (files.video) {
       let writeStream = gridfs.openUploadStream(newVideo._id, {
-        contentType: files.video.mimetype || 'binary/octet-stream'
-      })
+        contentType: files.video.mimetype || "binary/octet-stream",
+      });
 
       fs.createReadStream(files.video.filepath).pipe(writeStream);
     }
 
     try {
-
       //Save video to video collection
       let result = await newVideo.save();
+      await User.findOneAndUpdate(
+        { _id: req.userId },
+        { $push: { "media.videos": newVideo._id } },
+        { new: true }
+      );
 
-      res.status('200').json(result);
-    } catch(e) {
-      return res.status('400').json({
-        error: "Could not save video"
-      })
+      res.status("200").json(result);
+    } catch (e) {
+      return res.status("400").json({
+        error: "Could not save video",
+      });
     }
   });
-}
+};

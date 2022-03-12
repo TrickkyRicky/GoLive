@@ -9,8 +9,8 @@ import Settings from "./pages/Settings";
 import Error404 from "./pages/Error404.jsx";
 import Upload from "./pages/Upload";
 import Stream from "./pages/Stream";
-import MainLayout from "./layouts/MainLayout";
-import AuthLayout from "./layouts/AuthLayout";
+import MainLayout from "./components/layouts/MainLayout";
+import AuthLayout from "./components/layouts/AuthLayout";
 
 import { Routes, Route } from "react-router-dom";
 import { authActions } from "./store/auth/auth-slice";

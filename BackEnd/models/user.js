@@ -70,10 +70,9 @@ const userSchema = new Schema(
 );
 
 // userSchema.methods.addToVideos = function (id) {
-
 // };
 
-userSchema.methods.addToClips = function (id) {};
+// userSchema.methods.addToClips = function (id) {};
 
 // add and remove people you subscribed to
 userSchema.methods.subscribeToUser = function (id) {};
