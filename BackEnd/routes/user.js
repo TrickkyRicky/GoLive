@@ -16,7 +16,7 @@ router.get("/info", isAuth, userController.getUserInfo);
 router.put("/updateinfo", isAuth, userController.updateUser);
 
 router.post("/uploadvideo", isAuth, userController.uploadvideo);
-
+ 
 // router
 //   .route("/:userId")
 //   .get(isAuth, userController.getUser)

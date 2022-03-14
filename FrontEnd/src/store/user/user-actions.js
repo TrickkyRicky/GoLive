@@ -26,6 +26,7 @@ export const getUser = (jwt) => {
         username,
         streamKey,
       } = response;
+
       dispatch(
         userActions.getUserInfo({
           avatar: avatar,
@@ -37,6 +38,8 @@ export const getUser = (jwt) => {
           streamKey: streamKey,
         })
       );
+
+      return response;
     } catch (e) {
       console.log(e);
     }

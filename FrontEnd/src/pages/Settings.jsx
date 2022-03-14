@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 //Bootstrap
 import Container from "react-bootstrap/Container";
@@ -14,14 +14,6 @@ import { getUser, updateUser } from "../store/user/user-actions";
 
 const Settings = (props) => {
   const dispatch = useDispatch();
-
-  const user = useSelector((state) => {
-    return {
-      username: state.user.username,
-      email: state.user.email,
-      avatar: state.user.avatar,
-    };
-  });
 
   const [values, setValues] = useState({
     username: '',
@@ -53,7 +45,13 @@ const Settings = (props) => {
 
   useEffect(() => {
     if (props.jwt) {
-      dispatch(getUser(props.jwt));
+      dispatch(getUser(props.jwt)).then((data) => {
+        setValues({
+          ...values,
+          username: data.username,
+          email: data.email
+        })
+      });
     }
   }, []);
 

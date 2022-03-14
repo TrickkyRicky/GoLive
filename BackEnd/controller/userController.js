@@ -6,6 +6,8 @@ const formidable = require("formidable");
 const fs = require("fs");
 const path = require("path");
 
+// const bcrypt = require("bcryptjs");
+
 //Gridfs
 const mongoose = require("mongoose");
 
@@ -66,8 +68,14 @@ exports.updateUser = async (req, res) => {
       });
     }
 
+    //Get user by its id
     const user = await User.findById(req.userId);
 
+    //Extend user
+    Object.assign(user, fields);
+    // console.log(user)
+
+    //If there is a avatar in the incoming req
     if (files.avatar) {
       user.avatar.data = fs.readFileSync(files.avatar.filepath);
       user.avatar.contentType = files.avatar.mimetype;

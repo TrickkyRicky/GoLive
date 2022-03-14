@@ -29,7 +29,11 @@ const Login = (props) => {
 
     dispatch(postLogin(user.username, user.password)).then((data) => {
       if(data) {
-        setValues({ ...values, error: '', redirect: true})
+        setValues({ 
+          ...values, 
+          error: '', 
+          redirect: true
+        })
       }
     });
   };

@@ -12,7 +12,7 @@ const videoSchema = new Schema(
     },
     description: String,
     views: {
-        type: Number,
+        type: Number, 
         default: 0
     },
     // this is here as a checker to see if a video was livestreamed or just uploaded. We need to know this so we know to send the video back with comments

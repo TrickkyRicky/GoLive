@@ -34,6 +34,12 @@ const Register = (props) => {
     //dispatch
     dispatch(postRegister(user.username, user.email, user.password)).then((data) => {
       if(data) {
+        setValues({
+          username: '',
+          email: '',
+          password: ''
+        });
+
         setModalShow(true);
       }
     });
@@ -48,13 +54,13 @@ const Register = (props) => {
             <Form className="auth-form">
               <Form.Group className="mb-3" controlId="formBasicName">
                 <Form.Label>Name</Form.Label>
-                <Form.Control type="text" placeholder="Name" onChange={e => handleChange(e, 'username')} />
+                <Form.Control type="text" placeholder="Name" onChange={e => handleChange(e, 'username')} value={values.username} />
 
               </Form.Group>
 
               <Form.Group className="mb-3" controlId="formBasicEmail">
                 <Form.Label>Email address</Form.Label>
-                <Form.Control type="email" placeholder="Enter email" onChange={e => handleChange(e, 'email')} />
+                <Form.Control type="email" placeholder="Enter email" onChange={e => handleChange(e, 'email')} value={values.email} />
 
                 <Form.Text className="text-muted">
                   We'll never share your email with anyone else.
@@ -63,7 +69,7 @@ const Register = (props) => {
 
               <Form.Group className="mb-3" controlId="formBasicPassword">
                 <Form.Label>Password</Form.Label>
-                <Form.Control type="password" placeholder="Password" onChange={e => handleChange(e, 'password')} />
+                <Form.Control type="password" placeholder="Password" onChange={e => handleChange(e, 'password')} value={values.password} />
 
               </Form.Group>
 

@@ -12,10 +12,15 @@ import Image from "react-bootstrap/Image";
 
 import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
-// import auth from "../../storage/auth-jwt";
 import { logout } from "../../store/auth/auth-actions";
 import { getUser } from "../../store/user/user-actions";
 import { Buffer } from "buffer";
+
+//Assets
+import logo from "../../assets/Logo.png";
+import videoCamera from "../../assets/video-plus-svgrepo-com.svg";
+import logoutIcon from "../../assets/right-from-bracket-solid.png";
+import gearIcon from "../../assets/gear-solid.png";
 
 export default function Header() {
   let navigate = useNavigate();
@@ -57,42 +62,82 @@ export default function Header() {
 
   return (
     <header id="site-header">
-      <Navbar bg="light" expand="md" sticky="top">
-        <Container fluid>
+      <Container fluid>
+        <Navbar className="justify-content-between">
+          
           <LinkContainer to="/">
-            <Navbar.Brand>Go Live</Navbar.Brand>
+            <Navbar.Brand>
+            <img
+              src={logo}
+              className="d-inline-block align-top"
+              alt="Go Live Logo"
+            />
+            </Navbar.Brand>
           </LinkContainer>
 
-          <Nav>
-            {
-              !auth.isAuth && (
-                <Fragment>
-                  <Nav.Item>
-                    <LinkContainer to="/auth/login">
-                      <Nav.Link>Login</Nav.Link>
-                    </LinkContainer>
-                  </Nav.Item>
+          <Form className="search-form">
+            <Form.Control
+              type="search"
+              placeholder="Search"
+              className="core-search-input"
+              aria-label="Search"
+            />
+            <Button className="core-search-btn">O</Button>
+          </Form>
 
-                  <Nav.Item>
-                    <LinkContainer to="/auth/register">
-                      <Nav.Link>Register</Nav.Link>
-                    </LinkContainer>
-                  </Nav.Item>
-                </Fragment>
-              )
-            }
-            {
-              auth.isAuth && (
-                <Fragment>
+          {
+            !auth.isAuth && (
+              <Nav className="auth-nav">
+                <Nav.Item>
+                  <LinkContainer to="/auth/login">
+                    <Nav.Link>Login</Nav.Link>
+                  </LinkContainer>
+                </Nav.Item>
+
+                <Nav.Item>
+                  <LinkContainer to="/auth/register">
+                    <Nav.Link className="link-register">Register</Nav.Link>
+                  </LinkContainer>
+                </Nav.Item>
+              </Nav>
+            )
+          }
+
+          {
+            auth.isAuth && (
+              <Nav>
+                <div className="nav-collection">
                   <Nav.Item>
                     <LinkContainer to="/upload">
-                      <Nav.Link>Upload</Nav.Link>
+                      <Nav.Link>
+                      <img
+                        src={videoCamera}
+                        className="d-inline-block upload-video-img"
+                        alt="Upload Video"
+                      />
+                      </Nav.Link>
                     </LinkContainer>
                   </Nav.Item>
-                  <Dropdown align="end">
-                    <Dropdown.Toggle>
+                </div>
+
+                <Dropdown align="end">
+                  <Dropdown.Toggle className="avatar-container">
+                    <Image
+                      className="avatar"
+                      src={
+                        user.avatar
+                          ? `data:${user.avatar.contentType};base64,${Buffer.from(
+                              user.avatar.data.data
+                            ).toString("base64")}`
+                          : "http://localhost:8080/user/defaultAvatar"
+                      }
+                    />
+                  </Dropdown.Toggle>
+
+                  <Dropdown.Menu className="main-dropout">
+                    <div className="dropdown-user">
                       <Image
-                        className="avatar"
+                        className="dropdown-avatar"
                         src={
                           user.avatar
                             ? `data:${user.avatar.contentType};base64,${Buffer.from(
@@ -100,55 +145,49 @@ export default function Header() {
                               ).toString("base64")}`
                             : "http://localhost:8080/user/defaultAvatar"
                         }
-                        roundedCircle={true}
                       />
-                    </Dropdown.Toggle>
-
-                    <Dropdown.Menu>
-                      <Dropdown.Item>{user.username}</Dropdown.Item>
-                      <LinkContainer to="/settings">
-                        <Dropdown.Item>Settings</Dropdown.Item>
-                      </LinkContainer>
-                      <Dropdown.Divider />
+                      <div>
+                        <h2 className="core-username">{user.username}</h2>
+                      </div>
+                    </div>
+                    <LinkContainer to="/settings">
                       <Dropdown.Item>
-                        <Button onClick={clickSubmit}>Logout</Button>
+                        <div className="icon-item">
+                          <div className="icon-container">
+                            <Image
+                              src={gearIcon}
+                            />
+                          </div>
+                          <p className="core-text">
+                            Settings
+                          </p>
+                        </div>
                       </Dropdown.Item>
-                    </Dropdown.Menu>
-                  </Dropdown>
-                </Fragment>
-              )
-            }
-          </Nav>
-
-          <Navbar.Toggle aria-controls="offcanvasNavbar" />
-          <Navbar.Offcanvas
-            id="offcanvasNavbar"
-            aria-labelledby="offcanvasNavbarLabel"
-            placement="end"
-          >
-            <Offcanvas.Header closeButton>
-              <Offcanvas.Title id="offcanvasNavbarLabel">
-                Offcanvas
-              </Offcanvas.Title>
-            </Offcanvas.Header>
-            <Offcanvas.Body>
-              <Nav className="justify-content-end flex-grow-1 pe-3">
-                <Nav.Link href="#action1">Home</Nav.Link>
-                <Nav.Link href="#action2">Link</Nav.Link>
+                    </LinkContainer>
+                    <Dropdown.Divider />
+                      <button type="button" onClick={clickSubmit} className="btn-logout">
+                        <div className="icon-item">
+                          <div className="icon-container">
+                            <Image
+                              className="logout-icon"
+                              src={logoutIcon}
+                            />
+                          </div>
+                          <p className="core-text">
+                            Logout
+                          </p>
+                        </div>
+                      </button>
+                  </Dropdown.Menu>
+                </Dropdown>
+                
               </Nav>
-              <Form className="d-flex">
-                <Form.Control
-                  type="search"
-                  placeholder="Search"
-                  className="me-2"
-                  aria-label="Search"
-                />
-                <Button variant="outline-success">Search</Button>
-              </Form>
-            </Offcanvas.Body>
-          </Navbar.Offcanvas>
-        </Container>
+            )
+          }
+
+          
       </Navbar>
+      </Container>
     </header>
   );
 }
