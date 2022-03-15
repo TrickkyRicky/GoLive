@@ -50,3 +50,17 @@ exports.getSingleVideo = async (req, res) => {
       })
     }
 };
+
+
+//List user profile
+exports.listUserProfile = async (req, res) => {
+  try {
+    let user = await User.findById(req.user._id).populate("media.videos").select("media subscribers username");
+
+    res.json(user)
+  } catch (e) {
+      return res.status(400).json({
+          error: "Could not list media by user"
+      })
+  }
+};

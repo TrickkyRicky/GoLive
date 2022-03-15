@@ -10,14 +10,11 @@ const isAuth = require("../middleware/isAuth");
 router.route("/avatar/:userId").get(userController.getAvatar, userController.defaultAvatar);
 router.route("/defaultAvatar").get(userController.defaultAvatar);
 
-///User
+//User
 router.get("/info", isAuth, userController.getUserInfo);
 router.put("/updateinfo", isAuth, userController.updateUser);
 
 router.post("/uploadvideo", isAuth, userController.uploadvideo);
-
-//List videos of the user
-router.get('/videos/:userId', userController.listUserVideos);
 
 router.param("userId", userController.userByID);
 

@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Home from "./pages/Home";
+import Profile from "./pages/Profile";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 // import ForgotPass from "./pages/auth/ForgotPass.jsx";
@@ -45,6 +46,7 @@ const App = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="Home" element={<Home />} />
+        <Route path="Profile/:userId" element={<Profile />} />
         <Route path="Settings" element={<Settings jwt={jwtToken} />} />
         <Route path="Upload" element={<Upload jwt={jwtToken} />} />
 

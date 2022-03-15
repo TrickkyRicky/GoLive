@@ -3,6 +3,7 @@
 const express = require("express");
 const router = express.Router();
 
+const userController = require("../controller/userController");
 const contentController = require("../controller/contentController");
 
 // get every single stream
@@ -13,6 +14,9 @@ const contentController = require("../controller/contentController");
 // // get every video
 // router.get("/all/videos", contentController.getStreams);
 
+//List user profile
+router.get('/profile/:userId', contentController.listUserProfile);
+
 // Get a single video
 router.get("/watch/:videoId", contentController.getSingleVideo);
 
@@ -21,5 +25,7 @@ router.get("/watch/:videoId", contentController.getSingleVideo);
 // router.get("/skip/:videoId", contentController.skipVideo);
 // // we will expect a query parameter for the type of category of the group of videos we need to send
 // router.get("/category/video", contentController.categoryVideo);
+
+router.param("userId", userController.userByID);
 
 module.exports = router;

@@ -21,6 +21,8 @@ import logo from "../../assets/Logo.png";
 import videoCamera from "../../assets/video-plus-svgrepo-com.svg";
 import logoutIcon from "../../assets/right-from-bracket-solid.png";
 import gearIcon from "../../assets/gear-solid.png";
+import { FaSearch } from 'react-icons/fa';
+import { RiVideoAddFill } from 'react-icons/ri';
 
 export default function Header() {
   let navigate = useNavigate();
@@ -82,7 +84,9 @@ export default function Header() {
               className="core-search-input"
               aria-label="Search"
             />
-            <Button className="core-search-btn">O</Button>
+            <Button className="core-search-btn">
+              <FaSearch size={20} />
+            </Button>
           </Form>
 
           {
@@ -110,11 +114,7 @@ export default function Header() {
                   <Nav.Item>
                     <LinkContainer to="/upload">
                       <Nav.Link>
-                      <img
-                        src={videoCamera}
-                        className="d-inline-block upload-video-img"
-                        alt="Upload Video"
-                      />
+                        <RiVideoAddFill size={40} color={"#35C280"}/>
                       </Nav.Link>
                     </LinkContainer>
                   </Nav.Item>
