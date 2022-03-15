@@ -24,7 +24,7 @@ server.use(express.json());
 
 server.use("/auth", auth);
 server.use("/user", user);
-// server.use("/content", content);
+server.use("/content", content);
 
 server.use((error, req, res, next) => {
   console.log(error);

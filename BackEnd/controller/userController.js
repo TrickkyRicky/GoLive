@@ -7,7 +7,7 @@ const fs = require("fs");
 const path = require("path");
 
 // const bcrypt = require("bcryptjs");
-
+ 
 //Gridfs
 const mongoose = require("mongoose");
 
@@ -43,6 +43,7 @@ exports.userByID = async (req, res, next, id) => {
 
     //Attach to request
     req.user = user;
+
     next();
   } catch (err) {
     return res.status("400").json({
@@ -162,4 +163,17 @@ exports.uploadvideo = async (req, res) => {
       });
     }
   });
+};
+
+//List user videos
+exports.listUserVideos = async (req, res) => {
+  try {
+    let videos = await User.findById(req.user._id).populate("media.videos").select("media");
+
+    res.json(videos)
+  } catch (e) {
+      return res.status(400).json({
+          error: "Could not list media by user"
+      })
+  }
 };
