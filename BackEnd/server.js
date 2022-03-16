@@ -1,26 +1,23 @@
 const cors = require("cors");
 const express = require("express");
+const fs = require("fs");
 const path = require("path");
 const multer = require("multer");
 const mongoose = require("mongoose");
 const media_server = require("./media_server");
+const streamWare = require("./middleware/stream");
 
 require("dotenv").config();
 
-const PORT = 8080;
 const server = express();
 
 const auth = require("./routes/auth");
 const user = require("./routes/user");
 const content = require("./routes/content");
 
+server.use(streamWare);
 server.use(cors());
 server.use(express.json());
-// server.use(
-//   multer({
-//     limits: { fieldSize: 25 * 1024 * 1024 },
-//   }).single("image")
-// );
 
 server.use("/auth", auth);
 server.use("/user", user);

@@ -5,9 +5,10 @@ const Video = require("../models/video.js");
 const formidable = require("formidable");
 const fs = require("fs");
 const path = require("path");
+const chokidar = require("chokidar");
 
 // const bcrypt = require("bcryptjs");
- 
+
 //Gridfs
 const mongoose = require("mongoose");
 
@@ -23,37 +24,12 @@ exports.getUserInfo = async (req, res, next) => {
       "-password -live -resetToken -resetTokenExpiration -createdAt -updatedAt -_id -__v"
     );
     return res.status(200).json(user);
-  } catch (e) {
+  } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }
     next(err);
   }
-};
-
-exports.userByID = async (req, res, next, id) => {
-  try {
-    let user = await User.findById(id);
-
-    if (!user) {
-      return res.status("400").json({
-        error: "User not found",
-      });
-    }
-
-    //Attach to request
-    req.user = user;
-
-    next();
-  } catch (err) {
-    return res.status("400").json({
-      error: "Could not retrieve user",
-    });
-  }
-};
-
-exports.getUser = (req, res) => {
-  return res.json(req.user);
 };
 
 exports.updateUser = async (req, res) => {
@@ -117,10 +93,6 @@ exports.getAvatar = (req, res, next) => {
   next();
 };
 
-exports.defaultAvatar = (req, res) => {
-  return res.sendFile(path.resolve("BackEnd/assets/default-avatar.png"));
-};
-
 exports.uploadvideo = async (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
@@ -162,5 +134,72 @@ exports.uploadvideo = async (req, res) => {
         error: "Could not save video",
       });
     }
+  });
+};
+
+exports.uploadStream = async (req, res, next) => {
+  const title = req.body.title;
+  const category = req.body.category;
+  const description = req.body.description;
+  console.log(title);
+
+  const liveFolder = path.join(__dirname, "../media/live");
+  const watcher = chokidar.watch(liveFolder, {
+    ignored: /(^|[\/\\])\../, // ignore dotfiles
+    persistent: true,
+  });
+  const log = console.log.bind(console);
+  let streamKey = null;
+  let counter = 0;
+  const video = new Video();
+  watcher.on("unlink", (filePath) => {
+    // once we test user accounts should be 0-69
+    streamKey = filePath.split("live/")[1].substring(0, 11);
+    log(streamKey);
+    log(`File ${filePath} has been removed`);
+    const liveFolderKey = path.join(__dirname, `../media/live/${streamKey}`);
+    fs.readdir(liveFolderKey, (err, files) => {
+      if (files.length === 1) {
+        files.forEach(async (file) => {
+          if (path.extname(file) === ".mp4") {
+            const mp4Path = path.join(
+              __dirname,
+              `../media/live/${streamKey}/${file}`
+            );
+            counter++;
+            video.title = title;
+            video.category = category;
+            video.description = description;
+            video.isStreamed = true;
+            video.userId = "62269377f49aa22e335213ed";
+            let writeStream = gridfs.openUploadStream(video._id, {
+              contentType: "video/mp4" || "binary/octet-stream",
+            });
+
+            try {
+              if (counter === 1) {
+                fs.createReadStream(mp4Path).pipe(writeStream);
+                const result = await video.save();
+                await User.findOneAndUpdate(
+                  { _id: "62269377f49aa22e335213ed" },
+                  { $push: { "media.videos": video._id } },
+                  { new: true }
+                );
+                fs.unlink(mp4Path, (err) => {
+                  if (err) {
+                    throw err;
+                  }
+                });
+                res.status("200").json({ videoId: result._id });
+              }
+            } catch (err) {
+              if (!err.statusCode) {
+                err.statusCode = 500;
+              }
+            }
+          }
+        });
+      }
+    });
   });
 };
