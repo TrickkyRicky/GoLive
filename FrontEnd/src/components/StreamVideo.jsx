@@ -1,10 +1,12 @@
 import React, { useRef, useEffect } from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
+import { vPath } from "../utility/dev.js";
 
-const Video = (props) => {
+const StreamVideo = (props) => {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
+  const { streamKey } = props;
 
   const handlePlayerReady = (player) => {
     playerRef.current = player;
@@ -29,8 +31,8 @@ const Video = (props) => {
       fluid: true,
       sources: [
         {
-          src: "http://localhost:8080/content/watch/" + props.videoId,
-          type: "video/mp4",
+          src: `${vPath}/live/${streamKey}/index.m3u8`,
+          type: "application/x-mpegURL",
         },
       ],
     };
@@ -53,7 +55,7 @@ const Video = (props) => {
       // player.autoplay(options.autoplay);
       // player.src(options.sources);
     }
-  }, [videoRef]);
+  }, [videoRef, streamKey]);
 
   useEffect(() => {
     const player = playerRef.current;
@@ -73,4 +75,4 @@ const Video = (props) => {
   );
 };
 
-export default Video;
+export default StreamVideo;

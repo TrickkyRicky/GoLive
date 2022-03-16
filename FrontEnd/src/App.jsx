@@ -9,6 +9,7 @@ import Register from "./pages/auth/Register";
 import Settings from "./pages/Settings";
 import Error404 from "./pages/Error404.jsx";
 import Upload from "./pages/Upload";
+import WatchVideo from "./pages/WatchVideo";
 import Stream from "./pages/Stream";
 import MainLayout from "./components/layouts/MainLayout";
 import AuthLayout from "./components/layouts/AuthLayout";
@@ -47,6 +48,7 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="Home" element={<Home />} />
         <Route path="Profile/:userId" element={<Profile />} />
+        <Route path="Watch/:videoId" element={<WatchVideo />} />
         <Route path="Settings" element={<Settings jwt={jwtToken} />} />
         <Route path="Upload" element={<Upload jwt={jwtToken} />} />
 

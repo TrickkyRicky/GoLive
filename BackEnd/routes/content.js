@@ -18,7 +18,8 @@ const contentController = require("../controller/contentController");
 router.get('/profile/:userId', contentController.listUserProfile);
 
 // Get a single video
-router.get("/watch/:videoId", contentController.getSingleVideo);
+router.get("/watch/:videoId", contentController.getVideoContent);
+router.get("/info/:videoId", contentController.getVideoInfo);
 
 
 // // all you michael

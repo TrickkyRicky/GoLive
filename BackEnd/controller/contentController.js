@@ -19,7 +19,7 @@ exports.getStreams = async (req, res, next) => {
   }
 };
 
-exports.getSingleVideo = async (req, res) => {
+exports.getVideoInfo = async (req, res) => {
   try{
     let media = await Video.findById(req.params.videoId);
 
@@ -27,20 +27,7 @@ exports.getSingleVideo = async (req, res) => {
       return res.status('400').json({
         error: "Media not found"
       })
-    }
-
-    //Search through gridfs
-    // let files = await gridfs.find({
-    //   filename: media._id
-    // }).toArray();
-
-    // if (!files[0]) {
-    //   return res.status(404).send({
-    //     error: 'No video found'
-    //   })
-    // }     
-
-    // console.log(files[0])
+    }  
 
     return res.json(media);
 
@@ -50,6 +37,37 @@ exports.getSingleVideo = async (req, res) => {
       })
     }
 };
+
+exports.getVideoContent = async (req, res) => {
+  let media = await Video.findById(req.params.videoId);
+    if (!media)
+      return res.status('400').json({
+        error: "Media not found"
+      })
+
+  //Search through gridfs
+  let files = await gridfs.find({
+    filename: media._id
+  }).toArray();
+
+  if (!files[0]) {
+    return res.status(404).send({
+      error: 'No video found'
+    })
+  }   
+
+  res.header('Content-Length', files[0].length)
+  res.header('Content-Type', files[0].contentType)
+
+  let downloadStream = gridfs.openDownloadStream(files[0]._id)
+  downloadStream.pipe(res)
+  downloadStream.on('error', () => {
+    res.sendStatus(404)
+  })
+  downloadStream.on('end', () => {
+    res.end()
+  })
+}
 
 
 //List user profile

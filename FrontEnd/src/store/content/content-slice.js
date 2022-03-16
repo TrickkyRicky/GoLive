@@ -4,7 +4,8 @@ const contentSlice = createSlice({
   name: "content",
   initialState: {
     userProfile: null,
-    profileLoader: false
+    profileLoader: false,
+    videoInfo: null
   },
   reducers: {
     userProfile(state, action) {
@@ -14,8 +15,13 @@ const contentSlice = createSlice({
     },
     profileLoader(state, action) {
       state.profileLoader = action.payload
+    },
+    setVideoInfo(state, action) {
+      state.videoInfo = {
+        ...action.payload
+      }
     }
-  },
+  }
 });
 
 export const contentActions = contentSlice.actions;
