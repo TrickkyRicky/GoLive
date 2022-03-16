@@ -15,12 +15,12 @@ const contentController = require("../controller/contentController");
 // router.get("/all/videos", contentController.getStreams);
 
 //List user profile
-router.get('/profile/:userId', contentController.listUserProfile);
+router.get("/profile/:userId", contentController.listUserProfile);
 
 // Get a single video
 router.get("/watch/:videoId", contentController.getVideoContent);
 router.get("/info/:videoId", contentController.getVideoInfo);
-
+router.get("/category", contentController.getCategories);
 
 // // all you michael
 // router.get("/skip/:videoId", contentController.skipVideo);

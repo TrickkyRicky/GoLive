@@ -156,7 +156,6 @@ exports.uploadStream = async (req, res, next) => {
     // once we test user accounts should be 0-69
     streamKey = filePath.split("live/")[1].substring(0, 11);
     log(streamKey);
-    log(`File ${filePath} has been removed`);
     const liveFolderKey = path.join(__dirname, `../media/live/${streamKey}`);
     fs.readdir(liveFolderKey, (err, files) => {
       if (files.length === 1) {
