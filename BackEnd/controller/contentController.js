@@ -80,15 +80,19 @@ exports.listUserProfile = async (req, res) => {
     res.json(user);
   } catch (e) {
     return res.status(400).json({
-      error: "Could not list media by user",
+      error: "Could not list media by user"
     });
   }
 };
 
-exports.getCategories = async (req, res) => {
+exports.getCategories = (req, res) => {
   try {
     res.json([
-      "Gaming, Education, Art, Beauty, Chatting, Music, Sports, Vlogs",
+      "Gaming", "Education", "Art", "Beauty", "Chatting", "Music", "Sports", "Vlogs"
     ]);
-  } catch (e) {}
+  } catch (e) {
+    return res.status(400).json({
+      error: "Could not get category names"
+    });
+  }
 };

@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { Navigate, useLocation, Link } from "react-router-dom";
-import { Container, Row, Col, Form, Button } from "react-bootstrap";
+import { Container, Row, Col, Form, Button, Image } from "react-bootstrap";
 import { postLogin } from "../../store/auth/auth-actions";
+
+import logo from "../../assets/Logo.png";
 
 const Login = (props) => {
   const location = useLocation();
@@ -51,38 +53,47 @@ const Login = (props) => {
   }
 
   return (
-    <Container>
+    <Container fluid>
       <Row>
         <Col>
-          <div>
-            <Form className="auth-form">
-              <Form.Group className="mb-3" controlId="formBasicEmail">
-                <Form.Label>Username</Form.Label>
-                <Form.Control
-                  type="text"
-                  placeholder="Enter username"
-                  onChange={(e) => handleChange(e, "username")}
-                />
+          <div className="auth-background">
+            <Image alt="random image"/>
+          </div>
+        </Col>
+        <Col>
+          <div className="auth-form-centered login">
+            <div className="auth-form-container">
+              <Link to="/">
+                <Image className="golive-logo" src={logo} alt="Go Live logo"/>
+              </Link>
+              <div className="auth-content">
+                <Form className="auth-form">
+                  <Form.Group className="form-group" controlId="formBasicEmail">
+                    <Form.Label className="visually-hidden">Username</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="USERNAME"
+                      onChange={(e) => handleChange(e, "username")}
+                    />
+                  </Form.Group>
 
-                <Form.Text className="text-muted">
-                  We'll never share your email with anyone else.
-                </Form.Text> 
-              </Form.Group>
+                  <Form.Group className="form-group" controlId="formBasicPassword">
+                    <Form.Label className="visually-hidden">Password</Form.Label>
+                    <Form.Control
+                      type="password"
+                      placeholder="PASSWORD"
+                      onChange={(e) => handleChange(e, "password")}
+                    />
+                  </Form.Group>
 
-              <Form.Group className="mb-3" controlId="formBasicPassword">
-                <Form.Label>Password</Form.Label>
-                <Form.Control
-                  type="password"
-                  placeholder="Password"
-                  onChange={(e) => handleChange(e, "password")}
-                />
-              </Form.Group>
-
-              <Button variant="primary" type="submit" onClick={clickSubmit}>
-                Submit
-              </Button>
-            </Form>
-            <p>Don't have an account yet? <Link to="/auth/register">Register</Link>.</p>
+                  <Button className="login-btn" type="submit" onClick={clickSubmit}>
+                    LOGIN
+                  </Button>
+                </Form>
+                <p className="auth-text"><Link to="/auth/register">Forgot Password</Link>.</p>
+                <p className="auth-text"><Link to="/auth/register">Create Account</Link>.</p>
+              </div>
+            </div>
           </div>
         </Col>
       </Row>

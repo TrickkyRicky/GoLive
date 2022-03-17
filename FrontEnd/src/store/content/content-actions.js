@@ -51,3 +51,28 @@ export const getSingleVideo = (videoId) => {
     }
   }
 }
+
+//get category names
+export const listCategories = () => {
+  return async (dispatch) => {
+    const getNames = async () => {
+      const res = await fetch("http://localhost:8080/content/categories", {
+        method: "GET"
+      });
+
+      if(res.status !== 200) {
+        throw new Error("Failed to fetch video");
+      }
+
+      return res.json();
+    }
+
+    try {
+      const response = await getNames();
+
+      dispatch(contentActions.setCategoryNames(response)); 
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
