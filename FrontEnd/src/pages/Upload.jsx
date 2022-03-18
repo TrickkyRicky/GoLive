@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 //Bootstrap
 import Container from "react-bootstrap/Container";
@@ -11,6 +11,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Image from "react-bootstrap/Image";
 
 import { uploadVideo } from "../store/user/user-actions";
+import { listCategories } from "../store/content/content-actions";
 
 const Upload = (props) => {
   const dispatch = useDispatch();
@@ -19,11 +20,14 @@ const Upload = (props) => {
     title: '',
     category: '',
     isStreamed: 'false',
-    video: ''
+    video: '',
+    thumbnail: ''
   });
 
+  const categoryNames = useSelector((state) => state.content.categoryNames);
+
   const handleChange = (e, field) => {
-    let value = (field == 'video') ? e.target.files[0] : e.target.value;
+    let value = (field == 'video' || field == 'thumbnail') ? e.target.files[0] : e.target.value;
 
     setValues({
       ...values,
@@ -35,13 +39,19 @@ const Upload = (props) => {
     e.preventDefault();
 
     let newVideo = new FormData();
+
     values.title && newVideo.append('title', values.title);
     values.category && newVideo.append('category', values.category);
     values.isStreamed && newVideo.append('isStreamed', values.isStreamed);
     values.video && newVideo.append('video', values.video);
+    values.thumbnail && newVideo.append('thumbnail', values.thumbnail);
 
     dispatch(uploadVideo(props.jwt, newVideo));
   }
+
+  useEffect(() => {
+    dispatch(listCategories());
+  }, []);
 
   return (
     <Container>
@@ -64,14 +74,23 @@ const Upload = (props) => {
 
             </Form.Group>
 
+            <Form.Group controlId="formThumbnailFile" className="mb-3">
+              <Form.Label>Thumbnail</Form.Label>
+              <Form.Control type="file" onChange={(e) => handleChange(e, 'thumbnail')}/>
+            </Form.Group>
+
             <Form.Group className="mb-3" controlId="formBasicCategory">
               <Form.Label>Category</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="Enter Video Category"
-                onChange={(e) => handleChange(e, "category")}
-                value={values.category}
-              />
+              <Form.Select aria-label="Select Category"  onChange={(e) => handleChange(e, "category")} value={values.category}>
+                <option>Select Category</option>
+                {
+                  categoryNames.map((title) => {
+                    return (
+                      <option value={title}>{title}</option>
+                    )
+                  })
+                }
+              </Form.Select>
 
             </Form.Group>
 

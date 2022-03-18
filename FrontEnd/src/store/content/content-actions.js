@@ -1,4 +1,5 @@
 import { contentActions } from "./content-slice";
+import queryString from "query-string";
 
 export const getUserProfile = (userId) => {
   return async (dispatch) => {
@@ -71,6 +72,33 @@ export const listCategories = () => {
       const response = await getNames();
 
       dispatch(contentActions.setCategoryNames(response)); 
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+//Get all videos or under a specific category
+export const listVideos = (params) => {
+  return async (dispatch) => {
+    const getVideos = async () => {
+      const query = queryString.stringify(params);
+
+      const res = await fetch("http://localhost:8080/content/all/videos?" + query, {
+        method: "GET"
+      });
+
+      if(res.status !== 200) {
+        throw new Error("Failed to fetch videos");
+      }
+
+      return res.json();
+    }
+
+    try {
+      const response = await getVideos();
+
+      dispatch(contentActions.setVideos(response)); 
     } catch (e) {
       console.log(e)
     }

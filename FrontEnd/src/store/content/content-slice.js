@@ -6,7 +6,8 @@ const contentSlice = createSlice({
     userProfile: null,
     profileLoader: false,
     videoInfo: null,
-    categoryNames: []
+    categoryNames: [],
+    videos: []
   },
   reducers: {
     userProfile(state, action) {
@@ -24,6 +25,9 @@ const contentSlice = createSlice({
     },
     setCategoryNames(state, action) {
       state.categoryNames = action.payload
+    },
+    setVideos(state, action) {
+      state.videos = action.payload
     }
   }
 });

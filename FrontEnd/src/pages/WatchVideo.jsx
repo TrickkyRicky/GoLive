@@ -26,6 +26,13 @@ const WatchVideo = () => {
         <Row>
             <Col>
                 <Video videoId={videoId}/>
+                <div>
+                  <p style={{color: "#FFF"}}>
+                    {
+                      videoInfo?.title
+                    }
+                  </p>
+                </div>
             </Col>
         </Row>
     </Container>

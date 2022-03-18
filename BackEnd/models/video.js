@@ -42,6 +42,10 @@ const videoSchema = new Schema(
       ref: "User",
       required: true,
     },
+    thumbnail: {
+      data: Buffer,
+      contentType: String,
+    }
   },
   { timestamps: true }
 );

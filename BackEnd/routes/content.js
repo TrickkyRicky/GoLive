@@ -11,8 +11,8 @@ const contentController = require("../controller/contentController");
 // // we will expect a query parameter for the type of category of the group of streams we need to send
 // router.get("/category/stream", contentController.categoryStream);
 
-// // get every video
-// router.get("/all/videos", contentController.getStreams);
+// // get every video or under a specific category
+router.get("/all/videos", contentController.getAllVideos);
 
 //List user profile
 router.get("/profile/:userId", contentController.listUserProfile);

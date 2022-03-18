@@ -30,7 +30,7 @@ exports.getUserInfo = async (req, res, next) => {
     }
     next(err);
   }
-};
+}; 
 
 exports.updateUser = async (req, res) => {
   let form = new formidable.IncomingForm();
@@ -110,6 +110,12 @@ exports.uploadvideo = async (req, res) => {
     let newVideo = new Video(fields);
     newVideo.userId = req.userId;
 
+    //If there is a thumbnail
+    if (files.thumbnail) {
+      newVideo.thumbnail.data = fs.readFileSync(files.thumbnail.filepath);
+      newVideo.thumbnail.contentType = files.thumbnail.mimetype;
+    }
+
     //If video then store in gridfs
     if (files.video) {
       let writeStream = gridfs.openUploadStream(newVideo._id, {
@@ -122,6 +128,8 @@ exports.uploadvideo = async (req, res) => {
     try {
       //Save video to video collection
       let result = await newVideo.save();
+
+      //Add video to users media
       await User.findOneAndUpdate(
         { _id: req.userId },
         { $push: { "media.videos": newVideo._id } },

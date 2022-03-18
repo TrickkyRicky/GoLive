@@ -67,7 +67,7 @@ const Video = (props) => {
   }, [playerRef]);
 
   return (
-    <div style={{ width: "40%", height: "500px" }}>
+    <div>
       <video ref={videoRef} className="video-js vjs-big-play-centered" />
     </div>
   );

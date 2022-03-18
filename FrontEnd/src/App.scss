@@ -287,11 +287,40 @@ body {
   display: none;
 }
 
+.site-text {
+  font-family: $primary-font;
+  font-size: 18px;
+  letter-spacing: 1.4px;
+  color: #F5F4F4;
+}
+
+.category-list {
+  gap: 22px;
+  margin-bottom: 30px;
+}
+
 .category-pill {
   background-color: #585858;
+  border-color: #585858;
   border-radius: 20px;
+  font-family: $primary-font;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+  color: #F5F4F4;
+  padding: 5px 22px;
 
   &.active {
     background-color: #000000;
+    border-color: #000000;
+    color: #35C280;
+  }
+}
+
+.video-card {
+  .video-user {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    padding: 10px 0;
   }
 }

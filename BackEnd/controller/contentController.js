@@ -81,7 +81,7 @@ exports.listUserProfile = async (req, res) => {
   } catch (e) {
     return res.status(400).json({
       error: "Could not list media by user"
-    });
+    }); 
   }
 };
 
@@ -96,3 +96,22 @@ exports.getCategories = (req, res) => {
     });
   }
 };
+
+//Get all videos or under a specific category
+exports.getAllVideos = async (req, res) => {
+  try {
+    let query = {};
+
+    if(req.query.category) {
+      query.category = req.query.category;
+    }
+
+    const videos = await Video.find(query).populate("userId", "_id username avatar");
+
+    res.json(videos);
+  } catch (e) {
+    return res.status(400).json({
+      error: "Could not get videos"
+    });
+  }
+}

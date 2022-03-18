@@ -4,28 +4,45 @@ import { useDispatch, useSelector } from "react-redux";
 //Bootstrap
 import Container from "react-bootstrap/Container";
 import Card from 'react-bootstrap/Card';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+// import Row from 'react-bootstrap/Row';
+// import Col from 'react-bootstrap/Col';
 import Nav from 'react-bootstrap/Nav';
 import Button from 'react-bootstrap/Button';
+import Image from 'react-bootstrap/Image';
 
-import { listCategories } from "../store/content/content-actions";
+import { listCategories, listVideos } from "../store/content/content-actions";
+import { Link } from "react-router-dom";
+import { Buffer } from "buffer";
 
 const Home = () => {
   const dispatch = useDispatch();
 
   const [active, setActive] = useState("Gaming");
 
-  const categoryNames = useSelector((state) => state.content.categoryNames);
+  const homeState = useSelector((state) => {
+    return {
+      categoryNames: state.content.categoryNames,
+      videos: state.content.videos
+    }
+  });
 
   useEffect(() => {
     //List Categories
     dispatch(listCategories());
+
+    //Default
+    dispatch(listVideos({
+      category: "Gaming"
+    }));
   }, []);
 
   const clickCategory = (e, title) => {
     console.log(e.target, title);
     setActive(title);
+
+    dispatch(listVideos({
+      category: title
+    }));
   }
 
   return (
@@ -34,28 +51,55 @@ const Home = () => {
         Carousel
       </div>
       <div>
-        <Nav>
+        <div>
+          <h2 className="site-text">EXPLORE</h2>
+        </div>
+        <Nav className="category-list">
           {
-            categoryNames.map((title, i) => {
+            homeState.categoryNames.map((title, i) => {
               return (
                 <Button key={i} className={(active === title ? "category-pill active" : "category-pill")} onClick={e => clickCategory(e, title)}>{title}</Button>
               )
             })
           }
         </Nav>
-        <div className="card-group">
+        <div className="d-flex">
         {
-            categoryNames.map((title, i) => {
+            homeState.videos.map((video, i) => {
               return (
-                <Card style={{ width: '18rem' }} key={i}>
-                  <Card.Img variant="top" src="" />
+                <Card style={{ width: '450px' }} key={i} className="video-card">
+                  <Card.Img variant="top" 
+                  src={
+                    video.thumbnail
+                      ? `data:${video.thumbnail.contentType};base64,${Buffer.from(
+                          video.thumbnail.data.data
+                        ).toString("base64")}`
+                      : "http://localhost:8080/user/defaultAvatar"
+                  }
+                  alt="thumbnail" />
                   <Card.Body>
-                    <Card.Title>{title}</Card.Title>
-                    <Card.Text>
-                      Some quick example text to build on the card title and make up the bulk of
-                      the card's content.
-                    </Card.Text>
-                    <Button variant="primary">Go somewhere</Button>
+                    <div className="video-user">
+                      <Image width={50}
+                        src={
+                          video.userId.avatar
+                            ? `data:${video.userId.avatar.contentType};base64,${Buffer.from(
+                                video.userId.avatar.data.data
+                              ).toString("base64")}`
+                            : "http://localhost:8080/user/defaultAvatar"
+                        } 
+                      />
+                      <div>
+                        <Link to={"/Watch/" + video._id}>
+                          <Card.Title>{video.title}</Card.Title>
+                        </Link>
+                        <Card.Text>
+                          {video.userId.username}
+                        </Card.Text>
+                        <Card.Text>
+                          {video.views} Views
+                        </Card.Text>
+                      </div>
+                    </div>
                   </Card.Body>
                 </Card>
               )
