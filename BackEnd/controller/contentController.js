@@ -57,17 +57,53 @@ exports.getVideoContent = async (req, res) => {
     });
   }
 
-  res.header("Content-Length", files[0].length);
-  res.header("Content-Type", files[0].contentType);
+  const range = req.headers["range"];
+  console.log(range);
 
-  let downloadStream = gridfs.openDownloadStream(files[0]._id);
-  downloadStream.pipe(res);
-  downloadStream.on("error", () => {
-    res.sendStatus(404);
-  });
-  downloadStream.on("end", () => {
-    res.end();
-  });
+  //Skip through video
+  if(range && typeof range === "string") {
+    const parts = range.replace(/bytes=/, "").split("-");
+    const partialStart = parts[0];
+    const partialEnd = parts[1];
+
+    const start = parseInt(partialStart, 10);
+    const end = partialEnd ? parseInt(partialEnd, 10) : files[0].length -1;
+
+    const chunkSize = (end - start) + 1;
+
+    res.writeHead(206, {
+      'Accept-Ranges': 'bytes',
+      'Content-length': chunkSize,
+      'Content-Range': 'bytes ' + start + '-' + end + '/' + files[0].length,
+      'Content-Type': files[0].contentType
+    })
+    
+    let downloadStream = gridfs.openDownloadStream(files[0]._id, {
+      start, 
+      end: end + 1
+    })
+
+    downloadStream.pipe(res)
+    downloadStream.on('error', () => {
+        res.sendStatus(404)
+    })
+    downloadStream.on('end', () => {
+        res.end()
+    })
+  } else { //Press play start from beginning
+    res.header("Content-Length", files[0].length);
+    res.header("Content-Type", files[0].contentType);
+
+    let downloadStream = gridfs.openDownloadStream(files[0]._id);
+    downloadStream.pipe(res);
+    downloadStream.on("error", () => {
+      res.sendStatus(404);
+    });
+    downloadStream.on("end", () => {
+      res.end();
+    });
+  }
+
 };
 
 //List user profile
