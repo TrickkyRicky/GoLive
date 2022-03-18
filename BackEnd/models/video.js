@@ -8,7 +8,7 @@ const videoSchema = new Schema(
   {
     title: {
       type: String,
-      required: "title is required",
+      required: true,
     },
     description: String,
     views: {

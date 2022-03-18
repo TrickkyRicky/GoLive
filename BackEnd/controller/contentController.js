@@ -21,7 +21,7 @@ exports.getStreams = async (req, res, next) => {
 
 exports.getVideoInfo = async (req, res) => {
   try {
-    let media = await Video.findById(req.params.videoId);
+    let media = await Video.findById(req.params.videoId).populate('userId', 'username avatar subscribers');
 
     if (!media) {
       return res.status("400").json({
@@ -109,7 +109,7 @@ exports.getVideoContent = async (req, res) => {
 //List user profile
 exports.listUserProfile = async (req, res) => {
   try {
-    let user = await User.findById(req.user._id)
+    let user = await User.findById(req.params.userId)
       .populate("media.videos")
       .select("media subscribers username");
 

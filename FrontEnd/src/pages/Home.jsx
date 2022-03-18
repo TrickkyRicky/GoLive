@@ -67,19 +67,24 @@ const Home = () => {
         {
             homeState.videos.map((video, i) => {
               return (
-                <Card style={{ width: '450px' }} key={i} className="video-card">
-                  <Card.Img variant="top" 
-                  src={
-                    video.thumbnail
-                      ? `data:${video.thumbnail.contentType};base64,${Buffer.from(
-                          video.thumbnail.data.data
-                        ).toString("base64")}`
-                      : "http://localhost:8080/user/defaultAvatar"
-                  }
-                  alt="thumbnail" />
-                  <Card.Body>
-                    <div className="video-user">
-                      <Image width={50}
+                <div key={i} className="video-item">
+                  <div className="video-overlay">
+                    <Image className="video-thumbnail" 
+                    src={
+                      video.thumbnail
+                        ? `data:${video.thumbnail.contentType};base64,${Buffer.from(
+                            video.thumbnail.data.data
+                          ).toString("base64")}`
+                        : "http://localhost:8080/user/defaultAvatar"
+                    }
+                    alt="thumbnail" />
+                    <Card.Text className="video-views">
+                      {video.views} Views
+                    </Card.Text>
+                  </div>
+                  <div className="video-item-body">
+                    <div className="video-details">
+                      <Image className="video-user-avatar"
                         src={
                           video.userId.avatar
                             ? `data:${video.userId.avatar.contentType};base64,${Buffer.from(
@@ -90,18 +95,17 @@ const Home = () => {
                       />
                       <div>
                         <Link to={"/Watch/" + video._id}>
-                          <Card.Title>{video.title}</Card.Title>
+                          <Card.Title className="video-title">{video.title}</Card.Title>
                         </Link>
-                        <Card.Text>
-                          {video.userId.username}
-                        </Card.Text>
-                        <Card.Text>
-                          {video.views} Views
-                        </Card.Text>
+                        <Link to={"/Profile/" + video.userId._id}>
+                          <Card.Text className="video-username">
+                            {video.userId.username}
+                          </Card.Text>
+                        </Link>
                       </div>
                     </div>
-                  </Card.Body>
-                </Card>
+                  </div>
+                </div>
               )
             })
           }

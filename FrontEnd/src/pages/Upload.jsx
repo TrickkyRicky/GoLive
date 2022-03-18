@@ -9,6 +9,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Image from "react-bootstrap/Image";
+import FloatingLabel from "react-bootstrap/FloatingLabel";
 
 import { uploadVideo } from "../store/user/user-actions";
 import { listCategories } from "../store/content/content-actions";
@@ -18,6 +19,7 @@ const Upload = (props) => {
 
   const [values, setValues] = useState({
     title: '',
+    description: '',
     category: '',
     isStreamed: 'false',
     video: '',
@@ -41,6 +43,7 @@ const Upload = (props) => {
     let newVideo = new FormData();
 
     values.title && newVideo.append('title', values.title);
+    values.description && newVideo.append('description', values.description);
     values.category && newVideo.append('category', values.category);
     values.isStreamed && newVideo.append('isStreamed', values.isStreamed);
     values.video && newVideo.append('video', values.video);
@@ -71,7 +74,17 @@ const Upload = (props) => {
                 onChange={(e) => handleChange(e, "title")}
                 value={values.title}
               />
+            </Form.Group>
 
+            <Form.Group className="mb-3" controlId="formDescription">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                placeholder="Enter Video Description"
+                onChange={(e) => handleChange(e, "description")}
+                value={values.description}
+                style={{ height: '100px' }}
+              />
             </Form.Group>
 
             <Form.Group controlId="formThumbnailFile" className="mb-3">
@@ -91,7 +104,6 @@ const Upload = (props) => {
                   })
                 }
               </Form.Select>
-
             </Form.Group>
 
             <Button variant="primary" type="submit" onClick={clickSubmit}>

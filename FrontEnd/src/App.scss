@@ -16,6 +16,7 @@ $primary-font: 'Lato', sans-serif;
 
 @import "~bootstrap/scss/bootstrap";
 @import "./styles/navbar";
+@import "./styles/videojs";
 
 /*********************************        Global CSS          *************************************/
 html,
@@ -316,11 +317,113 @@ body {
   }
 }
 
-.video-card {
-  .video-user {
+.video-item {
+  width: 450px;
+  height: 316px;
+
+  .video-overlay {
+    position: relative;
+    width: 100%;
+    height: 253px;
+
+    .video-views {
+      position: absolute;
+      left: 10px;
+      bottom: 10px;
+    }
+  }
+
+  .video-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+  }
+
+  .video-item-body {
+    height: 62px;
+
+    .video-details {
+      display: flex;
+      gap: 14px;
+      align-items: center;
+      padding: 10px 0;
+
+      a {
+        text-decoration: none;
+      }
+
+      .video-user-avatar {
+        width: 51px;
+        height: 51px;
+        border-radius: 50%;
+      }
+
+      .video-title {
+        font-family: $primary-font;
+        font-size: 16px;
+        letter-spacing: 0.8px;
+        color: #F5F4F4;
+      }
+
+      .video-username {
+        font-family: $primary-font;
+        font-size: 15px;
+        letter-spacing: 0.3px;
+        color: #F5F4F4;
+      }
+    }
+  }
+}
+
+.video-container {
+  max-height: 788px;
+}
+
+.primary-info {
+  display: flex;
+  justify-content: space-between;
+
+  .video-title {
+    font-family: $primary-font;
+    letter-spacing: 1.95px;
+    color: #F5F4F4;
+  }
+
+  .video-views-count {
+    font-family: $primary-font;
+    letter-spacing: 1.25px;
+    color: #F5F4F4;
+  }
+}
+
+.secondary-info {
+  .video-owner {
     display: flex;
     gap: 14px;
     align-items: center;
     padding: 10px 0;
+
+    .video-owner-avatar {
+      width: 70px;
+      height: 70px;
+      border-radius: 50%;
+    }
+  
+    .video-owner-username {
+      font-family: $primary-font;
+      letter-spacing: 1.05px;
+      color: #F5F4F4;
+    }
+
+    .video-owner-subscribers {
+      font-family: $primary-font;
+      letter-spacing: 0.4px;
+      color: #F5F4F4;
+    }
+  }
+
+  .video-description {
+    color: #F5F4F4;
   }
 }
