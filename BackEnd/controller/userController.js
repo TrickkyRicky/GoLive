@@ -1,6 +1,7 @@
 //models
 const User = require("../models/user.js");
 const Video = require("../models/video.js");
+const Comment = require("../models/comment.js");
 
 const formidable = require("formidable");
 const fs = require("fs");
@@ -209,4 +210,32 @@ exports.uploadStream = async (req, res, next) => {
       }
     });
   });
+};
+
+exports.postComment = async (req, res) => {
+
+    //Create new comment
+    let newComment = new Comment(req.body);
+    newComment.userId = req.userId;
+    newComment.timestamps = Date.now();
+
+    try {
+      //Save video to video collection
+      let data = await newComment.save();
+
+      let result = await data.populate('userId', 'username avatar');
+
+      //Add comment to video
+      // await Video.findOneAndUpdate(
+      //   { _id: req.body.videoId },
+      //   { $push: { "chat.comments": newComment._id } },
+      //   { new: true }
+      // );
+
+      res.status("200").json(result);
+    } catch (e) {
+      return res.status("400").json({
+        error: "Could not save comment",
+      });
+    }
 };

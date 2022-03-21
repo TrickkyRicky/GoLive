@@ -14,6 +14,7 @@ const server = express();
 const auth = require("./routes/auth");
 const user = require("./routes/user");
 const content = require("./routes/content");
+const comment = require("./routes/comment");
 
 server.use(streamWare);
 server.use(cors());
@@ -22,6 +23,7 @@ server.use(express.json());
 server.use("/auth", auth);
 server.use("/user", user);
 server.use("/content", content);
+server.use("/comment", comment);
 
 server.use((error, req, res, next) => {
   console.log(error);

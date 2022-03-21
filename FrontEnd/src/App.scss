@@ -93,12 +93,11 @@ body {
 
     @include media-breakpoint-up(xl) {
       width: 510px;
-      height: 498px;
+      height: auto;
     }
 
     @include media-breakpoint-up(xtl) {
       width: 710px;
-      height: 698px;
     }
 
     .auth-content {
@@ -398,6 +397,9 @@ body {
 }
 
 .secondary-info {
+  border-bottom: 1px solid #323432;
+  margin-bottom: 34px;
+
   .video-owner {
     display: flex;
     gap: 14px;
@@ -424,6 +426,39 @@ body {
   }
 
   .video-description {
+    color: #F5F4F4;
+  }
+}
+
+.comment-box {
+  display: flex;
+  gap: 12px;
+
+  .comment-form {
+    width: 100%;
+  }
+}
+
+.video-comments-count {
+  p {
+    color: #F5F4F4;
+  }
+}
+
+.comments-avatar {
+  width: 51px;
+  height: 51px;
+  border-radius: 50%;
+}
+
+.comment-container {
+  display: flex;
+
+  h2 {
+    color: #F5F4F4;
+  }
+
+  p {
     color: #F5F4F4;
   }
 }

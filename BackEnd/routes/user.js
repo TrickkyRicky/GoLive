@@ -17,8 +17,12 @@ router.get("/info", isAuth, userController.getUserInfo);
 router.put("/updateinfo", isAuth, userController.updateUser);
 
 router.post("/uploadvideo", isAuth, userController.uploadvideo);
+router.post("/video/comment", isAuth, userController.postComment);
+
 // put isAuth middleware back when testing is done
 router.post("/golive", userController.uploadStream);
+
+
 // router
 //   .route("/:userId")
 //   .get(isAuth, userController.getUser)

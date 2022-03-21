@@ -21,7 +21,7 @@ exports.getStreams = async (req, res, next) => {
 
 exports.getVideoInfo = async (req, res) => {
   try {
-    let media = await Video.findById(req.params.videoId).populate('userId', 'username avatar subscribers');
+    let media = await Video.findById(req.params.videoId).populate('userId', 'username avatar subscribers').populate('chat.comments');
 
     if (!media) {
       return res.status("400").json({

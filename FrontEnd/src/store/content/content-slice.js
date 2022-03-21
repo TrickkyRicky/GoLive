@@ -7,7 +7,10 @@ const contentSlice = createSlice({
     profileLoader: false,
     videoInfo: null,
     categoryNames: [],
-    videos: []
+    videos: [],
+    comments: [],
+    newComment: null,
+    showUploadModal: false
   },
   reducers: {
     userProfile(state, action) {
@@ -28,6 +31,17 @@ const contentSlice = createSlice({
     },
     setVideos(state, action) {
       state.videos = action.payload
+    },
+    setVideoComments(state, action) {
+      // console.log(action.payload)
+      state.comments = action.payload
+    },
+    addComment(state, action) {
+      // console.log(action.payload)
+      state.comments.push(action.payload)
+    },
+    showUploadModal(state, action) {
+      state.showUploadModal = action.payload
     }
   }
 });

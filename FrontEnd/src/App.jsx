@@ -50,7 +50,7 @@ const App = () => {
         <Route path="Profile/:userId" element={<Profile />} />
         <Route path="Watch/:videoId" element={<WatchVideo />} />
         <Route path="Settings" element={<Settings jwt={jwtToken} />} />
-        <Route path="Upload" element={<Upload jwt={jwtToken} />} />
+        {/* <Route path="Upload" element={<Upload jwt={jwtToken} />} /> */}
 
         {/* after Stream will be Stream/username */}
         <Route path="Stream/:username" element={<Stream />} />

@@ -1,4 +1,5 @@
 import { userActions } from "./user-slice";
+import { contentActions } from "../content/content-slice";
 
 export const getUser = (jwt) => {
   return async (dispatch) => {
@@ -91,6 +92,37 @@ export const uploadVideo = (jwt, newVideo) => {
     try {
       const response = await uploadVideo();
       console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const postComment = (jwt, comment, videoId) => {
+  return async (dispatch) => {
+    const postComment = async () => {
+
+      const response = await fetch("http://localhost:8080/user/video/comment", {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + jwt,
+        },
+        body: JSON.stringify({
+          comment: comment,
+          videoId: videoId
+        }),
+      });
+      if (response.status !== 200) {
+        throw new Error("Failed to post comment");
+      }
+      return response.json();
+    };
+    try {
+      const response = await postComment();
+
+      dispatch(contentActions.addComment(response)); 
     } catch (e) {
       console.log(e);
     }
