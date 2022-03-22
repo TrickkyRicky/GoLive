@@ -11,26 +11,27 @@ import Button from "react-bootstrap/Button";
 import Image from 'react-bootstrap/Image';
 
 import { getSingleVideo, getVideoComments } from "../store/content/content-actions";
-import { postComment } from "../store/user/user-actions";
+import { postComment, subscribe, unsubscribe } from "../store/user/user-actions";
 
 import Video from "../components/Video";
 import { Buffer } from "buffer";
 
 const WatchVideo = () => {
   const [values, setValues] = useState({
-    comment: ''
+    comment: '',
+    isSubscribed: false
   });
 
   const dispatch = useDispatch();
   let { videoId } = useParams();
 
   const videoInfo = useSelector((state) => state.content.videoInfo);
+
   const videoComments = useSelector((state) => {
     return {
       comments: state.content.comments
     }
   });
-  console.log(videoComments);
 
   const user = useSelector((state) => {
     return {
@@ -42,15 +43,34 @@ const WatchVideo = () => {
   const auth = useSelector((state) => {
     return {
       jwt: state.auth.jwtToken,
-      isAuth: state.auth.isAuth
+      isAuth: state.auth.isAuth,
+      userId: state.auth.userIdLogin
     };
   });
 
-  // console.log(user);
+  // console.log(videoInfo)
+
+  const checkSubscribed = (user) => {
+    const match = user.subscribers.users.some((subscriber) => {
+      return subscriber._id == auth.userId
+    })
+
+    return match
+  }
 
   useEffect(() => {
-    dispatch(getSingleVideo(videoId));
+    dispatch(getSingleVideo(videoId)).then((data) => {
+      let following = checkSubscribed(data.userId);
+      
+      setValues({
+        ...values,
+        isSubscribed: following
+      })
+
+    });
+
     dispatch(getVideoComments(videoId));
+    // console.log(videoInfo.userId._id)
   }, [videoId]);
 
   const handleChange = (e, field) => {
@@ -68,6 +88,28 @@ const WatchVideo = () => {
     setValues({
       ...values,
       comment: ''
+    });
+  }
+
+  const subscribeClick = (e) => {
+    e.preventDefault();
+
+    dispatch(subscribe(auth.jwt, videoInfo.userId._id));
+
+    setValues({
+      ...values,
+      isSubscribed: true
+    });
+  }
+
+  const unsubscribeClick = (e) => {
+    e.preventDefault();
+
+    dispatch(unsubscribe(auth.jwt, videoInfo.userId._id));
+
+    setValues({
+      ...values,
+      isSubscribed: false
     });
   }
 
@@ -112,6 +154,23 @@ const WatchVideo = () => {
                         </p>
                       </div>
                     </div>
+                    {
+                      auth.isAuth && (
+                        <div>
+                          {
+                            values.isSubscribed ? (
+                              <Button onClick={unsubscribeClick}>
+                                Unsubscribe
+                              </Button>
+                            ) : (
+                              <Button onClick={subscribeClick}>
+                                Subscribe
+                              </Button>
+                            )
+                          }
+                        </div>
+                      )
+                    }
                     <div className="video-description">
                       <p>
                         {

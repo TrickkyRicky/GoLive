@@ -17,9 +17,13 @@ router.get("/all/videos", contentController.getAllVideos);
 //List user profile
 router.get("/profile/:userId", contentController.listUserProfile);
 
+//List other videos
+router.get("/other/:userId/:videoId", contentController.listOtherVideos);
+
 // Get a single video
 router.get("/watch/:videoId", contentController.getVideoContent);
 router.get("/info/:videoId", contentController.getVideoInfo);
+
 router.get("/categories", contentController.getCategories);
 
 // router.param("userId", userController.userByID);

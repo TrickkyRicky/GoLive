@@ -121,6 +121,25 @@ exports.listUserProfile = async (req, res) => {
   }
 };
 
+//List other videos from a user except currently watching video
+exports.listOtherVideos = async (req, res) => {
+  try {
+
+    let video = await Video.findById(req.params.videoId).select('userId');
+    
+    let videos = await Video.find({
+        "_id": { "$ne": req.params.videoId },
+        "userId": video.userId
+    }).limit(7).populate('userId', '_id name').exec();
+
+    res.json(videos);
+  } catch (e) {
+    return res.status(400).json({
+      error: "Could not list other videos from user"
+    }); 
+  }
+};
+
 exports.getCategories = (req, res) => {
   try {
     res.json([

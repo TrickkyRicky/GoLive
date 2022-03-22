@@ -128,3 +128,67 @@ export const postComment = (jwt, comment, videoId) => {
     }
   };
 };
+
+export const subscribe = (jwt, followId) => {
+  return async (dispatch) => {
+    const subscribeTo = async () => {
+
+      const response = await fetch("http://localhost:8080/user/subscribe", {
+        method: "PUT",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + jwt,
+        },
+        body: JSON.stringify({
+          followId: followId
+        }),
+      });
+
+      if (response.status !== 200) {
+        throw new Error("Failed to subscribe");
+      }
+      return response.json();
+    };
+
+    try {
+      const response = await subscribeTo();
+
+      dispatch(contentActions.addVideoInfo(response)); 
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const unsubscribe = (jwt, unfollowId) => {
+  return async (dispatch) => {
+    const unsubscribeFrom = async () => {
+
+      const response = await fetch("http://localhost:8080/user/unsubscribe", {
+        method: "PUT",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + jwt,
+        },
+        body: JSON.stringify({
+          unfollowId: unfollowId
+        }),
+      });
+
+      if (response.status !== 200) {
+        throw new Error("Failed to unsubscribe");
+      }
+      return response.json();
+    };
+
+    try {
+      const response = await unsubscribeFrom();
+
+      dispatch(contentActions.addVideoInfo(response)); 
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};

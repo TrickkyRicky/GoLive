@@ -211,7 +211,7 @@ exports.uploadStream = async (req, res, next) => {
     });
   });
 };
-
+ 
 exports.postComment = async (req, res) => {
 
     //Create new comment
@@ -238,4 +238,82 @@ exports.postComment = async (req, res) => {
         error: "Could not save comment",
       });
     }
+};
+
+exports.addSubscribed = async (req, res, next) => {
+
+  try {
+    //followId is the user you're trying to subscribe to
+    await User.findByIdAndUpdate(
+      { _id: req.userId },
+      { $push: { "subscribed.users": req.body.followId } }
+    );
+
+    next();
+  } catch (e) {
+    return res.status("400").json({
+      error: "Could not subscribe to user",
+    });
+  }
+};
+
+exports.addSubscriber = async (req, res) => {
+
+  try {
+    //followId is the user that has a new subscriber
+    let result = await User.findByIdAndUpdate(
+      { _id: req.body.followId },
+      { $push: { "subscribers.users": req.userId } },
+      { new: true }
+    )
+    .populate('subscribed.users', '_id name')
+    .populate('subscribers.users', '_id name')
+    .select('_id username avatar')
+    .exec();
+
+    res.json(result);
+  } catch (e) {
+    return res.status("400").json({
+      error: "Could not subscribe to user",
+    });
+  }
+};
+
+exports.removeSubscribed = async (req, res, next) => {
+
+  try {
+    //followId is the user you're trying to unsubscribe from
+    await User.findByIdAndUpdate(
+      { _id: req.userId },
+      { $pull: { "subscribed.users": req.body.unfollowId } }
+    );
+
+    next();
+  } catch (e) {
+    return res.status("400").json({
+      error: "Could not unsubscribe from user",
+    });
+  }
+};
+
+exports.removeSubscriber = async (req, res) => {
+
+  try {
+    //followId is the user that has a unsubscriber
+    let result = await User.findByIdAndUpdate(
+      { _id: req.body.unfollowId },
+      { $pull: { "subscribers.users": req.userId } },
+      { new: true }
+    )
+    .populate('subscribed.users', '_id name')
+    .populate('subscribers.users', '_id name')
+    .select('_id username avatar')
+    .exec();
+
+    res.json(result);
+  } catch (e) {
+    return res.status("400").json({
+      error: "Could not remove subscriber from user",
+    });
+  }
 };

@@ -47,6 +47,8 @@ export const getSingleVideo = (videoId) => {
       const response = await getVideo();
 
       dispatch(contentActions.setVideoInfo(response)); 
+
+      return response;
     } catch (e) {
       console.log(e)
     }

@@ -26,6 +26,12 @@ const contentSlice = createSlice({
         ...action.payload
       }
     },
+    addVideoInfo(state, action) {
+      state.videoInfo = {
+        ...state.videoInfo,
+        userId: action.payload
+      }
+    },
     setCategoryNames(state, action) {
       state.categoryNames = action.payload
     },
