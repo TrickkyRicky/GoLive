@@ -18,11 +18,13 @@ router.get("/all/videos", contentController.getAllVideos);
 router.get("/profile/:userId", contentController.listUserProfile);
 
 //List other videos
-router.get("/other/:userId/:videoId", contentController.listOtherVideos);
+router.get("/other/:videoId", contentController.listOtherVideos);
 
-// Get a single video
+// Get a single videos content
 router.get("/watch/:videoId", contentController.getVideoContent);
-router.get("/info/:videoId", contentController.getVideoInfo);
+
+// Get a single videos info from collection
+router.get("/info/:videoId", contentController.incrementViews, contentController.getVideoInfo);
 
 router.get("/categories", contentController.getCategories);
 

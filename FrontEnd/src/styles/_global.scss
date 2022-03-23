@@ -1,0 +1,23 @@
+/*********************************        Global CSS          *************************************/
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+#root {
+  height: 100%;
+}
+
+//Boostrap overrides
+.row {
+  --bs-gutter-x: 0;
+}
+
+/*********************************       MainLayout          *************************************/
+.main-layout {
+    background-color: #1f1f1f;
+    width: 100%;
+    min-height: 100%;
+    padding: 10px;
+  }

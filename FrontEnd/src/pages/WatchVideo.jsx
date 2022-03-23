@@ -9,8 +9,9 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Image from 'react-bootstrap/Image';
+import ListGroup from 'react-bootstrap/ListGroup'
 
-import { getSingleVideo, getVideoComments } from "../store/content/content-actions";
+import { getSingleVideo, getOtherVideos, getVideoComments } from "../store/content/content-actions";
 import { postComment, subscribe, unsubscribe } from "../store/user/user-actions";
 
 import Video from "../components/Video";
@@ -26,6 +27,7 @@ const WatchVideo = () => {
   let { videoId } = useParams();
 
   const videoInfo = useSelector((state) => state.content.videoInfo);
+  const otherVideos = useSelector((state) => state.content.otherVideos);
 
   const videoComments = useSelector((state) => {
     return {
@@ -70,7 +72,7 @@ const WatchVideo = () => {
     });
 
     dispatch(getVideoComments(videoId));
-    // console.log(videoInfo.userId._id)
+    dispatch(getOtherVideos(videoId));
   }, [videoId]);
 
   const handleChange = (e, field) => {
@@ -244,7 +246,44 @@ const WatchVideo = () => {
                   </div>
                 </Col>
                 <Col>
-                  {/* Other videos */}
+                <h2>Other Videos from {videoInfo?.userId.username}</h2>
+                <ListGroup>
+                  {
+                    otherVideos.map((video) => {
+                      return (
+                        <ListGroup.Item>
+                          <div className="comment-container">
+                            <Image
+                              className="comments-avatar"
+                              src={
+                                video.thumbnail
+                                  ? `data:${video.thumbnail.contentType};base64,${Buffer.from(
+                                    video.thumbnail.data.data
+                                    ).toString("base64")}`
+                                  : "http://localhost:8080/user/defaultAvatar"
+                                }
+                            />
+                            <div>
+                              <Image
+                                className="comments-avatar"
+                                src={
+                                  video.userId.avatar
+                                    ? `data:${video.userId.avatar.contentType};base64,${Buffer.from(
+                                      video.userId.avatar.data.data
+                                      ).toString("base64")}`
+                                    : "http://localhost:8080/user/defaultAvatar"
+                                  }
+                              />
+                              <h2>{video.title}</h2>
+                              <p>{video.userId.username}</p>
+                              <p>{video.category}</p>
+                            </div>
+                          </div>
+                        </ListGroup.Item>
+                      )
+                    })
+                  }
+                </ListGroup>
                 </Col>
               </Row>
             </Container>

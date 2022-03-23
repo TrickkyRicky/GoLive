@@ -10,9 +10,11 @@ import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Image from "react-bootstrap/Image";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
+import Modal from "react-bootstrap/Modal";
 
 import { uploadVideo } from "../store/user/user-actions";
 import { listCategories } from "../store/content/content-actions";
+import { contentActions } from "../store/content/content-slice";
 
 const Upload = () => {
   const dispatch = useDispatch();
@@ -62,71 +64,86 @@ const Upload = () => {
     dispatch(uploadVideo(auth.jwt, newVideo));
   }
 
+  const hideModal = () => {
+    dispatch(contentActions.showUploadModal(false));
+  }
+
   useEffect(() => {
     dispatch(listCategories());
   }, []);
 
   return (
-    <div>
-      {
-        (isShown) ? (<Container>
-          <Row>
-            <Col>
-              <Form className="upload-form">
-                <Form.Group controlId="formFile" className="mb-3">
-                  <Form.Label>Upload Video</Form.Label>
-                  <Form.Control type="file" onChange={(e) => handleChange(e, 'video')}/>
-                </Form.Group>
-    
-                <Form.Group className="mb-3" controlId="formBasicTitle">
-                  <Form.Label>Title</Form.Label>
-                  <Form.Control
-                    type="text"
-                    placeholder="Enter Video Title"
-                    onChange={(e) => handleChange(e, "title")}
-                    value={values.title}
-                  />
-                </Form.Group>
-    
-                <Form.Group className="mb-3" controlId="formDescription">
-                  <Form.Label>Description</Form.Label>
-                  <Form.Control
-                    as="textarea"
-                    placeholder="Enter Video Description"
-                    onChange={(e) => handleChange(e, "description")}
-                    value={values.description}
-                    style={{ height: '100px' }}
-                  />
-                </Form.Group>
-    
-                <Form.Group controlId="formThumbnailFile" className="mb-3">
-                  <Form.Label>Thumbnail</Form.Label>
-                  <Form.Control type="file" onChange={(e) => handleChange(e, 'thumbnail')}/>
-                </Form.Group>
-    
-                <Form.Group className="mb-3" controlId="formBasicCategory">
-                  <Form.Label>Category</Form.Label>
-                  <Form.Select aria-label="Select Category"  onChange={(e) => handleChange(e, "category")} value={values.category}>
-                    <option>Select Category</option>
-                    {
-                      categoryNames.map((title) => {
-                        return (
-                          <option value={title}>{title}</option>
-                        )
-                      })
-                    }
-                  </Form.Select>
-                </Form.Group>
-    
-                <Button variant="primary" type="submit" onClick={clickSubmit}>
-                  Publish
-                </Button>
-              </Form>
-            </Col>
-          </Row>
-        </Container>) : ("")
-      }
-    </div>
+    <Modal
+        show={isShown}
+        onHide={hideModal}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            Modal heading
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Container>
+            <Row>
+              <Col>
+                <Form className="upload-form">
+                  <Form.Group controlId="formFile" className="mb-3">
+                    <Form.Label>Upload Video</Form.Label>
+                    <Form.Control type="file" onChange={(e) => handleChange(e, 'video')}/>
+                  </Form.Group>
+      
+                  <Form.Group className="mb-3" controlId="formBasicTitle">
+                    <Form.Label>Title</Form.Label>
+                    <Form.Control
+                      type="text"
+                      placeholder="Enter Video Title"
+                      onChange={(e) => handleChange(e, "title")}
+                      value={values.title}
+                    />
+                  </Form.Group>
+      
+                  <Form.Group className="mb-3" controlId="formDescription">
+                    <Form.Label>Description</Form.Label>
+                    <Form.Control
+                      as="textarea"
+                      placeholder="Enter Video Description"
+                      onChange={(e) => handleChange(e, "description")}
+                      value={values.description}
+                      style={{ height: '100px' }}
+                    />
+                  </Form.Group>
+      
+                  <Form.Group controlId="formThumbnailFile" className="mb-3">
+                    <Form.Label>Thumbnail</Form.Label>
+                    <Form.Control type="file" onChange={(e) => handleChange(e, 'thumbnail')}/>
+                  </Form.Group>
+      
+                  <Form.Group className="mb-3" controlId="formBasicCategory">
+                    <Form.Label>Category</Form.Label>
+                    <Form.Select aria-label="Select Category"  onChange={(e) => handleChange(e, "category")} value={values.category}>
+                      <option>Select Category</option>
+                      {
+                        categoryNames.map((title) => {
+                          return (
+                            <option value={title}>{title}</option>
+                          )
+                        })
+                      }
+                    </Form.Select>
+                  </Form.Group>
+      
+                  <Button variant="primary" type="submit" onClick={clickSubmit}>
+                    Publish
+                  </Button>
+                </Form>
+              </Col>
+            </Row>
+          </Container>
+        </Modal.Body>
+      </Modal>
   );
 };
 

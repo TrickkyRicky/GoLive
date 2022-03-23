@@ -8,6 +8,7 @@ const contentSlice = createSlice({
     videoInfo: null,
     categoryNames: [],
     videos: [],
+    otherVideos: [],
     comments: [],
     newComment: null,
     showUploadModal: false
@@ -20,6 +21,9 @@ const contentSlice = createSlice({
     },
     profileLoader(state, action) {
       state.profileLoader = action.payload
+    },
+    setOtherVideos(state, action) {
+      state.otherVideos = action.payload
     },
     setVideoInfo(state, action) {
       state.videoInfo = {

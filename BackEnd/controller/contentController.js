@@ -37,6 +37,18 @@ exports.getVideoInfo = async (req, res) => {
   }
 };
 
+exports.incrementViews = async (req, res, next) => {
+  try {
+      await Video.findByIdAndUpdate(req.params.videoId, { $inc: { "views": 1 } }, { new: true }).exec();
+
+      next()
+  } catch (e) {
+      return res.status(400).json({
+          error: "Could not increase views"
+      })
+  }
+}
+
 exports.getVideoContent = async (req, res) => {
   let media = await Video.findById(req.params.videoId);
   if (!media)
@@ -130,7 +142,7 @@ exports.listOtherVideos = async (req, res) => {
     let videos = await Video.find({
         "_id": { "$ne": req.params.videoId },
         "userId": video.userId
-    }).limit(7).populate('userId', '_id name').exec();
+    }).limit(7).populate('userId', '_id username avatar').exec();
 
     res.json(videos);
   } catch (e) {
