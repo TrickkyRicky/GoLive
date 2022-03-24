@@ -8,10 +8,14 @@ const videoSchema = new Schema(
   {
     title: {
       type: String,
-      required: true,
+      required: true, 
     },
     description: String,
     views: {
+      type: Number,
+      default: 0,
+    },
+    likes: {
       type: Number,
       default: 0,
     },

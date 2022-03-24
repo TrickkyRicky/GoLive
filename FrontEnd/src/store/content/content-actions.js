@@ -47,6 +47,58 @@ export const getSingleVideo = (videoId) => {
       const response = await getVideo();
 
       dispatch(contentActions.setVideoInfo(response)); 
+
+      return response;
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+//get other videos
+export const getOtherVideos = (videoId) => {
+  return async (dispatch) => {
+    const getVideos = async () => {
+      const res = await fetch("http://localhost:8080/content/other/" + videoId, {
+        method: "GET"
+      });
+
+      if(res.status !== 200) {
+        throw new Error("Failed to fetch videos");
+      }
+
+      return res.json();
+    }
+
+    try {
+      const response = await getVideos();
+
+      dispatch(contentActions.setOtherVideos(response)); 
+
+      return response;
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export const getVideoComments = (videoId) => {
+  return async (dispatch) => {
+    const getVideo = async () => {
+      const res = await fetch("http://localhost:8080/comment/comments/" + videoId, {
+        method: "GET"
+      });
+
+      if(res.status !== 200) {
+        throw new Error("Failed to fetch comments");
+      }
+
+      return res.json();
+    }
+
+    try {
+      const response = await getVideo();
+
+      dispatch(contentActions.setVideoComments(response)); 
     } catch (e) {
       console.log(e)
     }

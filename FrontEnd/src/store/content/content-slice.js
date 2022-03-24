@@ -7,7 +7,11 @@ const contentSlice = createSlice({
     profileLoader: false,
     videoInfo: null,
     categoryNames: [],
-    videos: []
+    videos: [],
+    otherVideos: [],
+    comments: [],
+    newComment: null,
+    showUploadModal: false
   },
   reducers: {
     userProfile(state, action) {
@@ -18,9 +22,18 @@ const contentSlice = createSlice({
     profileLoader(state, action) {
       state.profileLoader = action.payload
     },
+    setOtherVideos(state, action) {
+      state.otherVideos = action.payload
+    },
     setVideoInfo(state, action) {
       state.videoInfo = {
         ...action.payload
+      }
+    },
+    addVideoInfo(state, action) {
+      state.videoInfo = {
+        ...state.videoInfo,
+        userId: action.payload
       }
     },
     setCategoryNames(state, action) {
@@ -28,6 +41,17 @@ const contentSlice = createSlice({
     },
     setVideos(state, action) {
       state.videos = action.payload
+    },
+    setVideoComments(state, action) {
+      // console.log(action.payload)
+      state.comments = action.payload
+    },
+    addComment(state, action) {
+      // console.log(action.payload)
+      state.comments.push(action.payload)
+    },
+    showUploadModal(state, action) {
+      state.showUploadModal = action.payload
     }
   }
 });

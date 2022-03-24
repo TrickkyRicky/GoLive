@@ -14,7 +14,7 @@ const commentSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Video",
       required: true,
-    },
+    }, 
     // Not required but once a clip is made we should grab the comments associated with it
 
     // Another solution is checking the videoId of the clip and then getting all the comments between the start and end time of the clip

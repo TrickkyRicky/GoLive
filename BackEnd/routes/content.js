@@ -3,7 +3,7 @@
 const express = require("express");
 const router = express.Router();
 
-const userController = require("../controller/userController");
+// const userController = require("../controller/userController");
 const contentController = require("../controller/contentController");
 
 // get every single stream
@@ -17,13 +17,16 @@ router.get("/all/videos", contentController.getAllVideos);
 //List user profile
 router.get("/profile/:userId", contentController.listUserProfile);
 
-// Get a single video
-router.get("/watch/:videoId", contentController.getVideoContent);
-router.get("/info/:videoId", contentController.getVideoInfo);
-router.get("/categories", contentController.getCategories);
+//List other videos
+router.get("/other/:videoId", contentController.listOtherVideos);
 
-// // we will expect a query parameter for the type of category of the group of videos we need to send
-// router.get("/category/video", contentController.categoryVideo);
+// Get a single videos content
+router.get("/watch/:videoId", contentController.getVideoContent);
+
+// Get a single videos info from collection
+router.get("/info/:videoId", contentController.incrementViews, contentController.getVideoInfo);
+
+router.get("/categories", contentController.getCategories);
 
 // router.param("userId", userController.userByID);
 

@@ -1,6 +1,7 @@
 //models
 const User = require("../models/user.js");
 const Video = require("../models/video.js");
+const Comment = require("../models/comment.js");
 
 const formidable = require("formidable");
 const fs = require("fs");
@@ -209,4 +210,110 @@ exports.uploadStream = async (req, res, next) => {
       }
     });
   });
+};
+ 
+exports.postComment = async (req, res) => {
+
+    //Create new comment
+    let newComment = new Comment(req.body);
+    newComment.userId = req.userId;
+    newComment.timestamps = Date.now();
+
+    try {
+      //Save video to video collection
+      let data = await newComment.save();
+
+      let result = await data.populate('userId', 'username avatar');
+
+      //Add comment to video
+      // await Video.findOneAndUpdate(
+      //   { _id: req.body.videoId },
+      //   { $push: { "chat.comments": newComment._id } },
+      //   { new: true }
+      // );
+
+      res.status("200").json(result);
+    } catch (e) {
+      return res.status("400").json({
+        error: "Could not save comment",
+      });
+    }
+};
+
+exports.addSubscribed = async (req, res, next) => {
+
+  try {
+    //followId is the user you're trying to subscribe to
+    await User.findByIdAndUpdate(
+      { _id: req.userId },
+      { $push: { "subscribed.users": req.body.followId } }
+    );
+
+    next();
+  } catch (e) {
+    return res.status("400").json({
+      error: "Could not subscribe to user",
+    });
+  }
+};
+
+exports.addSubscriber = async (req, res) => {
+
+  try {
+    //followId is the user that has a new subscriber
+    let result = await User.findByIdAndUpdate(
+      { _id: req.body.followId },
+      { $push: { "subscribers.users": req.userId } },
+      { new: true }
+    )
+    .populate('subscribed.users', '_id name')
+    .populate('subscribers.users', '_id name')
+    .select('_id username avatar')
+    .exec();
+
+    res.json(result);
+  } catch (e) {
+    return res.status("400").json({
+      error: "Could not subscribe to user",
+    });
+  }
+};
+
+exports.removeSubscribed = async (req, res, next) => {
+
+  try {
+    //followId is the user you're trying to unsubscribe from
+    await User.findByIdAndUpdate(
+      { _id: req.userId },
+      { $pull: { "subscribed.users": req.body.unfollowId } }
+    );
+
+    next();
+  } catch (e) {
+    return res.status("400").json({
+      error: "Could not unsubscribe from user",
+    });
+  }
+};
+
+exports.removeSubscriber = async (req, res) => {
+
+  try {
+    //followId is the user that has a unsubscriber
+    let result = await User.findByIdAndUpdate(
+      { _id: req.body.unfollowId },
+      { $pull: { "subscribers.users": req.userId } },
+      { new: true }
+    )
+    .populate('subscribed.users', '_id name')
+    .populate('subscribers.users', '_id name')
+    .select('_id username avatar')
+    .exec();
+
+    res.json(result);
+  } catch (e) {
+    return res.status("400").json({
+      error: "Could not remove subscriber from user",
+    });
+  }
 };

@@ -21,7 +21,7 @@ exports.getStreams = async (req, res, next) => {
 
 exports.getVideoInfo = async (req, res) => {
   try {
-    let media = await Video.findById(req.params.videoId).populate('userId', 'username avatar subscribers');
+    let media = await Video.findById(req.params.videoId).populate('userId', 'username avatar subscribers').populate('chat.comments');
 
     if (!media) {
       return res.status("400").json({
@@ -36,6 +36,18 @@ exports.getVideoInfo = async (req, res) => {
     });
   }
 };
+
+exports.incrementViews = async (req, res, next) => {
+  try {
+      await Video.findByIdAndUpdate(req.params.videoId, { $inc: { "views": 1 } }, { new: true }).exec();
+
+      next()
+  } catch (e) {
+      return res.status(400).json({
+          error: "Could not increase views"
+      })
+  }
+}
 
 exports.getVideoContent = async (req, res) => {
   let media = await Video.findById(req.params.videoId);
@@ -117,6 +129,25 @@ exports.listUserProfile = async (req, res) => {
   } catch (e) {
     return res.status(400).json({
       error: "Could not list media by user"
+    }); 
+  }
+};
+
+//List other videos from a user except currently watching video
+exports.listOtherVideos = async (req, res) => {
+  try {
+
+    let video = await Video.findById(req.params.videoId).select('userId');
+    
+    let videos = await Video.find({
+        "_id": { "$ne": req.params.videoId },
+        "userId": video.userId
+    }).limit(7).populate('userId', '_id username avatar').exec();
+
+    res.json(videos);
+  } catch (e) {
+    return res.status(400).json({
+      error: "Could not list other videos from user"
     }); 
   }
 };

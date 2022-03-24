@@ -56,7 +56,7 @@ const userSchema = new Schema(
     },
     //   holds the users subscribed to them
     subscribers: {
-      users: [
+      users: [ 
         {
           type: Schema.Types.ObjectId,
           ref: "User",

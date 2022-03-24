@@ -13,13 +13,30 @@ const Register = (props) => {
     username: '',
     email: '',
     password: '',
-    error: ''
+    confirmPassword: '',
+    error: false
   });
 
   const [modalShow, setModalShow] = useState(false);
 
   const handleChange = (event, field) => {
-    setValues({ ...values, [field]: event.target.value })
+    setValues({ ...values, [field]: event.target.value });
+
+    if(field === "confirmPassword") {
+      if(values.password != event.target.value) {
+        setValues({
+          ...values,
+          confirmPassword: event.target.value,
+          error: true
+        });
+      } else {
+        setValues({
+          ...values,
+          confirmPassword: event.target.value,
+          error: false
+        });
+      }
+    }
   }
 
   const handleModalClose = () => setModalShow(false);
@@ -39,7 +56,8 @@ const Register = (props) => {
         setValues({
           username: '',
           email: '',
-          password: ''
+          password: '',
+          confirmPassword: ''
         });
 
         setModalShow(true);
@@ -77,6 +95,15 @@ const Register = (props) => {
                   <Form.Control type="password" placeholder="PASSWORD" onChange={e => handleChange(e, 'password')} value={values.password} />
 
                 </Form.Group>
+
+                <Form.Group className="form-group" controlId="formBasicConfirmPassword">
+                  <Form.Label className="visually-hidden">Confirm Password</Form.Label>
+                  <Form.Control type="password" placeholder="CONFIRM PASSWORD" onChange={e => handleChange(e, 'confirmPassword')} value={values.confirmPassword} />
+
+                </Form.Group>
+                {
+                  values.error && (<Form.Text>Passwords do not match!</Form.Text>)
+                }
                 <Button className="login-btn" type="submit" onClick={clickSubmit}>
                   SIGN UP
                 </Button>

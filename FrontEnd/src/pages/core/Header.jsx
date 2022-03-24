@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { logout } from "../../store/auth/auth-actions";
 import { getUser } from "../../store/user/user-actions";
+import { contentActions } from "../../store/content/content-slice";
+
 import { Buffer } from "buffer";
 
 //Assets
@@ -42,7 +44,7 @@ export default function Header() {
       avatar: state.user.avatar,
     };
   });
-
+ 
   console.log(user);
   useEffect(() => {
     if (auth.jwt) {
@@ -60,6 +62,12 @@ export default function Header() {
     navigate("/", {
       replace: true,
     });
+  };
+
+  const openUpload = (e) => {
+    e.preventDefault();
+
+    dispatch(contentActions.showUploadModal(true)); 
   };
 
   return (
@@ -112,11 +120,9 @@ export default function Header() {
               <Nav>
                 <div className="nav-collection">
                   <Nav.Item>
-                    <LinkContainer to="/upload">
-                      <Nav.Link>
-                        <RiVideoAddFill size={40} color={"#35C280"}/>
-                      </Nav.Link>
-                    </LinkContainer>
+                    <Button onClick={openUpload}>
+                      <RiVideoAddFill size={40} color={"#35C280"}/>
+                    </Button>
                   </Nav.Item>
                 </div>
 
