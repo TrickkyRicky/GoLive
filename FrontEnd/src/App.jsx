@@ -34,6 +34,8 @@ const App = () => {
     );
   }, [jwtToken]);
 
+  //might move it here idk yet
+
   return (
     <Routes>
       <Route path="Auth" element={<AuthLayout />}>
