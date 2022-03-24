@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Lato:wght@700&display=swap');
+
 
 // scss-docs-start grid-breakpoints
 $grid-breakpoints: (
@@ -17,6 +17,7 @@ $primary-font: 'Lato', sans-serif;
 @import "~bootstrap/scss/bootstrap";
 @import "./styles/navbar";
 @import "./styles/videojs";
+
 
 /*********************************        Global CSS          *************************************/
 html,
@@ -427,3 +428,74 @@ body {
     color: #F5F4F4;
   }
 }
+
+/*********************************       Settings          *************************************/
+.settings-title{
+  color: #F5F4F4;
+  text-align: center;
+  font-size: 48px;
+  font-weight: bold;
+}
+
+.settings-navbar-link {
+  color: #F5F4F4;
+  font-size: x-large;
+}
+
+.settings-navbar-link:hover {
+  color: #35C280;
+}
+
+.settings-navbar-link.nav-link.active {
+  background-color: #1f1f1f;
+  color: #35C280;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  border-bottom: 3px solid #35C280;
+}
+
+.settings-navbar-item.hover {
+  border-left: none;
+  border-right: none;
+  border-top: none;
+}
+
+.settings-tab-pane {
+  color: #F5F4F4;
+}
+
+.form-background{
+  background-color: #323432;
+}
+
+.form-label-leftside {
+  color: #F5F4F4;
+  font-size: larger;
+}
+
+.form-label-rightside {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  color: #F5F4F4;
+  font-size: larger;
+}
+
+.edit-icon {
+  display: flex;
+  width: 20px;
+  height: 20px;
+  color: #F5F4F4;
+}
+
+.custom-padding {
+  padding-right: 20px;
+}
+
+
+
+
+
+
+/*********************************       (Input Section Name Here)         *************************************/
