@@ -11,14 +11,22 @@ const contentSlice = createSlice({
     otherVideos: [],
     comments: [],
     newComment: null,
-    showUploadModal: false
+    showUploadModal: false,
+    subscribed: false,
+    liked: false
   },
   reducers: {
+    liked(state, action) {
+      state.liked = action.payload
+    },
+    subscribed(state, action) {
+      state.subscribed = action.payload
+    },
     userProfile(state, action) {
       state.userProfile = {
         ...action.payload
       }
-    },
+    }, 
     profileLoader(state, action) {
       state.profileLoader = action.payload
     },
@@ -35,6 +43,13 @@ const contentSlice = createSlice({
         ...state.videoInfo,
         userId: action.payload
       }
+    },
+    addVideoLikes(state, action) {
+      state.videoInfo.likes.push(action.payload)
+    },
+    removeVideoLikes(state, action) {
+      let index = state.videoInfo.likes.indexOf(action.payload);
+      state.videoInfo.likes.splice(index, 1);
     },
     setCategoryNames(state, action) {
       state.categoryNames = action.payload

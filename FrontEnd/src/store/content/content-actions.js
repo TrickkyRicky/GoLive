@@ -45,9 +45,29 @@ export const getSingleVideo = (videoId) => {
 
     try {
       const response = await getVideo();
-
       dispatch(contentActions.setVideoInfo(response)); 
 
+      const authId = localStorage.getItem("userId");
+
+      const checkSubscribed = (user) => {
+        const match = user.subscribers.users.some((subscriber) => {
+          return subscriber == authId
+        })
+    
+        return match
+      }
+
+      const checkLiked = (likes) => {
+        const match = likes.indexOf(authId) != -1;
+    
+        return match
+      }
+
+      let following = checkSubscribed(response.userId);
+      let hasLiked = checkLiked(response.likes);
+
+      dispatch(contentActions.subscribed(following)); 
+      dispatch(contentActions.liked(hasLiked)); 
       return response;
     } catch (e) {
       console.log(e)

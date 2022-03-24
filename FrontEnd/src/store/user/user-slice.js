@@ -16,7 +16,7 @@ const userSlice = createSlice({
       state.avatar = action.payload.avatar;
       state.username = action.payload.username;
     },
-  },
+  }, 
 });
 
 export const userActions = userSlice.actions;

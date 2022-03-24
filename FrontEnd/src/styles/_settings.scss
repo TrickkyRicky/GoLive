@@ -11,8 +11,10 @@
     font-size: x-large;
   }
   
-  .settings-navbar-link:hover {
-    color: #35C280;
+  .settings-navbar-link {
+    &:hover {
+      color: #35C280;
+    }
   }
   
   .settings-navbar-link.nav-link.active {
@@ -24,10 +26,12 @@
     border-bottom: 3px solid #35C280;
   }
   
-  .settings-navbar-item.hover {
-    border-left: none;
-    border-right: none;
-    border-top: none;
+  .settings-navbar-item {
+    &.hover {
+      border-left: none;
+      border-right: none;
+      border-top: none;
+    }
   }
   
   .settings-tab-pane {
