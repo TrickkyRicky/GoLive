@@ -1,6 +1,7 @@
 import { contentActions } from "./content-slice";
 import queryString from "query-string";
 
+//get users channel
 export const getUserProfile = (userId) => {
   return async (dispatch) => {
       dispatch(contentActions.profileLoader(true)); 

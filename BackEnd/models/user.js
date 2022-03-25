@@ -16,6 +16,7 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
+    about: String,
     //   key used to access live stream maybe using uuid or crypto
     streamKey: {
       type: String,
