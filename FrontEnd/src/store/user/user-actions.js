@@ -17,7 +17,7 @@ export const getUser = (jwt) => {
     };
     try {
       const response = await getData();
-      console.log(response);
+      //console.log(response);
       const {
         avatar,
         media,
@@ -42,7 +42,7 @@ export const getUser = (jwt) => {
 
       return response;
     } catch (e) {
-      console.log(e);
+      console.log('Error getting user data: ' + e);
     }
   };
 };

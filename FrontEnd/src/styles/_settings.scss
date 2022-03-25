@@ -25,43 +25,43 @@
   }
 }
 
-  .settings-tab-pane {
-    color: #F5F4F4;
-  }
-  
-  .form-background{
-    background-color: #323432;
-  }
+/*********************************       Profile Pane         *************************************/
+.profile-picture {
+  height: 100px;
+  width: 100px;
+  position: absolute;
+  border-radius: 150px 150px 0 0;
+  background-color: #323432;
+}
 
-  .profile-picture {
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 100px;
-    width: 200px;
-    border-radius: 150px 150px 0 0;
-    background-color: #323432;
-  }
-  
-  .form-label-leftside {
-    color: #F5F4F4;
-    font-size: larger;
-  }
-  
-  .form-label-rightside {
-    display: flex;
-    justify-content: right;
-    align-items: center;
-    color: #F5F4F4;
-    font-size: larger;
-  }
+.avatar-image {
+  height: 100px;
+  width: 100px;
+  z-index: 2;
+}  
 
-  .edit-icon {
-    font-size: large;
-    color: #F5F4F4;
-  }
+.form{
+    background-color: #323432;
+
+    .form-label-leftside {
+      color: #F5F4F4;
+      font-size: larger;
+    }
+    
+    .form-label-rightside {
+      display: flex;
+      justify-content: right;
+      align-items: center;
+      color: #F5F4F4;
+      font-size: larger;
+    }
   
-  .custom-padding {
-    padding-right: 20px;
-  }
+    .edit-icon {
+      font-size: large;
+      color: #F5F4F4;
+    }
+    
+    .custom-padding {
+      padding-right: 20px;
+    }
+}

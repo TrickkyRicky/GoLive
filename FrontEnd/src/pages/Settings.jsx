@@ -1,65 +1,15 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import React from "react";
 
 //Bootstrap
 import {Container, Row, Col, Tab} from "react-bootstrap";
 import Nav from "react-bootstrap/Nav";
-import Form from "react-bootstrap/Form";
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPenToSquare} from '@fortawesome/free-solid-svg-icons'
-
-import { getUser, updateUser } from "../store/user/user-actions";
 import Profile from "../components/settingPanes/Profile";
 import Subscriptions from "../components/settingPanes/Subscriptions";
 import Media from "../components/settingPanes/Media";
 
 
 const Settings = (props) => {
-  const dispatch = useDispatch();
-
-  const [values, setValues] = useState({
-    username: '',
-    fullname: '',
-    email: '',
-    password: '',
-    avatar: ''
-  });
-
-  const handleChange = (e, field) => {
-    let value = (field === 'avatar') ? e.target.files[0] : e.target.value;
-
-    setValues({
-      ...values,
-      [field]: value
-    })
-  }
-
-  const clickSubmit = (e) => {
-    e.preventDefault();
-
-    let updatedUser = new FormData();
-    values.username && updatedUser.append('username', values.username);
-    values.fullname && updatedUser.append('fullname', values.fullname);
-    values.email && updatedUser.append('email', values.email);
-    values.password && updatedUser.append('password', values.password);
-    values.avatar && updatedUser.append('avatar', values.avatar);
-
-    dispatch(updateUser(props.jwt, updatedUser))
-  }
-
-  useEffect(() => {
-    if (props.jwt) {
-      dispatch(getUser(props.jwt)).then((data) => {
-        setValues({
-          ...values,
-          username: data.username,
-          email: data.email
-        })
-      });
-    }
-  }, []);
-
   return (
     <Container>
       <Row>
@@ -85,7 +35,7 @@ const Settings = (props) => {
           <Col>
             <Tab.Content>
               <Tab.Pane eventKey="profile">
-                <Profile />
+                <Profile jwt={props.jwt}/>
               </Tab.Pane>
               <Tab.Pane eventKey="subscriptions">
                 <Subscriptions />
