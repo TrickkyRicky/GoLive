@@ -2,13 +2,13 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Home from "./pages/Home";
 import Profile from "./pages/Profile";
-import Login from "./pages/Auth/Login";
-import Register from "./pages/Auth/Register";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
 // import ForgotPass from "./pages/auth/ForgotPass.jsx";
 // import NewPass from "./pages/auth/NewPass.jsx";
 import Settings from "./pages/Settings";
 import Error404 from "./pages/Error404.jsx";
-import Upload from "./pages/Upload";
+// import Upload from "./pages/Upload";
 import WatchVideo from "./pages/WatchVideo";
 import Stream from "./pages/Stream";
 import MainLayout from "./components/layouts/MainLayout";
@@ -32,7 +32,9 @@ const App = () => {
         userIdLogin: userId,
       })
     );
-  }, [dispatch, jwtToken]);
+  }, [jwtToken]);
+
+  //might move it here idk yet
 
   return (
     <Routes>

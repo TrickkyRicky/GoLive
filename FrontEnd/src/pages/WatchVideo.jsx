@@ -12,15 +12,15 @@ import Image from 'react-bootstrap/Image';
 import ListGroup from 'react-bootstrap/ListGroup'
 
 import { getSingleVideo, getOtherVideos, getVideoComments } from "../store/content/content-actions";
-import { postComment, subscribe, unsubscribe } from "../store/user/user-actions";
+import { likeVideo, unlikeVideo, postComment, subscribe, unsubscribe } from "../store/user/user-actions";
 
 import Video from "../components/Video";
 import { Buffer } from "buffer";
 
+
 const WatchVideo = () => {
   const [values, setValues] = useState({
-    comment: '',
-    isSubscribed: false
+    comment: ''
   });
 
   const dispatch = useDispatch();
@@ -28,6 +28,8 @@ const WatchVideo = () => {
 
   const videoInfo = useSelector((state) => state.content.videoInfo);
   const otherVideos = useSelector((state) => state.content.otherVideos);
+  const isSubscribed = useSelector((state) => state.content.subscribed);
+  const liked = useSelector((state) => state.content.liked);
 
   const videoComments = useSelector((state) => {
     return {
@@ -50,27 +52,8 @@ const WatchVideo = () => {
     };
   });
 
-  // console.log(videoInfo)
-
-  const checkSubscribed = (user) => {
-    const match = user.subscribers.users.some((subscriber) => {
-      return subscriber._id == auth.userId
-    })
-
-    return match
-  }
-
   useEffect(() => {
-    dispatch(getSingleVideo(videoId)).then((data) => {
-      let following = checkSubscribed(data.userId);
-      
-      setValues({
-        ...values,
-        isSubscribed: following
-      })
-
-    });
-
+    dispatch(getSingleVideo(videoId));
     dispatch(getVideoComments(videoId));
     dispatch(getOtherVideos(videoId));
   }, [videoId]);
@@ -90,6 +73,28 @@ const WatchVideo = () => {
     setValues({
       ...values,
       comment: ''
+    });
+  }
+
+  const likeClick = (e) => {
+    e.preventDefault();
+
+    dispatch(likeVideo(auth.jwt, videoId));
+
+    setValues({
+      ...values,
+      liked: true
+    });
+  }
+
+  const unlikeClick = (e) => {
+    e.preventDefault();
+
+    dispatch(unlikeVideo(auth.jwt, videoId));
+
+    setValues({
+      ...values,
+      liked: false
     });
   }
 
@@ -132,6 +137,26 @@ const WatchVideo = () => {
                       <p className="video-views-count">
                         { videoInfo?.views } Views
                       </p>
+                      <div className="video-views-count">
+                        {
+                          auth.isAuth && (
+                            <div>
+                              {
+                                liked ? (
+                                  <Button onClick={unlikeClick}>
+                                    Unlike
+                                  </Button>
+                                ) : (
+                                  <Button onClick={likeClick}>
+                                    Like
+                                  </Button>
+                                )
+                              }
+                            </div>
+                          )
+                        }
+                        { videoInfo?.likes.length } Likes
+                      </div>
                     </div>
                   </div>
                   <div className="secondary-info">
@@ -157,10 +182,10 @@ const WatchVideo = () => {
                       </div>
                     </div>
                     {
-                      auth.isAuth && (
+                      auth.isAuth && videoInfo?.userId._id != auth.userId && (
                         <div>
                           {
-                            values.isSubscribed ? (
+                            isSubscribed ? (
                               <Button onClick={unsubscribeClick}>
                                 Unsubscribe
                               </Button>
@@ -222,9 +247,9 @@ const WatchVideo = () => {
                   </div>
                   <div>
                     {
-                      videoComments?.comments.map((comment) => {
+                      videoComments?.comments.map((comment, i) => {
                         return (
-                          <div className="comment-container">
+                          <div className="comment-container" key={i}>
                             <Image
                               className="comments-avatar"
                               src={
@@ -249,9 +274,9 @@ const WatchVideo = () => {
                 <h2>Other Videos from {videoInfo?.userId.username}</h2>
                 <ListGroup>
                   {
-                    otherVideos.map((video) => {
+                    otherVideos.map((video, i) => {
                       return (
-                        <ListGroup.Item>
+                        <ListGroup.Item key={i}>
                           <div className="comment-container">
                             <Image
                               className="comments-avatar"

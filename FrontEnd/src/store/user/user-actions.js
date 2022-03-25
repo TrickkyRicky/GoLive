@@ -98,6 +98,66 @@ export const uploadVideo = (jwt, newVideo) => {
   };
 };
 
+export const likeVideo = (jwt, videoId) => {
+  return async (dispatch) => {
+    const like = async () => {
+
+      const response = await fetch("http://localhost:8080/user/video/like", {
+        method: "PUT",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + jwt,
+        },
+        body: JSON.stringify({
+          videoId: videoId
+        }),
+      });
+      if (response.status !== 200) {
+        throw new Error("Failed to like video");
+      }
+      return response.json();
+    };
+    try {
+      const response = await like();
+
+      dispatch(contentActions.addVideoLikes(response)); 
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const unlikeVideo = (jwt, videoId) => {
+  return async (dispatch) => {
+    const unlike = async () => {
+
+      const response = await fetch("http://localhost:8080/user/video/unlike", {
+        method: "PUT",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + jwt,
+        },
+        body: JSON.stringify({
+          videoId: videoId
+        }),
+      });
+      if (response.status !== 200) {
+        throw new Error("Failed to unlike video");
+      }
+      return response.json();
+    };
+    try {
+      const response = await unlike();
+
+      dispatch(contentActions.removeVideoLikes(response)); 
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
 export const postComment = (jwt, comment, videoId) => {
   return async (dispatch) => {
     const postComment = async () => {

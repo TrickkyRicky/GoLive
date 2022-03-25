@@ -212,6 +212,40 @@ exports.uploadStream = async (req, res, next) => {
   });
 };
  
+exports.likeVideo = async (req, res) => {
+
+    try {
+      let result = await Video.findByIdAndUpdate(req.body.videoId, {
+        $push: {
+          likes: req.userId
+        }
+      }, { new: true });
+
+      res.status("200").json(result);
+    } catch (e) {
+      return res.status("400").json({
+        error: "Could not like video",
+      });
+    }
+};
+
+exports.unlikeVideo = async (req, res) => {
+
+    try {
+      let result = await Video.findByIdAndUpdate(req.body.videoId, {
+        $pull: {
+          likes: req.userId
+        }
+      }, { new: true });
+
+      res.status("200").json(result);
+    } catch (e) {
+      return res.status("400").json({
+        error: "Could not unlike video",
+      });
+    }
+};
+
 exports.postComment = async (req, res) => {
 
     //Create new comment
@@ -220,7 +254,6 @@ exports.postComment = async (req, res) => {
     newComment.timestamps = Date.now();
 
     try {
-      //Save video to video collection
       let data = await newComment.save();
 
       let result = await data.populate('userId', 'username avatar');

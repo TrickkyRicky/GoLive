@@ -126,9 +126,9 @@ const Upload = () => {
                     <Form.Select aria-label="Select Category"  onChange={(e) => handleChange(e, "category")} value={values.category}>
                       <option>Select Category</option>
                       {
-                        categoryNames.map((title) => {
+                        categoryNames.map((title, i) => {
                           return (
-                            <option value={title}>{title}</option>
+                            <option key={i} value={title}>{title}</option>
                           )
                         })
                       }
