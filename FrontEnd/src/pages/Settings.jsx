@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 //Bootstrap
 import {Container, Row, Col, Tab} from "react-bootstrap";
@@ -9,7 +10,17 @@ import Subscriptions from "../components/settingPanes/Subscriptions";
 import Media from "../components/settingPanes/Media";
 
 
-const Settings = (props) => {
+const Settings = () => {
+  const dispatch = useDispatch();
+
+  const auth = useSelector((state) => {
+    return {
+      userId: state.auth.userIdLogin,
+      isAuth: state.auth.isAuth,
+      jwt: state.auth.jwtToken,
+    };
+  });
+
   return (
     <Container>
       <Row>
@@ -35,7 +46,7 @@ const Settings = (props) => {
           <Col>
             <Tab.Content>
               <Tab.Pane eventKey="profile">
-                <Profile jwt={props.jwt}/>
+                <Profile jwt={auth.jwt}/>
               </Tab.Pane>
               <Tab.Pane eventKey="subscriptions">
                 <Subscriptions />

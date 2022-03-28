@@ -46,11 +46,12 @@ export default function Header() {
   });
  
   console.log(user);
+  
   useEffect(() => {
     if (auth.jwt) {
       dispatch(getUser(auth.jwt));
     }
-  }, [dispatch, auth.jwt]);
+  }, [auth.jwt]);
 
   //logout
   const clickSubmit = (e) => {

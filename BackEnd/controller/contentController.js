@@ -123,7 +123,7 @@ exports.listUserProfile = async (req, res) => {
   try {
     let user = await User.findById(req.params.userId)
       .populate("media.videos")
-      .select("media subscribers username");
+      .select("-password -streamKey");
 
     res.json(user);
   } catch (e) {
