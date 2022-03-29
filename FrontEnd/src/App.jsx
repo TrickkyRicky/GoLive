@@ -11,6 +11,7 @@ import Error404 from "./pages/Error404.jsx";
 // import Upload from "./pages/Upload";
 import WatchVideo from "./pages/WatchVideo";
 import Stream from "./pages/Stream";
+import LikedVideos from "./pages/LikedVideos";
 import MainLayout from "./components/layouts/MainLayout";
 import AuthLayout from "./components/layouts/AuthLayout";
 
@@ -19,7 +20,7 @@ import { authActions } from "./store/auth/auth-slice";
 import { getUser } from "./store/user/user-actions";
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch(); 
 
   const jwtToken = localStorage.getItem("token");
   
@@ -50,7 +51,7 @@ const App = () => {
         <Route path="Profile/:userId" element={<Profile />} />
         <Route path="Watch/:videoId" element={<WatchVideo />} />
         <Route path="Settings" element={<Settings />} />
-        {/* <Route path="Upload" element={<Upload jwt={jwtToken} />} /> */}
+        <Route path="Liked" element={<LikedVideos />} />
 
         {/* after Stream will be Stream/username */}
         <Route path="Stream/:username" element={<Stream />} />

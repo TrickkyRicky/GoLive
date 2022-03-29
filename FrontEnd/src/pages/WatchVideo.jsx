@@ -9,7 +9,7 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Image from 'react-bootstrap/Image';
-import ListGroup from 'react-bootstrap/ListGroup'
+import ListGroup from 'react-bootstrap/ListGroup';
 
 import { getSingleVideo, getOtherVideos, getVideoComments } from "../store/content/content-actions";
 import { likeVideo, unlikeVideo, postComment, subscribe, unsubscribe } from "../store/user/user-actions";
@@ -92,10 +92,10 @@ const WatchVideo = () => {
 
     dispatch(unlikeVideo(auth.jwt, videoId));
 
-    setValues({
-      ...values,
-      liked: false
-    });
+    // setValues({
+    //   ...values,
+    //   liked: false
+    // });
   }
 
   const subscribeClick = (e) => {
@@ -103,10 +103,10 @@ const WatchVideo = () => {
 
     dispatch(subscribe(auth.jwt, videoInfo.userId._id));
 
-    setValues({
-      ...values,
-      isSubscribed: true
-    });
+    // setValues({
+    //   ...values,
+    //   isSubscribed: true
+    // });
   }
 
   const unsubscribeClick = (e) => {

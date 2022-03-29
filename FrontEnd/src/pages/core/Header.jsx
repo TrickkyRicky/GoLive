@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 //Bootstrap
 import Container from "react-bootstrap/Container";
@@ -10,7 +10,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Image from "react-bootstrap/Image";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { logout } from "../../store/auth/auth-actions";
 // import { getUser } from "../../store/user/user-actions";
@@ -25,6 +25,7 @@ import logoutIcon from "../../assets/right-from-bracket-solid.png";
 import gearIcon from "../../assets/gear-solid.png";
 import { FaSearch } from 'react-icons/fa';
 import { RiVideoAddFill } from 'react-icons/ri';
+import { HiThumbUp } from 'react-icons/hi';
 
 export default function Header() {
   let navigate = useNavigate();
@@ -33,13 +34,12 @@ export default function Header() {
   const auth = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
  
-  console.log(user);
+  // console.log(user);
 
   //logout
   const clickSubmit = (e) => {
     e.preventDefault();
 
-    // auth.removeJWT();
     dispatch(logout());
 
     navigate("/", {
@@ -107,6 +107,11 @@ export default function Header() {
                       <RiVideoAddFill size={40} color={"#35C280"}/>
                     </Button>
                   </Nav.Item>
+                  <Nav.Item>
+                    <Link to="/liked">
+                      <HiThumbUp size={40} color={"#35C280"}/>
+                    </Link>
+                  </Nav.Item>
                 </div>
 
                 <Dropdown align="end">
@@ -136,7 +141,7 @@ export default function Header() {
                         }
                       />
                       <div>
-                        <h2 className="core-username">{user.username}</h2>
+                        <Link to={"/profile/" + auth.userIdLogin} className="core-username">{user.username}</Link>
                       </div>
                     </div>
                     <LinkContainer to="/settings">

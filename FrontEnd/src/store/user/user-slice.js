@@ -9,7 +9,7 @@ const userSlice = createSlice({
   reducers: {
     getUserInfo(state, action) {
       state.username = action.payload.username;
-      state.avatar = action.payload.avatar
+      state.avatar = action.payload.avatar;
     },
   },  
 });

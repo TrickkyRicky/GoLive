@@ -33,6 +33,20 @@ exports.getUserInfo = async (req, res, next) => {
   }
 }; 
 
+exports.getLikedVideos = async (req, res) => {
+  try {
+    const videos = await Video.find({
+      "likes": req.userId
+    }).populate("userId");
+
+    res.status(200).json(videos);
+  } catch (err) {
+    res.status("400").json({
+      error: "Could not get liked videos",
+    });
+  }
+}; 
+
 exports.updateUser = async (req, res) => {
   let form = new formidable.IncomingForm();
 

@@ -20,7 +20,7 @@ import { Buffer } from "buffer";
 const Profile = () => {
   const dispatch = useDispatch();
   let { userId } = useParams();
-
+ 
   const profileState = useSelector((state) => {
       return {
           loader: state.content.profileLoader,

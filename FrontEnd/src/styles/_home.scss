@@ -3,23 +3,26 @@
     margin-bottom: 30px;
   }
   
-  .category-pill {
-    background-color: #585858;
-    border-color: #585858;
-    border-radius: 20px;
-    font-family: $primary-font;
-    font-size: 15px;
-    letter-spacing: 0.3px;
-    color: #F5F4F4;
-    padding: 5px 22px;
-  
-    &.active {
-      background-color: #000000;
-      border-color: #000000;
-      color: #35C280;
-    }
+.category-pill {
+  background-color: #585858;
+  border-color: #585858;
+  border-radius: 20px;
+  font-family: $primary-font;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+  color: #F5F4F4;
+  padding: 5px 22px;
+
+  &.active {
+    background-color: #000000;
+    border-color: #000000;
+    color: #35C280;
   }
-  
+}
+
+.video-list {
+  display: flex;
+
   .video-item {
     width: 450px;
     height: 316px;
@@ -33,6 +36,9 @@
         position: absolute;
         left: 10px;
         bottom: 10px;
+        background-color: #000000;
+        border-radius: 30px;
+        padding: 10px;
       }
     }
   
@@ -78,3 +84,4 @@
       }
     }
   }
+}

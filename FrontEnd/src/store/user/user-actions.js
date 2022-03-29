@@ -28,6 +28,33 @@ export const getUser = (jwt) => {
   };
 };
 
+export const getLikedVideos = (jwt) => {
+  return async (dispatch) => {
+    const getData = async () => {
+      const res = await fetch("http://localhost:8080/user/likedvideos", {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + jwt,
+        },
+      });
+      if (res.status !== 200) {
+        throw new Error("Failed to fetch liked videos");
+      }
+      return res.json();
+    };
+    try {
+      const response = await getData();
+      console.log(response);
+
+      dispatch(contentActions.setLikedVideos(response));
+
+      return response;
+    } catch (e) {
+      console.log('Error getting user data: ' + e);
+    }
+  };
+};
+
 export const updateUser = (jwt, updatedUser) => {
   return async (dispatch) => {
     const updateData = async () => {
@@ -103,6 +130,7 @@ export const likeVideo = (jwt, videoId) => {
       const response = await like();
 
       dispatch(contentActions.addVideoLikes(response)); 
+      dispatch(contentActions.liked(true)); 
     } catch (e) {
       console.log(e);
     }
@@ -133,6 +161,7 @@ export const unlikeVideo = (jwt, videoId) => {
       const response = await unlike();
 
       dispatch(contentActions.removeVideoLikes(response)); 
+      dispatch(contentActions.liked(false)); 
     } catch (e) {
       console.log(e);
     }

@@ -63,7 +63,7 @@ const Home = () => {
             })
           }
         </Nav>
-        <div className="d-flex">
+        <div className="video-list">
         {
             homeState.videos.map((video, i) => {
               return (
@@ -78,9 +78,9 @@ const Home = () => {
                         : "http://localhost:8080/user/defaultAvatar"
                     }
                     alt="thumbnail" />
-                    <Card.Text className="video-views">
-                      {video.views} Views
-                    </Card.Text>
+                    <div className="video-views">
+                      <Card.Text>{video.views} Views</Card.Text>
+                    </div>
                   </div>
                   <div className="video-item-body">
                     <div className="video-details">

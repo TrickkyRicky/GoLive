@@ -123,6 +123,7 @@ exports.listUserProfile = async (req, res) => {
   try {
     let user = await User.findById(req.params.userId)
       .populate("media.videos")
+      .populate("subscribed.users", "-password")
       .select("-password -streamKey");
 
     res.json(user);
