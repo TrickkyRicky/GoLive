@@ -65,3 +65,59 @@
       padding-right: 20px;
     }
 }
+
+/*********************************       Subscriptions Pane         *************************************/
+
+.follower-column {
+  width: 200px;
+  height: 250px;
+}
+
+.center-items {
+  justify-content: center;
+}
+
+.follower-card {
+  background-color: #323432;
+  border-radius: 25px;
+  align-items: center;
+  
+
+  .follower-image {
+    height: 100px;
+    width: 100px;
+    border-radius: 50%;
+  }
+
+  .remove-button {
+    width: 60%;
+    border-radius: 25px;
+    background-color: #35C280;
+    border: none;
+
+    &:hover {
+      background-color: #238255;
+    }
+
+    .remove-text {
+      display: inline-block;
+    }
+
+    .remove-icon {
+      display: inline-block;
+      padding-left: 10px;
+    }
+  }
+
+}
+.temp-blue {
+  height: 100px;
+  background-color: blue;
+}
+.temp-green {
+  height: 100px;
+  background-color: green;
+}
+
+
+/*********************************       Media Pane         *************************************/
