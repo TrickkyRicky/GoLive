@@ -17,28 +17,9 @@ export const getUser = (jwt) => {
     };
     try {
       const response = await getData();
-      //console.log(response);
-      const {
-        avatar,
-        media,
-        subscribed,
-        subscribers,
-        email,
-        username,
-        streamKey,
-      } = response;
+      // console.log(response);
 
-      dispatch(
-        userActions.getUserInfo({
-          avatar: avatar,
-          media: media,
-          subscribed: subscribed,
-          subscribers: subscribers,
-          email: email,
-          username: username,
-          streamKey: streamKey,
-        })
-      );
+      dispatch(userActions.getUserInfo(response));
 
       return response;
     } catch (e) {

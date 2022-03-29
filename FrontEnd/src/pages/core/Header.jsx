@@ -13,7 +13,7 @@ import Image from "react-bootstrap/Image";
 import { useNavigate } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { logout } from "../../store/auth/auth-actions";
-import { getUser } from "../../store/user/user-actions";
+// import { getUser } from "../../store/user/user-actions";
 import { contentActions } from "../../store/content/content-slice";
 
 import { Buffer } from "buffer";
@@ -30,28 +30,10 @@ export default function Header() {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const auth = useSelector((state) => {
-    return {
-      userId: state.auth.userIdLogin,
-      isAuth: state.auth.isAuth,
-      jwt: state.auth.jwtToken,
-    };
-  });
-
-  const user = useSelector((state) => {
-    return {
-      username: state.user.username,
-      avatar: state.user.avatar,
-    };
-  });
+  const auth = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
  
   console.log(user);
-  
-  useEffect(() => {
-    if (auth.jwt) {
-      dispatch(getUser(auth.jwt));
-    }
-  }, [auth.jwt]);
 
   //logout
   const clickSubmit = (e) => {
