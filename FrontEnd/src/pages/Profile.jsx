@@ -6,14 +6,12 @@ import { Link, useParams } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import ListGroup from "react-bootstrap/ListGroup";
-import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image";
-import Button from "react-bootstrap/Button";
 import Nav from "react-bootstrap/Nav";
 import Tab from "react-bootstrap/Tab";
 
 import { getUserProfile } from "../store/content/content-actions";
+import { subscribe, unsubscribe } from "../store/user/user-actions";
 
 import { Buffer } from "buffer";
 
@@ -28,36 +26,62 @@ const Profile = () => {
       }
   });
 
+  const isSubscribed = useSelector((state) => state.content.subscribed);
+
+  const auth = useSelector((state) => state.auth);
+
   useEffect(() => {
     dispatch(getUserProfile(userId));
   }, [userId]);
 
+  const subscribeClick = (e) => {
+    e.preventDefault();
+
+    dispatch(subscribe(auth.jwtToken, profileState.profile._id));
+  }
+
+  const unsubscribeClick = (e) => {
+    e.preventDefault();
+
+    dispatch(unsubscribe(auth.jwtToken, profileState.profile._id));
+  }
+
   return (
     <Container>
-        <div>
-            <div className="d-flex">
-                <div>
-                    <Image className="video-thumbnail" 
-                        src={
-                        profileState.profile?.avatar
-                            ? `data:${profileState.profile.avatar.contentType};base64,${Buffer.from(
-                                profileState.profile.avatar.data.data
-                            ).toString("base64")}`
-                            : "http://localhost:8080/user/defaultAvatar"
+        <div className="channel-header">
+            <Image className="channel-avatar" 
+                src={
+                profileState.profile?.avatar
+                    ? `data:${profileState.profile.avatar.contentType};base64,${Buffer.from(
+                        profileState.profile.avatar.data.data
+                    ).toString("base64")}`
+                    : "http://localhost:8080/user/defaultAvatar"
+                }
+                alt="thumbnail" />
+            <div className="channel-info-container">
+                <h2>
+                    {profileState.profile?.username}
+                </h2>
+                <p className="channel-pill">
+                    {profileState.profile?.subscribers.users.length} Subscribers
+                </p>
+                {
+                    auth.isAuth && profileState.profile?._id != auth.userIdLogin && (
+                    <div>
+                        {
+                            isSubscribed ? (
+                                <button type="button" className="channel-subscribe-btn" onClick={unsubscribeClick}>
+                                    Unsubscribe
+                                </button>
+                            ) : (
+                                <button type="button" className="channel-subscribe-btn" onClick={subscribeClick}>
+                                    Subscribe
+                                </button>
+                            )
                         }
-                        alt="thumbnail" />
-                </div>
-                <div>
-                    <div>
-                        <h1>{profileState.profile?.username}</h1>
                     </div>
-                    <div>
-                        <p>{profileState.profile?.subscribers.users.length} Subscribers</p>
-                    </div>
-                    <div>
-                        <Button>Subscribe</Button>
-                    </div>
-                </div>
+                    )
+                }
             </div>
         </div>
         <Tab.Container defaultActiveKey="Home">       
@@ -75,7 +99,7 @@ const Profile = () => {
                         </Nav.Item>
                     </Nav>
                 </Col>
-            </Row>
+            </Row>    
             <Row>
                 <Col>
                     <Tab.Content>
@@ -96,14 +120,14 @@ const Profile = () => {
                             </div>
                         </Tab.Pane>
                         <Tab.Pane eventKey="Videos">
-                            <ListGroup>
+                            <div className="video-list">
                                 {
                                     profileState.profile?.media.videos.map((video, i) => {
                                         return (
-                                            <Link to={"/watch/" + video._id} key={i}>
-                                                <ListGroup.Item>
-                                                    <Card>
-                                                        <Image className="" 
+                                            
+                                                <div className="video-item" key={i}>
+                                                    <Link to={"/watch/" + video._id}>
+                                                        <Image className="video-thumbnail" 
                                                         src={
                                                         video.thumbnail
                                                             ? `data:${video.thumbnail.contentType};base64,${Buffer.from(
@@ -112,21 +136,25 @@ const Profile = () => {
                                                             : "http://localhost:8080/user/defaultAvatar"
                                                         }
                                                         alt="thumbnail" />
-                                                        <Card.Body>
-                                                            <Card.Title>{video.title}</Card.Title>
-                                                            <Card.Text>{video.views} Views</Card.Text>
-                                                        </Card.Body>
-                                                    </Card>
-                                                </ListGroup.Item>
-                                            </Link>
+                                                    </Link>
+                                                    <div className="video-item-body">
+                                                        <Link to={"/watch/" + video._id}>
+                                                            <h5 className="video-title">{video.title}</h5>
+                                                        </Link>
+                                                        <div className="video-details">
+                                                            <p className="video-views">{video.views} Views</p>
+                                                            <p className="video-time">{new Date(video.createdAt).toDateString()}</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                         )
                                     })
                                 }
-                            </ListGroup>
+                            </div>
                         </Tab.Pane>
                     </Tab.Content>
                 </Col>
-            </Row>        
+            </Row>    
       </Tab.Container>
     </Container>
   );

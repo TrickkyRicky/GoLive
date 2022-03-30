@@ -24,8 +24,10 @@ import videoCamera from "../../assets/video-plus-svgrepo-com.svg";
 import logoutIcon from "../../assets/right-from-bracket-solid.png";
 import gearIcon from "../../assets/gear-solid.png";
 import { FaSearch } from 'react-icons/fa';
+import { FaUpload } from 'react-icons/fa';
 import { RiVideoAddFill } from 'react-icons/ri';
 import { HiThumbUp } from 'react-icons/hi';
+import { MdHeadsetMic } from 'react-icons/md';
 
 export default function Header() {
   let navigate = useNavigate();
@@ -71,12 +73,11 @@ export default function Header() {
           <Form className="search-form">
             <Form.Control
               type="search"
-              placeholder="Search"
               className="core-search-input"
               aria-label="Search"
             />
             <Button className="core-search-btn">
-              <FaSearch size={20} />
+              <FaSearch size={28} />
             </Button>
           </Form>
 
@@ -103,12 +104,39 @@ export default function Header() {
               <Nav>
                 <div className="nav-collection">
                   <Nav.Item>
-                    <Button onClick={openUpload}>
-                      <RiVideoAddFill size={40} color={"#35C280"}/>
-                    </Button>
+                    <Dropdown align="end">
+                      <Dropdown.Toggle className="create-container">
+                        <RiVideoAddFill size={40} color={"#35C280"}/>
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu className="create-dropdown">
+                        <div className="button-stack">
+                          <button type="button" className="dropdown-item">
+                            <div className="icon-item">
+                              <div className="icon-container">
+                                <MdHeadsetMic size={18} color={"#f5f4f4"} />
+                              </div>
+                              <p className="core-text">
+                                Stream
+                              </p>
+                            </div>
+                          </button>
+                          <button type="button" className="dropdown-item" onClick={openUpload}>
+                            <div className="icon-item">
+                              <div className="icon-container">
+                                <FaUpload size={18} color={"#f5f4f4"} />
+                              </div>
+                              <p className="core-text">
+                                Upload Video
+                              </p>
+                            </div>
+                          </button>
+                        </div>
+                      </Dropdown.Menu>
+                    </Dropdown>
                   </Nav.Item>
                   <Nav.Item>
-                    <Link to="/liked">
+                    <Link to="/liked" className="">
                       <HiThumbUp size={40} color={"#35C280"}/>
                     </Link>
                   </Nav.Item>
@@ -127,8 +155,8 @@ export default function Header() {
                       }
                     />
                   </Dropdown.Toggle>
-
-                  <Dropdown.Menu className="main-dropout">
+ 
+                  <Dropdown.Menu className="main-dropdown">
                     <div className="dropdown-user">
                       <Image
                         className="dropdown-avatar"
@@ -144,22 +172,19 @@ export default function Header() {
                         <Link to={"/profile/" + auth.userIdLogin} className="core-username">{user.username}</Link>
                       </div>
                     </div>
-                    <LinkContainer to="/settings">
-                      <Dropdown.Item>
-                        <div className="icon-item">
-                          <div className="icon-container">
-                            <Image
-                              src={gearIcon}
-                            />
-                          </div>
-                          <p className="core-text">
-                            Settings
-                          </p>
+                    <Link to="/settings" className="dropdown-item">
+                      <div className="icon-item">
+                        <div className="icon-container">
+                          <Image
+                            src={gearIcon}
+                          />
                         </div>
-                      </Dropdown.Item>
-                    </LinkContainer>
-                    <Dropdown.Divider />
-                      <button type="button" onClick={clickSubmit} className="btn-logout">
+                        <p className="core-text">
+                          Settings
+                        </p>
+                      </div>
+                    </Link>
+                      <button type="button" onClick={clickSubmit} className="dropdown-item">
                         <div className="icon-item">
                           <div className="icon-container">
                             <Image

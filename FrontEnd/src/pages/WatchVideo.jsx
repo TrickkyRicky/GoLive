@@ -42,7 +42,7 @@ const WatchVideo = () => {
       username: state.user.username,
       avatar: state.user.avatar,
     };
-  });
+  }); 
 
   const auth = useSelector((state) => {
     return {
@@ -81,10 +81,10 @@ const WatchVideo = () => {
 
     dispatch(likeVideo(auth.jwt, videoId));
 
-    setValues({
-      ...values,
-      liked: true
-    });
+    // setValues({
+    //   ...values,
+    //   liked: true
+    // });
   }
 
   const unlikeClick = (e) => {
@@ -102,22 +102,12 @@ const WatchVideo = () => {
     e.preventDefault();
 
     dispatch(subscribe(auth.jwt, videoInfo.userId._id));
-
-    // setValues({
-    //   ...values,
-    //   isSubscribed: true
-    // });
   }
 
   const unsubscribeClick = (e) => {
     e.preventDefault();
 
     dispatch(unsubscribe(auth.jwt, videoInfo.userId._id));
-
-    setValues({
-      ...values,
-      isSubscribed: false
-    });
   }
 
   return (

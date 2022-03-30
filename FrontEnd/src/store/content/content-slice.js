@@ -28,6 +28,9 @@ const contentSlice = createSlice({
         ...action.payload
       }
     }, 
+    changeSubscribers(state, action) {
+      state.userProfile.subscribers.users = action.payload
+    },
     profileLoader(state, action) {
       state.profileLoader = action.payload
     },

@@ -14,6 +14,8 @@ import { listCategories, listVideos } from "../store/content/content-actions";
 import { Link } from "react-router-dom";
 import { Buffer } from "buffer";
 
+import { BsEyeFill } from 'react-icons/bs';
+
 const Home = () => {
   const dispatch = useDispatch();
 
@@ -79,9 +81,9 @@ const Home = () => {
                     }
                     alt="thumbnail" />
                     <div className="video-views">
-                      <Card.Text>{video.views} Views</Card.Text>
+                      <BsEyeFill size={22} color={"#f5f4f4"} /> <p>{video.views}</p>
                     </div>
-                  </div>
+                  </div> 
                   <div className="video-item-body">
                     <div className="video-details">
                       <Image className="video-user-avatar"
@@ -95,12 +97,12 @@ const Home = () => {
                       />
                       <div>
                         <Link to={"/Watch/" + video._id}>
-                          <Card.Title className="video-title">{video.title}</Card.Title>
+                          <h5 className="video-title">{video.title}</h5>
                         </Link>
                         <Link to={"/Profile/" + video.userId._id}>
-                          <Card.Text className="video-username">
+                          <p className="video-username">
                             {video.userId.username}
-                          </Card.Text>
+                          </p>
                         </Link>
                       </div>
                     </div>
