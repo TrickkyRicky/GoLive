@@ -12,18 +12,20 @@ import Error404 from "./pages/Error404.jsx";
 import WatchVideo from "./pages/WatchVideo";
 import Stream from "./pages/Stream";
 import LikedVideos from "./pages/LikedVideos";
+import Clip from "./pages/Clip";
 import MainLayout from "./components/layouts/MainLayout";
 import AuthLayout from "./components/layouts/AuthLayout";
+// import Upload from "./pages/Upload";
 
 import { Routes, Route } from "react-router-dom";
 import { authActions } from "./store/auth/auth-slice";
 import { getUser } from "./store/user/user-actions";
 
 const App = () => {
-  const dispatch = useDispatch(); 
+  const dispatch = useDispatch();
 
   const jwtToken = localStorage.getItem("token");
-  
+
   useEffect(() => {
     if (!jwtToken) {
       return;
@@ -50,6 +52,9 @@ const App = () => {
         <Route path="Watch/:videoId" element={<WatchVideo />} />
         <Route path="Settings" element={<Settings />} />
         <Route path="Liked" element={<LikedVideos />} />
+        <Route path="Settings" element={<Settings jwt={jwtToken} />} />
+        {/* <Route path="Upload" element={<Upload jwt={jwtToken} />} /> */}
+        <Route path="Clip" element={<Clip jwt={jwtToken} />} />
 
         {/* after Stream will be Stream/username */}
         <Route path="Stream/:username" element={<Stream />} />
