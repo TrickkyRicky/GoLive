@@ -12,11 +12,15 @@
   display: flex;
 
   .core-search-input {
+    font-family: $primary-font;
+    font-size: 1.8rem;
+    color: #f5f4f4;
     background-color: #585858;
     border-radius: 50px;
     border: 0;
     width: 360px;
     height: 45px;
+    padding: 0.5rem 6.0rem 0.5rem 2.0rem;
     padding-right: 60px;
   }
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 //Bootstrap
 import Container from "react-bootstrap/Container";
@@ -13,7 +13,7 @@ import Image from "react-bootstrap/Image";
 import { useNavigate, Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { logout } from "../../store/auth/auth-actions";
-// import { getUser } from "../../store/user/user-actions";
+import { getUser } from "../../store/user/user-actions";
 import { contentActions } from "../../store/content/content-slice";
 
 import { Buffer } from "buffer";
@@ -37,6 +37,12 @@ export default function Header() {
   const user = useSelector((state) => state.user);
  
   // console.log(user);
+
+  useEffect(() => {
+    if(auth.jwtToken) {
+      dispatch(getUser(auth.jwtToken));
+    }
+  }, [auth.jwtToken]);
 
   //logout
   const clickSubmit = (e) => {
@@ -74,6 +80,7 @@ export default function Header() {
             <Form.Control
               type="search"
               className="core-search-input"
+              placeholder="Search"
               aria-label="Search"
             />
             <Button className="core-search-btn">

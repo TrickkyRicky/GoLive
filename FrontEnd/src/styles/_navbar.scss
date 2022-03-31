@@ -17,7 +17,7 @@
     align-items: center;
 }
 
-.nav-collection {
+.nav-collection { 
     display: flex;
     gap: 14px;
     align-items: center;
@@ -34,9 +34,17 @@
         }
 
         .nav-link {
+            font-family: $primary-font;
+            font-size: 1.6rem;
+            letter-spacing: 1.4px;
             color: #f5f4f4;
             background-color: black;
             border-radius: 50px;
+
+            &:focus,
+            &:hover {
+                color: #f5f4f4;
+            }
 
             &.link-register {
                 background-color: #35C280;

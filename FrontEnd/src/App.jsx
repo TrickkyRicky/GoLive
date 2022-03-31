@@ -31,8 +31,6 @@ const App = () => {
     const userId = localStorage.getItem("userId");
 
     dispatch(authActions.LoggedIn({ jwt: jwtToken, userIdLogin: userId }));
-    dispatch(getUser(jwtToken));
-
   }, [jwtToken]);
 
   return (

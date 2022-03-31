@@ -67,9 +67,8 @@ const Register = (props) => {
   } 
 
   return (
-    <Container fluid>
-    <Row>
-      <Col>
+    <div className="auth-container">
+      <div className="auth-col">
         <div className="auth-form-centered register">
           <div className="auth-form-container">
             <Link to="/">
@@ -112,12 +111,12 @@ const Register = (props) => {
             </div>
           </div>
         </div>
-      </Col>
-      <Col>
+      </div>
+      <div className="auth-col">
         <div className="auth-background">
           <Image alt="random image"/>
         </div>
-      </Col>
+      </div>
 
       <Modal
             show={modalShow}
@@ -142,8 +141,7 @@ const Register = (props) => {
               <Button onClick={handleModalClose}>Close</Button>
             </Modal.Footer>
         </Modal>
-    </Row>
-    </Container>
+    </div>
   );
 };
 
