@@ -1,4 +1,6 @@
 /*********************************       Settings          *************************************/
+/** This File also contains the CSS for the panes in Settings page (Profile, Subscriptions, Media) **/
+
 .settings-title{
     color: #F5F4F4;
     text-align: center;
@@ -73,10 +75,6 @@
   height: 250px;
 }
 
-.center-items {
-  justify-content: center;
-}
-
 .follower-card {
   background-color: #323432;
   border-radius: 25px;
@@ -110,14 +108,32 @@
   }
 
 }
-.temp-blue {
-  height: 100px;
-  background-color: blue;
+
+/*********************************       Media Pane         *************************************/
+
+.media-container {
+
+  .media-searchbar-row-width {
+    width: 45%;
+
+    .border-right {
+      border-right: 2px solid purple;
+      height: 30px;
+    }
+
+    .search-input {
+      width: 100%;
+    }
+  }
+
+  .media-videos-row-width {
+    background-color: blue;
+    width: 55%;
+  }
 }
+
 .temp-green {
-  height: 100px;
   background-color: green;
 }
 
 
-/*********************************       Media Pane         *************************************/
