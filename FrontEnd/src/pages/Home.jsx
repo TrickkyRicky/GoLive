@@ -52,7 +52,7 @@ const Home = () => {
       <div>
         Carousel
       </div>
-      <div>
+      <section className="explore">
         <div>
           <h2 className="site-text">EXPLORE</h2>
         </div>
@@ -112,7 +112,7 @@ const Home = () => {
             })
           }
         </div>
-      </div>
+      </section>
     </Container>
   );
 };

@@ -3,6 +3,7 @@ $golive-text: #f5f4f4;
 $golive-timestamp: #9c9c9c;
 $pill-bg: #585858;
 $section-bg: #323432;
+$golive-green: #35c280;
 
 .video-container {
   max-height: 78.8rem;
@@ -10,8 +11,39 @@ $section-bg: #323432;
 }
   
 .primary-info {
-  display: flex;
-  justify-content: space-between;
+
+  .top-level {
+    margin-bottom: 1.0rem;
+
+    .video-category {
+      margin-bottom: 1.0rem;
+    }
+  }
+
+  .primary-actions {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2.5rem;
+
+    .video-views-count {
+      flex: 1;
+    }
+
+    .like-video {
+      display: flex;
+
+      .like-btn {
+        margin-right: 1.0rem;
+      }
+
+      .video-likes-count {
+        font-family: $primary-font;
+        font-size: 1.8rem;
+        letter-spacing: 1.25px;
+        color: $golive-text;
+      }
+    }
+  }
 
   .video-title {
     font-family: $primary-font;
@@ -32,7 +64,7 @@ $section-bg: #323432;
     color: $golive-text;
   }
 
-  .video-views-count, .video-likes-count {
+  .video-views-count {
     font-family: $primary-font;
     font-size: 1.8rem;
     letter-spacing: 1.25px;
@@ -73,6 +105,30 @@ $section-bg: #323432;
     }
   }
 
+  .unsubscribe-btn {
+    height: 4.5rem;
+    background-color: $pill-bg;
+    border-radius: 0.5rem;
+    border: 0;
+    font-family: $primary-font;
+    font-size: 1.8rem;
+    color: $golive-text;
+    letter-spacing: 1.4px;
+    padding: 0.5rem 1.0rem;
+  }
+
+  .subscribe-btn {
+    width: 13.0rem;
+    height: 4.5rem;
+    background-color: $golive-green;
+    border-radius: 0.5rem;
+    border: 0;
+    font-family: $primary-font;
+    font-size: 1.8rem;
+    color: $golive-text;
+    letter-spacing: 1.4px;
+  }
+
   .video-description {
     font-family: $primary-font;
     font-size: 1.5rem;
@@ -93,7 +149,7 @@ $section-bg: #323432;
   gap: 1.2rem;
   margin-bottom: 1.4rem;
 
-  .comment-avatar {
+  .comment-avatar { 
     width: 5.1rem;
     height: 5.1rem;
     border-radius: 50%;
@@ -102,11 +158,30 @@ $section-bg: #323432;
   
   .comment-form {
     width: 100%;
+    
+    .form-control {
+      height: 5.1rem;
+      border-radius: 1.0rem;
+      background-color: $section-bg;
+      font-family: $primary-font;
+      font-size: 1.6rem;
+      color: $golive-text;
+      letter-spacing: 0.75px;
+    }
   }
 
   .comment-btn {
     display: block;
     margin-left: auto;
+    width: 10.3rem;
+    height: 3.5rem;
+    background-color: $pill-bg;
+    border: 0;
+    border-radius: 2.0rem;
+    font-family: $primary-font;
+    font-size: 1.4rem;
+    color: $golive-text;
+    letter-spacing: 1.09px;
   }
 }
 

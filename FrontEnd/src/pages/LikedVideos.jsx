@@ -14,6 +14,8 @@ import { getLikedVideos } from "../store/user/user-actions";
 import { Link } from "react-router-dom";
 import { Buffer } from "buffer";
 
+import { BsEyeFill } from 'react-icons/bs';
+
 function LikedVideos() {
     const dispatch = useDispatch();
 
@@ -28,54 +30,56 @@ function LikedVideos() {
     
     return (
         <Container>
-            <div>Liked Videos</div>
-            <div className="video-list">
-            {
-                content.likedVideos.map((video, i) => {
-                    return (
-                        <div key={i} className="video-item">
-                            <div className="video-overlay">
-                                <Image className="video-thumbnail" 
-                                src={
-                                video.thumbnail
-                                    ? `data:${video.thumbnail.contentType};base64,${Buffer.from(
-                                        video.thumbnail.data.data
-                                    ).toString("base64")}`
-                                    : "http://localhost:8080/user/defaultAvatar"
-                                }
-                                alt="thumbnail" />
-                                <Card.Text className="video-views">
-                                {video.views} Views
-                                </Card.Text>
-                            </div>
-                            <div className="video-item-body">
-                                <div className="video-details">
-                                <Image className="video-user-avatar"
+            <section className="liked-videos-section">
+                <h2 className="site-text">Liked Videos</h2>
+                <div className="video-list">
+                {
+                    content.likedVideos.map((video, i) => {
+                        return (
+                            <div key={i} className="video-item">
+                                <div className="video-overlay">
+                                    <Image className="video-thumbnail" 
                                     src={
-                                    video.userId.avatar
-                                        ? `data:${video.userId.avatar.contentType};base64,${Buffer.from(
-                                            video.userId.avatar.data.data
+                                    video.thumbnail
+                                        ? `data:${video.thumbnail.contentType};base64,${Buffer.from(
+                                            video.thumbnail.data.data
                                         ).toString("base64")}`
                                         : "http://localhost:8080/user/defaultAvatar"
-                                    } 
-                                />
-                                <div>
-                                    <Link to={"/Watch/" + video._id}>
-                                    <Card.Title className="video-title">{video.title}</Card.Title>
-                                    </Link>
-                                    <Link to={"/Profile/" + video.userId._id}>
-                                    <Card.Text className="video-username">
-                                        {video.userId.username}
-                                    </Card.Text>
-                                    </Link>
-                                </div>
+                                    }
+                                    alt="thumbnail" />
+                                    <div className="video-views">
+                                        <BsEyeFill size={22} color={"#f5f4f4"} /> <p>{video.views}</p>
+                                    </div>
+                                </div> 
+                                <div className="video-item-body">
+                                    <div className="video-details">
+                                    <Image className="video-user-avatar"
+                                        src={
+                                        video.userId.avatar
+                                            ? `data:${video.userId.avatar.contentType};base64,${Buffer.from(
+                                                video.userId.avatar.data.data
+                                            ).toString("base64")}`
+                                            : "http://localhost:8080/user/defaultAvatar"
+                                        } 
+                                    />
+                                    <div>
+                                        <Link to={"/Watch/" + video._id}>
+                                        <h5 className="video-title">{video.title}</h5>
+                                        </Link>
+                                        <Link to={"/Profile/" + video.userId._id}>
+                                        <p className="video-username">
+                                            {video.userId.username}
+                                        </p>
+                                        </Link>
+                                    </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )
-                })
-            }
-            </div>
+                        )
+                    })
+                }
+                </div>
+            </section>
         </Container>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useLocation } from "react-router-dom";
 
 //Bootstrap
 import Container from "react-bootstrap/Container";
@@ -9,7 +9,6 @@ import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Image from 'react-bootstrap/Image';
-import ListGroup from 'react-bootstrap/ListGroup';
 
 import { getSingleVideo, getOtherVideos, getVideoComments } from "../store/content/content-actions";
 import { likeVideo, unlikeVideo, postComment, subscribe, unsubscribe } from "../store/user/user-actions";
@@ -19,6 +18,7 @@ import { Buffer } from "buffer";
 
 
 const WatchVideo = () => {
+  const location = useLocation();
   const [values, setValues] = useState({
     comment: ''
   });
@@ -80,22 +80,12 @@ const WatchVideo = () => {
     e.preventDefault();
 
     dispatch(likeVideo(auth.jwt, videoId));
-
-    // setValues({
-    //   ...values,
-    //   liked: true
-    // });
   }
 
   const unlikeClick = (e) => {
     e.preventDefault();
 
     dispatch(unlikeVideo(auth.jwt, videoId));
-
-    // setValues({
-    //   ...values,
-    //   liked: false
-    // });
   }
 
   const subscribeClick = (e) => {
@@ -120,18 +110,18 @@ const WatchVideo = () => {
               <Row>
                 <Col>
                   <div className="primary-info">
-                    <div>
-                      <h1 className="video-title">{ videoInfo?.title }</h1>
+                    <div className="top-level">
                       <div className="video-category">{ videoInfo?.category }</div>
+                      <h1 className="video-title">{ videoInfo?.title }</h1>
                     </div>
-                    <div>
-                      <p className="video-views-count">
+                    <div className="primary-actions">
+                      <div className="video-views-count">
                         { videoInfo?.views } Views
-                      </p>
-                      <div className="video-likes-count">
+                      </div>
+                      <div className="like-video">
                         {
                           auth.isAuth && (
-                            <div>
+                            <div className="like-btn">
                               {
                                 liked ? (
                                   <Button onClick={unlikeClick}>
@@ -146,7 +136,9 @@ const WatchVideo = () => {
                             </div>
                           )
                         }
-                        { videoInfo?.likes.length } Likes
+                        <div className="video-likes-count">
+                          { videoInfo?.likes.length } {videoInfo?.likes.length == 1 ? "Like" : "Likes" }
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -176,11 +168,11 @@ const WatchVideo = () => {
                           <div>
                             {
                               isSubscribed ? (
-                                <Button onClick={unsubscribeClick}>
+                                <Button onClick={unsubscribeClick} className="unsubscribe-btn">
                                   Unsubscribe
                                 </Button>
                               ) : (
-                                <Button onClick={subscribeClick}>
+                                <Button onClick={subscribeClick} className="subscribe-btn">
                                   Subscribe
                                 </Button>
                               )
@@ -227,7 +219,7 @@ const WatchVideo = () => {
                         </Form>
                       </div>
                     ) : (
-                      <p className="login-alert"><Link to="/auth/login">Login</Link> to post a comment</p>
+                      <p className="login-alert"><Link to="/auth/login" state={{ from: location.pathname }}>Login</Link> to post a comment</p>
                     )
                   }
                   <h2 className="video-comments-count">

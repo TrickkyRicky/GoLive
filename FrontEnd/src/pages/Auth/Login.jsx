@@ -6,7 +6,7 @@ import { postLogin } from "../../store/auth/auth-actions";
 
 import logo from "../../assets/Logo.png";
 
-const Login = (props) => {
+const Login = () => {
   const location = useLocation();
   const dispatch = useDispatch();
 
@@ -43,7 +43,7 @@ const Login = (props) => {
   const { from } = location.state || {
     from: {
       pathname: "/",
-    },
+    }
   };
 
   const { redirect } = values;
