@@ -10,6 +10,8 @@ $grid-breakpoints: (
 ) !default;
 // scss-docs-end grid-breakpoints
 
+$modal-lg: 600px;
+
 @import "~bootstrap/scss/bootstrap";
 
 @import "./styles/variables";
@@ -21,3 +23,4 @@ $grid-breakpoints: (
 @import "./styles/home";
 @import "./styles/watchvideo";
 @import "./styles/settings";
+@import "./styles/channel";

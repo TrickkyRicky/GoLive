@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 //Bootstrap
 import Container from "react-bootstrap/Container";
@@ -10,7 +10,7 @@ import Dropdown from "react-bootstrap/Dropdown";
 import Offcanvas from "react-bootstrap/Offcanvas";
 import Image from "react-bootstrap/Image";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import { logout } from "../../store/auth/auth-actions";
 import { getUser } from "../../store/user/user-actions";
@@ -24,40 +24,30 @@ import videoCamera from "../../assets/video-plus-svgrepo-com.svg";
 import logoutIcon from "../../assets/right-from-bracket-solid.png";
 import gearIcon from "../../assets/gear-solid.png";
 import { FaSearch } from 'react-icons/fa';
+import { FaUpload } from 'react-icons/fa';
 import { RiVideoAddFill } from 'react-icons/ri';
+import { HiThumbUp } from 'react-icons/hi';
+import { MdHeadsetMic } from 'react-icons/md';
 
 export default function Header() {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const auth = useSelector((state) => {
-    return {
-      userId: state.auth.userIdLogin,
-      isAuth: state.auth.isAuth,
-      jwt: state.auth.jwtToken,
-    };
-  });
-
-  const user = useSelector((state) => {
-    return {
-      username: state.user.username,
-      avatar: state.user.avatar,
-    };
-  });
+  const auth = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
  
-  console.log(user);
-  
+  // console.log(user);
+
   useEffect(() => {
-    if (auth.jwt) {
-      dispatch(getUser(auth.jwt));
+    if(auth.jwtToken) {
+      dispatch(getUser(auth.jwtToken));
     }
-  }, [auth.jwt]);
+  }, [auth.jwtToken]);
 
   //logout
   const clickSubmit = (e) => {
     e.preventDefault();
 
-    // auth.removeJWT();
     dispatch(logout());
 
     navigate("/", {
@@ -89,12 +79,12 @@ export default function Header() {
           <Form className="search-form">
             <Form.Control
               type="search"
-              placeholder="Search"
               className="core-search-input"
+              placeholder="Search"
               aria-label="Search"
             />
             <Button className="core-search-btn">
-              <FaSearch size={20} />
+              <FaSearch size={28} />
             </Button>
           </Form>
 
@@ -121,9 +111,41 @@ export default function Header() {
               <Nav>
                 <div className="nav-collection">
                   <Nav.Item>
-                    <Button onClick={openUpload}>
-                      <RiVideoAddFill size={40} color={"#35C280"}/>
-                    </Button>
+                    <Dropdown align="end">
+                      <Dropdown.Toggle className="create-container">
+                        <RiVideoAddFill size={40} color={"#35C280"}/>
+                      </Dropdown.Toggle>
+
+                      <Dropdown.Menu className="create-dropdown">
+                        <div className="button-stack">
+                          <button type="button" className="dropdown-item">
+                            <div className="icon-item">
+                              <div className="icon-container">
+                                <MdHeadsetMic size={18} color={"#f5f4f4"} />
+                              </div>
+                              <p className="core-text">
+                                Stream
+                              </p>
+                            </div>
+                          </button>
+                          <button type="button" className="dropdown-item" onClick={openUpload}>
+                            <div className="icon-item">
+                              <div className="icon-container">
+                                <FaUpload size={18} color={"#f5f4f4"} />
+                              </div>
+                              <p className="core-text">
+                                Upload Video
+                              </p>
+                            </div>
+                          </button>
+                        </div>
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  </Nav.Item>
+                  <Nav.Item>
+                    <Link to="/liked" className="">
+                      <HiThumbUp size={40} color={"#35C280"}/>
+                    </Link>
                   </Nav.Item>
                 </div>
 
@@ -140,8 +162,8 @@ export default function Header() {
                       }
                     />
                   </Dropdown.Toggle>
-
-                  <Dropdown.Menu className="main-dropout">
+ 
+                  <Dropdown.Menu className="main-dropdown">
                     <div className="dropdown-user">
                       <Image
                         className="dropdown-avatar"
@@ -154,25 +176,22 @@ export default function Header() {
                         }
                       />
                       <div>
-                        <h2 className="core-username">{user.username}</h2>
+                        <Link to={"/profile/" + auth.userIdLogin} className="core-username">{user.username}</Link>
                       </div>
                     </div>
-                    <LinkContainer to="/settings">
-                      <Dropdown.Item>
-                        <div className="icon-item">
-                          <div className="icon-container">
-                            <Image
-                              src={gearIcon}
-                            />
-                          </div>
-                          <p className="core-text">
-                            Settings
-                          </p>
+                    <Link to="/settings" className="dropdown-item">
+                      <div className="icon-item">
+                        <div className="icon-container">
+                          <Image
+                            src={gearIcon}
+                          />
                         </div>
-                      </Dropdown.Item>
-                    </LinkContainer>
-                    <Dropdown.Divider />
-                      <button type="button" onClick={clickSubmit} className="btn-logout">
+                        <p className="core-text">
+                          Settings
+                        </p>
+                      </div>
+                    </Link>
+                      <button type="button" onClick={clickSubmit} className="dropdown-item">
                         <div className="icon-item">
                           <div className="icon-container">
                             <Image

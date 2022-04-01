@@ -1,6 +1,22 @@
 import { contentActions } from "./content-slice";
 import queryString from "query-string";
 
+const authId = localStorage.getItem("userId");
+
+const checkSubscribed = (user) => {
+  const match = user.subscribers.users.some((subscriber) => {
+    return subscriber == authId
+  })
+
+  return match
+}
+
+const checkLiked = (likes) => {
+  const match = likes.indexOf(authId) != -1;
+
+  return match
+}
+
 //get users channel
 export const getUserProfile = (userId) => {
   return async (dispatch) => {
@@ -20,7 +36,10 @@ export const getUserProfile = (userId) => {
     try {
       const response = await getData();
 
+      let following = checkSubscribed(response);
+
       dispatch(contentActions.userProfile(response));
+      dispatch(contentActions.subscribed(following)); 
       dispatch(contentActions.profileLoader(false)); 
 
     } catch (e) {
@@ -48,27 +67,12 @@ export const getSingleVideo = (videoId) => {
       const response = await getVideo();
       dispatch(contentActions.setVideoInfo(response)); 
 
-      const authId = localStorage.getItem("userId");
-
-      const checkSubscribed = (user) => {
-        const match = user.subscribers.users.some((subscriber) => {
-          return subscriber == authId
-        })
-    
-        return match
-      }
-
-      const checkLiked = (likes) => {
-        const match = likes.indexOf(authId) != -1;
-    
-        return match
-      }
-
       let following = checkSubscribed(response.userId);
       let hasLiked = checkLiked(response.likes);
 
       dispatch(contentActions.subscribed(following)); 
       dispatch(contentActions.liked(hasLiked)); 
+      
       return response;
     } catch (e) {
       console.log(e)

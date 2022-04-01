@@ -17,28 +17,36 @@ export const getUser = (jwt) => {
     };
     try {
       const response = await getData();
-      //console.log(response);
-      const {
-        avatar,
-        media,
-        subscribed,
-        subscribers,
-        email,
-        username,
-        streamKey,
-      } = response;
+      // console.log(response);
 
-      dispatch(
-        userActions.getUserInfo({
-          avatar: avatar,
-          media: media,
-          subscribed: subscribed,
-          subscribers: subscribers,
-          email: email,
-          username: username,
-          streamKey: streamKey,
-        })
-      );
+      dispatch(userActions.getUserInfo(response));
+
+      return response;
+    } catch (e) {
+      console.log('Error getting user data: ' + e);
+    }
+  };
+};
+
+export const getLikedVideos = (jwt) => {
+  return async (dispatch) => {
+    const getData = async () => {
+      const res = await fetch("http://localhost:8080/user/likedvideos", {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + jwt,
+        },
+      });
+      if (res.status !== 200) {
+        throw new Error("Failed to fetch liked videos");
+      }
+      return res.json();
+    };
+    try {
+      const response = await getData();
+      console.log(response);
+
+      dispatch(contentActions.setLikedVideos(response));
 
       return response;
     } catch (e) {
@@ -122,6 +130,7 @@ export const likeVideo = (jwt, videoId) => {
       const response = await like();
 
       dispatch(contentActions.addVideoLikes(response)); 
+      dispatch(contentActions.liked(true)); 
     } catch (e) {
       console.log(e);
     }
@@ -152,6 +161,7 @@ export const unlikeVideo = (jwt, videoId) => {
       const response = await unlike();
 
       dispatch(contentActions.removeVideoLikes(response)); 
+      dispatch(contentActions.liked(false)); 
     } catch (e) {
       console.log(e);
     }
@@ -213,8 +223,11 @@ export const subscribe = (jwt, followId) => {
 
     try {
       const response = await subscribeTo();
-
+console.log(response)
       dispatch(contentActions.addVideoInfo(response)); 
+      dispatch(contentActions.changeSubscribers(response.subscribers.users)); 
+      dispatch(contentActions.subscribed(true)); 
+
     } catch (e) {
       console.log(e);
     }
@@ -245,8 +258,9 @@ export const unsubscribe = (jwt, unfollowId) => {
 
     try {
       const response = await unsubscribeFrom();
-
       dispatch(contentActions.addVideoInfo(response)); 
+      dispatch(contentActions.changeSubscribers(response.subscribers.users)); 
+      dispatch(contentActions.subscribed(false));
     } catch (e) {
       console.log(e);
     }

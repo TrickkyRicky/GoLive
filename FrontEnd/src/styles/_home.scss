@@ -1,25 +1,29 @@
 .category-list {
-    gap: 22px;
-    margin-bottom: 30px;
+  gap: 22px;
+  margin-bottom: 30px;
+}
+  
+.category-pill {
+  background-color: #585858;
+  border-color: #585858;
+  border-radius: 20px;
+  font-family: $primary-font;
+  font-size: 15px;
+  letter-spacing: 0.3px;
+  color: #F5F4F4;
+  padding: 5px 22px;
+
+  &.active {
+    background-color: #000000;
+    border-color: #000000;
+    color: #35C280;
   }
-  
-  .category-pill {
-    background-color: #585858;
-    border-color: #585858;
-    border-radius: 20px;
-    font-family: $primary-font;
-    font-size: 15px;
-    letter-spacing: 0.3px;
-    color: #F5F4F4;
-    padding: 5px 22px;
-  
-    &.active {
-      background-color: #000000;
-      border-color: #000000;
-      color: #35C280;
-    }
-  }
-  
+}
+
+.video-list {
+  display: flex;
+  gap: 2.5rem;
+
   .video-item {
     width: 450px;
     height: 316px;
@@ -33,6 +37,22 @@
         position: absolute;
         left: 10px;
         bottom: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(31, 31, 31, 0.7);
+        border-radius: 20px;
+        width: 98px;
+        height: 30px;
+
+        p {
+          font-family: $primary-font;
+          font-size: 15px;
+          color: #F5F4F4;
+          letter-spacing: 0.3px;
+          margin-left: 10px;
+          margin-bottom: 0;
+        }
       }
     }
   
@@ -65,6 +85,7 @@
         .video-title {
           font-family: $primary-font;
           font-size: 16px;
+          font-weight: 700;
           letter-spacing: 0.8px;
           color: #F5F4F4;
         }
@@ -78,3 +99,4 @@
       }
     }
   }
+}

@@ -81,67 +81,60 @@ const Upload = () => {
         centered
       >
         <Modal.Header closeButton>
-          <Modal.Title id="contained-modal-title-vcenter">
-            Modal heading
-          </Modal.Title>
+          <h2 id="contained-modal-title-vcenter">
+            UPLOAD A VIDEO
+          </h2>
         </Modal.Header>
         <Modal.Body>
-          <Container>
-            <Row>
-              <Col>
-                <Form className="upload-form">
-                  <Form.Group controlId="formFile" className="mb-3">
-                    <Form.Label>Upload Video</Form.Label>
-                    <Form.Control type="file" onChange={(e) => handleChange(e, 'video')}/>
-                  </Form.Group>
-      
-                  <Form.Group className="mb-3" controlId="formBasicTitle">
-                    <Form.Label>Title</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter Video Title"
-                      onChange={(e) => handleChange(e, "title")}
-                      value={values.title}
-                    />
-                  </Form.Group>
-      
-                  <Form.Group className="mb-3" controlId="formDescription">
-                    <Form.Label>Description</Form.Label>
-                    <Form.Control
-                      as="textarea"
-                      placeholder="Enter Video Description"
-                      onChange={(e) => handleChange(e, "description")}
-                      value={values.description}
-                      style={{ height: '100px' }}
-                    />
-                  </Form.Group>
-      
-                  <Form.Group controlId="formThumbnailFile" className="mb-3">
-                    <Form.Label>Thumbnail</Form.Label>
-                    <Form.Control type="file" onChange={(e) => handleChange(e, 'thumbnail')}/>
-                  </Form.Group>
-      
-                  <Form.Group className="mb-3" controlId="formBasicCategory">
-                    <Form.Label>Category</Form.Label>
-                    <Form.Select aria-label="Select Category"  onChange={(e) => handleChange(e, "category")} value={values.category}>
-                      <option>Select Category</option>
-                      {
-                        categoryNames.map((title, i) => {
-                          return (
-                            <option key={i} value={title}>{title}</option>
-                          )
-                        })
-                      }
-                    </Form.Select>
-                  </Form.Group>
-      
-                  <Button variant="primary" type="submit" onClick={clickSubmit}>
-                    Publish
-                  </Button>
-                </Form>
-              </Col>
-            </Row>
-          </Container>
+          <Form className="upload-form">
+            <Form.Group controlId="formFile" className="mb-3">
+              <Form.Label>Upload Video</Form.Label>
+              <Form.Control type="file" onChange={(e) => handleChange(e, 'video')}/>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicTitle">
+              <Form.Label>Video Title</Form.Label>
+              <Form.Control
+                type="text"
+                placeholder="Enter Video Title"
+                onChange={(e) => handleChange(e, "title")}
+                value={values.title}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formDescription">
+              <Form.Label>Description</Form.Label>
+              <Form.Control
+                as="textarea"
+                placeholder="Enter Video Description"
+                onChange={(e) => handleChange(e, "description")}
+                value={values.description}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="formThumbnailFile" className="mb-3">
+              <Form.Label>Upload Thumbnail</Form.Label>
+              <Form.Control type="file" onChange={(e) => handleChange(e, 'thumbnail')}/>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="formBasicCategory">
+              <Form.Label>Category</Form.Label>
+              <Form.Select aria-label="Select Category"  onChange={(e) => handleChange(e, "category")} value={values.category}>
+                <option>Select Category</option>
+                {
+                  categoryNames.map((title, i) => {
+                    return (
+                      <option key={i} value={title}>{title}</option>
+                    )
+                  })
+                }
+              </Form.Select>
+            </Form.Group>
+
+            <button type="submit" className="publish-btn" onClick={clickSubmit}>
+              Publish
+            </button>
+          </Form>
         </Modal.Body>
       </Modal>
   );

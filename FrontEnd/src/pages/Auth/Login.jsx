@@ -53,14 +53,13 @@ const Login = (props) => {
   }
 
   return (
-    <Container fluid>
-      <Row>
-        <Col>
+      <div className="auth-container">
+        <div className="auth-col">
           <div className="auth-background">
             <Image alt="random image"/>
           </div>
-        </Col>
-        <Col>
+        </div>
+        <div className="auth-col">
           <div className="auth-form-centered login">
             <div className="auth-form-container">
               <Link to="/">
@@ -90,14 +89,13 @@ const Login = (props) => {
                     LOGIN
                   </Button>
                 </Form>
-                <p className="auth-text"><Link to="/auth/register">Forgot Password</Link>.</p>
-                <p className="auth-text"><Link to="/auth/register">Create Account</Link>.</p>
+                <p className="auth-text"><Link to="/auth/register">Forgot Password</Link></p>
+                <p className="auth-text"><Link to="/auth/register">Create Account</Link></p>
               </div>
             </div>
           </div>
-        </Col>
-      </Row>
-    </Container>
+        </div>
+      </div>
   );
 };
 

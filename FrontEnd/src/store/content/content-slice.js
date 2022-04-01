@@ -9,6 +9,7 @@ const contentSlice = createSlice({
     categoryNames: [],
     videos: [],
     otherVideos: [],
+    likedVideos: [],
     comments: [],
     newComment: null,
     showUploadModal: false,
@@ -27,6 +28,9 @@ const contentSlice = createSlice({
         ...action.payload
       }
     }, 
+    changeSubscribers(state, action) {
+      state.userProfile.subscribers.users = action.payload
+    },
     profileLoader(state, action) {
       state.profileLoader = action.payload
     },
@@ -56,6 +60,9 @@ const contentSlice = createSlice({
     },
     setVideos(state, action) {
       state.videos = action.payload
+    },
+    setLikedVideos(state, action) {
+      state.likedVideos = action.payload
     },
     setVideoComments(state, action) {
       // console.log(action.payload)

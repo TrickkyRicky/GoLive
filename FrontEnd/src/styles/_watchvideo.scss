@@ -1,88 +1,272 @@
 // individual video page
+$golive-text: #f5f4f4;
+$golive-timestamp: #9c9c9c;
+$pill-bg: #585858;
+$section-bg: #323432;
+
 .video-container {
-    max-height: 788px;
-  }
+  max-height: 78.8rem;
+  margin-bottom: 2.5rem;
+}
   
-  .primary-info {
+.primary-info {
+  display: flex;
+  justify-content: space-between;
+
+  .video-title {
+    font-family: $primary-font;
+    font-size: 2.5rem;
+    font-weight: 700;
+    letter-spacing: 1.95px;
+    color: $golive-text;
+  }
+
+  .video-category {
+    display: inline-block;
+    padding: 0.5rem 1.0rem;
+    background-color: $pill-bg;
+    border-radius: 1.0rem;
+    font-family: $primary-font;
+    font-size: 1.2rem;
+    letter-spacing: 0.6px;
+    color: $golive-text;
+  }
+
+  .video-views-count, .video-likes-count {
+    font-family: $primary-font;
+    font-size: 1.8rem;
+    letter-spacing: 1.25px;
+    color: $golive-text;
+  }
+}
+  
+.secondary-info {
+  border-bottom: 1px solid #323432;
+  margin-bottom: 3.4rem;
+
+  .video-owner {
     display: flex;
-    justify-content: space-between;
+    gap: 1.4rem;
+    align-items: center;
+    padding: 1.0rem 0;
+
+    .video-owner-avatar {
+      width: 7.0rem;
+      height: 7.0rem;
+      border-radius: 50%;
+    }
   
-    .video-title {
+    .video-owner-username {
       font-family: $primary-font;
-      letter-spacing: 1.95px;
-      color: #F5F4F4;
+      font-size: 2.2rem;
+      font-weight: 700;
+      letter-spacing: 1.05px;
+      color: $golive-text;
+      text-decoration: none;
     }
-  
-    .video-views-count {
+
+    .video-owner-subscribers {
       font-family: $primary-font;
-      letter-spacing: 1.25px;
-      color: #F5F4F4;
+      font-size: 2.0rem;
+      letter-spacing: 0.4px;
+      color: $golive-text;
     }
   }
-  
-  .secondary-info {
-    border-bottom: 1px solid #323432;
-    margin-bottom: 34px;
-  
-    .video-owner {
-      display: flex;
-      gap: 14px;
-      align-items: center;
-      padding: 10px 0;
-  
-      .video-owner-avatar {
-        width: 70px;
-        height: 70px;
-        border-radius: 50%;
-      }
-    
-      .video-owner-username {
-        font-family: $primary-font;
-        letter-spacing: 1.05px;
-        color: #F5F4F4;
-      }
-  
-      .video-owner-subscribers {
-        font-family: $primary-font;
-        letter-spacing: 0.4px;
-        color: #F5F4F4;
-      }
-    }
-  
-    .video-description {
-      color: #F5F4F4;
-    }
+
+  .video-description {
+    font-family: $primary-font;
+    font-size: 1.5rem;
+    letter-spacing: 0.75px;
+    color: $golive-text;
   }
-  
-  .comment-box {
-    display: flex;
-    gap: 12px;
-  
-    .comment-form {
-      width: 100%;
-    }
+
+  .video-timestamp {
+    font-family: $primary-font;
+    font-size: 1.3rem;
+    letter-spacing: 0.75px;
+    color: $golive-text;
   }
+}
   
-  .video-comments-count {
-    p {
-      color: #F5F4F4;
-    }
-  }
-  
-  .comments-avatar {
-    width: 51px;
-    height: 51px;
+.comment-box {
+  display: flex;
+  gap: 1.2rem;
+  margin-bottom: 1.4rem;
+
+  .comment-avatar {
+    width: 5.1rem;
+    height: 5.1rem;
     border-radius: 50%;
+    margin-right: 1.2rem;
   }
   
-  .comment-container {
+  .comment-form {
+    width: 100%;
+  }
+
+  .comment-btn {
+    display: block;
+    margin-left: auto;
+  }
+}
+
+.video-comments-count, .login-alert {
+  font-family: $primary-font;
+  font-size: 2.1rem;
+  letter-spacing: 1.05px;
+  color: $golive-text;
+  margin-bottom: 3.0rem;
+}
+
+//Individial comment
+.comment-container {
+  display: flex;
+  margin-bottom: 2.5rem;
+
+  .comment-avatar {
+    width: 5.1rem;
+    height: 5.1rem;
+    border-radius: 50%;
+    margin-right: 1.4rem;
+  }
+
+  .comment-header {
     display: flex;
-  
-    h2 {
-      color: #F5F4F4;
+    align-items: baseline;
+    gap: 1.4rem;
+
+    h3 {
+      font-family: $primary-font;
+      font-size: 2.0rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      color: $golive-text;
+      margin: 0;
     }
-  
+
     p {
-      color: #F5F4F4;
+      font-family: $primary-font;
+      font-size: 1.4rem;
+      letter-spacing: 0.8px;
+      color: $golive-timestamp;
+      margin: 0;
     }
   }
+
+  p {
+    font-family: $primary-font;
+    font-size: 1.4rem;
+    letter-spacing: 0.75px;
+    color: $golive-text;
+    margin: 0;
+  }
+}
+
+
+//Other videos section
+.video-section {
+  background-color: $section-bg;
+  border-radius: 20px;
+  padding: 2.5rem;
+
+  .video-section-title {
+    margin-bottom: 2.5rem;
+  }
+}
+
+.video-section-list {
+  .video-item {
+    .video-row {
+      display: flex;
+
+      .video-thumbnail-container {
+        width: 29.1rem;
+        height: 16.4rem;
+        margin-right: 1.7rem;
+        border-radius: 10px;
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 10px;
+        }
+      }
+
+      .video-details {
+
+        .video-title {
+          font-family: $primary-font;
+          font-size: 2.2rem;
+          font-weight: 700;
+          letter-spacing: 0.9px;
+          color: $golive-text;
+          margin-bottom: 1.4rem;
+          text-decoration: none;
+        }
+
+        .video-category {
+          display: inline-block;
+          background-color: $pill-bg;
+          border-radius: 1.0rem;
+          font-family: $primary-font;
+          font-size: 1.2rem;
+          letter-spacing: 0.6px;
+          color: $golive-text;
+          padding: 0.2rem 0.8rem;
+          margin-bottom: 1.0rem;
+        }
+
+        .video-owner {
+          display: flex;
+          margin-bottom: 1.4rem;
+          
+          .video-user-avatar {
+            width: 5.1rem;
+            height: 5.1rem;
+            border-radius: 50%;
+            margin-right: 1.4rem;
+          }
+  
+          .video-username {
+            font-family: $primary-font;
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+            color: $golive-text;
+            margin-bottom: 0.5rem;
+          }
+  
+          .video-category {
+            font-family: $primary-font;
+            font-size: 1.4rem;
+            letter-spacing: 0.3px;
+            color: $golive-text;
+            margin: 0;
+          }
+        }
+
+        .video-stats {
+          display: flex;
+          gap: 1.0rem;
+
+          .video-views {
+            font-family: $primary-font;
+            font-size: 1.2rem;
+            letter-spacing: 0.8px;
+            color: $golive-text;
+            margin: 0;
+          }
+
+          .video-timestamp {
+            font-family: $primary-font;
+            font-size: 1.2rem;
+            letter-spacing: 0.8px;
+            color: $golive-text;
+            margin: 0;
+          }
+        }
+      }
+    }
+  }
+}

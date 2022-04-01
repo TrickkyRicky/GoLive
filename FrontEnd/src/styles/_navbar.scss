@@ -17,7 +17,10 @@
     align-items: center;
 }
 
-.nav-collection {
+.nav-collection { 
+    display: flex;
+    gap: 14px;
+    align-items: center;
     margin-right: 33px;
 }
 
@@ -31,41 +34,21 @@
         }
 
         .nav-link {
+            font-family: $primary-font;
+            font-size: 1.6rem;
+            letter-spacing: 1.4px;
             color: #f5f4f4;
             background-color: black;
             border-radius: 50px;
+
+            &:focus,
+            &:hover {
+                color: #f5f4f4;
+            }
 
             &.link-register {
                 background-color: #35C280;
             }
         }
-    }
-}
-
-.form-label {
-    color: #f5f4f4;
-}
-
-.search-form {
-    position: relative;
-    display: flex;
-
-    .core-search-input {
-        background-color: #585858;
-        border-radius: 50px;
-        border: 0;
-        width: 360px;
-        height: 45px;
-        padding-right: 50px;
-    }
-
-    .core-search-btn {
-        background-color: #585858;
-        position: absolute;
-        right: 0;
-        border-radius: 50px;
-        width: 50px;
-        height: 100%;
-        border: 0;
     }
 }
