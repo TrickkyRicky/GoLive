@@ -16,8 +16,9 @@ const user = require("./routes/user");
 const content = require("./routes/content");
 const comment = require("./routes/comment");
 
+// change the origin to hosted server origin
+server.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 server.use(streamWare);
-server.use(cors());
 server.use(express.json());
 
 server.use("/auth", auth);
@@ -43,7 +44,15 @@ mongoose
     useUnifiedTopology: true,
   })
   .then(() => {
-    server.listen(port);
+    const nodeServer = server.listen(port);
+    const io = require("./socket").init(nodeServer);
+    io.on("connection", (s) => {
+      console.log("CONNNECTED IO SOCKET");
+      s.on("disconnect", () => {
+        console.log("SOCKET DC'D");
+      });
+      console.log(s.handshake.query.foo);
+    });
   })
   .then(() => {
     console.log(port);
@@ -52,4 +61,4 @@ mongoose
   .catch((e) => {
     console.log("WE DIDNT CONNECT");
   });
-media_server.run();
+// media_server.run();
