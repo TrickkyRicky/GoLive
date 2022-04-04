@@ -21,8 +21,8 @@ mongoose.connection.on("connected", () => {
 
 exports.getUserInfo = async (req, res, next) => {
   try {
-    const user = await User.findById(req.userId).select(
-      "-password -live -resetToken -resetTokenExpiration -createdAt -updatedAt -_id -__v"
+    const user = await User.findById(req.userId).populate('subscribed.users', 'username avatar').select(
+      "username avatar subscribed"
     );
     return res.status(200).json(user);
   } catch (err) {
@@ -32,7 +32,7 @@ exports.getUserInfo = async (req, res, next) => {
     next(err);
   }
 };
-
+ 
 exports.getLikedVideos = async (req, res) => {
   try {
     const videos = await Video.find({
@@ -84,19 +84,19 @@ exports.updateUser = async (req, res) => {
   });
 };
 
-exports.deleteUser = async (req, res) => {
-  try {
-    let user = req.user;
+// exports.deleteUser = async (req, res) => {
+//   try {
+//     let user = req.user;
 
-    let deletedUser = await user.remove();
+//     let deletedUser = await user.remove();
 
-    res.json(deletedUser);
-  } catch (e) {
-    return res.status(400).json({
-      error: "Could not delete.",
-    });
-  }
-};
+//     res.json(deletedUser);
+//   } catch (e) {
+//     return res.status(400).json({
+//       error: "Could not delete.",
+//     });
+//   }
+// };
 
 exports.getAvatar = (req, res, next) => {
   //send back data
@@ -278,17 +278,24 @@ exports.postComment = async (req, res) => {
 
     let result = await data.populate("userId", "username avatar");
 
-    //Add comment to video
-    // await Video.findOneAndUpdate(
-    //   { _id: req.body.videoId },
-    //   { $push: { "chat.comments": newComment._id } },
-    //   { new: true }
-    // );
-
     res.status("200").json(result);
   } catch (e) {
     return res.status("400").json({
       error: "Could not save comment",
+    });
+  }
+};
+
+exports.deleteComment = async (req, res) => {
+  //Delete comment
+  try {
+    let comment = await Comment.findById(req.params.commentId);
+    let deletedComment = await comment.remove();
+
+    res.status("200").json(deletedComment);
+  } catch (e) {
+    return res.status("400").json({
+      error: "Could not delete comment",
     });
   }
 };

@@ -17,9 +17,10 @@ export const getUser = (jwt) => {
     };
     try {
       const response = await getData();
-      // console.log(response);
+      console.log(response);
 
       dispatch(userActions.getUserInfo(response));
+      dispatch(contentActions.listShow(true));
 
       return response;
     } catch (e) {
@@ -199,6 +200,33 @@ export const postComment = (jwt, comment, videoId) => {
   };
 };
 
+export const deleteComment = (jwt, commentId) => {
+  return async (dispatch) => {
+    const deleteComment = async () => {
+
+      const response = await fetch("http://localhost:8080/user/video/comment/" + commentId, {
+        method: "DELETE",
+        headers: {
+          "Accept": "application/json",
+          "Authorization": "Bearer " + jwt,
+        }
+      });
+
+      if (response.status !== 200) {
+        throw new Error("Failed to delete comment");
+      }
+      return response.json();
+    };
+    try {
+      const deletedComment = await deleteComment();
+
+      dispatch(contentActions.deleteComment(deletedComment)); 
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
 export const subscribe = (jwt, followId) => {
   return async (dispatch) => {
     const subscribeTo = async () => {
@@ -232,7 +260,7 @@ console.log(response)
     }
   };
 };
-
+ 
 export const unsubscribe = (jwt, unfollowId) => {
   return async (dispatch) => {
     const unsubscribeFrom = async () => {

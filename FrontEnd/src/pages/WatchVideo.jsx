@@ -11,7 +11,7 @@ import Button from "react-bootstrap/Button";
 import Image from 'react-bootstrap/Image';
 
 import { getSingleVideo, getOtherVideos, getVideoComments } from "../store/content/content-actions";
-import { likeVideo, unlikeVideo, postComment, subscribe, unsubscribe } from "../store/user/user-actions";
+import { likeVideo, unlikeVideo, postComment, deleteComment, subscribe, unsubscribe } from "../store/user/user-actions";
 
 import Video from "../components/Video"; 
 import { Buffer } from "buffer";
@@ -31,26 +31,11 @@ const WatchVideo = () => {
   const isSubscribed = useSelector((state) => state.content.subscribed);
   const liked = useSelector((state) => state.content.liked);
 
-  const videoComments = useSelector((state) => {
-    return {
-      comments: state.content.comments
-    }
-  });
+  const videoComments = useSelector((state) => state.content.comments);
 
-  const user = useSelector((state) => {
-    return {
-      username: state.user.username,
-      avatar: state.user.avatar,
-    };
-  }); 
+  const user = useSelector((state) => state.user); 
 
-  const auth = useSelector((state) => {
-    return {
-      jwt: state.auth.jwtToken,
-      isAuth: state.auth.isAuth,
-      userId: state.auth.userIdLogin
-    };
-  });
+  const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
     dispatch(getSingleVideo(videoId));
@@ -68,7 +53,7 @@ const WatchVideo = () => {
   const clickSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(postComment(auth.jwt, values.comment, videoId));
+    dispatch(postComment(auth.jwtToken, values.comment, videoId));
 
     setValues({
       ...values,
@@ -79,25 +64,31 @@ const WatchVideo = () => {
   const likeClick = (e) => {
     e.preventDefault();
 
-    dispatch(likeVideo(auth.jwt, videoId));
+    dispatch(likeVideo(auth.jwtToken, videoId));
   }
 
   const unlikeClick = (e) => {
     e.preventDefault();
 
-    dispatch(unlikeVideo(auth.jwt, videoId));
+    dispatch(unlikeVideo(auth.jwtToken, videoId));
   }
 
   const subscribeClick = (e) => {
     e.preventDefault();
 
-    dispatch(subscribe(auth.jwt, videoInfo.userId._id));
+    dispatch(subscribe(auth.jwtToken, videoInfo.userId._id));
   }
 
   const unsubscribeClick = (e) => {
     e.preventDefault();
 
-    dispatch(unsubscribe(auth.jwt, videoInfo.userId._id));
+    dispatch(unsubscribe(auth.jwtToken, videoInfo.userId._id));
+  }
+
+  const deleteCommentClick = (e, comment) => {
+    e.preventDefault();
+
+    dispatch(deleteComment(auth.jwtToken, comment._id));
   }
 
   return (
@@ -159,12 +150,12 @@ const WatchVideo = () => {
                             { videoInfo?.userId.username }
                           </Link>
                           <p className="video-owner-subscribers">
-                            { videoInfo?.userId.subscribers.users.length } Subscribers
+                            { videoInfo?.userId.subscribers.users.length } {videoInfo?.userId.subscribers.users.length == 1 ? "Subscriber" : "Subscribers" }
                           </p>
                         </div>
                       </div>
                       {
-                        auth.isAuth && videoInfo?.userId._id != auth.userId && (
+                        auth.isAuth && videoInfo?.userId._id != auth.userIdLogin && (
                           <div>
                             {
                               isSubscribed ? (
@@ -223,11 +214,11 @@ const WatchVideo = () => {
                     )
                   }
                   <h2 className="video-comments-count">
-                    { videoComments?.comments.length } {videoComments?.comments.length == 1 ? "Comment" : "Comments" }
+                    { videoComments?.length } {videoComments?.length == 1 ? "Comment" : "Comments" }
                   </h2>
                   <div>
                     {
-                      videoComments?.comments.map((comment, i) => {
+                      videoComments?.map((comment, i) => {
                         return (
                           <div className="comment-container" key={i}>
                             <Image
@@ -244,6 +235,13 @@ const WatchVideo = () => {
                               <div className="comment-header">
                                 <h3>{comment.userId.username}</h3>
                                 <p>{new Date(comment.createdAt).toLocaleDateString()}</p>
+                                {
+                                  auth.isAuth && auth.userIdLogin == comment.userId._id && (
+                                    <button type="button" className="btn btn-danger" onClick={(e) => deleteCommentClick(e, comment)}>
+                                      Trash
+                                    </button>
+                                  )
+                                }
                               </div>
                               <p>{comment.comment}</p>
                             </div>

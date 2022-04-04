@@ -7,6 +7,7 @@ const contentSlice = createSlice({
     profileLoader: false,
     videoInfo: null,
     categoryNames: [],
+    listShow: false,
     videos: [],
     otherVideos: [],
     likedVideos: [],
@@ -17,6 +18,9 @@ const contentSlice = createSlice({
     liked: false
   },
   reducers: {
+    listShow(state, action) {
+      state.listShow = action.payload
+    },
     liked(state, action) {
       state.liked = action.payload
     },
@@ -62,12 +66,14 @@ const contentSlice = createSlice({
       state.likedVideos = action.payload
     },
     setVideoComments(state, action) {
-      // console.log(action.payload)
       state.comments = action.payload
     },
     addComment(state, action) {
-      // console.log(action.payload)
       state.comments.push(action.payload)
+    },
+    deleteComment(state, action) {
+      let index = state.comments.indexOf(action.payload);
+      state.comments.splice(index, 1);
     },
     showUploadModal(state, action) {
       state.showUploadModal = action.payload

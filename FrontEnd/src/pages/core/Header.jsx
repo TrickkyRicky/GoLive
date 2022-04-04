@@ -110,6 +110,7 @@ export default function Header() {
                       <Dropdown.Menu className="create-dropdown">
                         <div className="button-stack">
                           <button type="button" className="dropdown-item">
+
                             <div className="icon-item">
                               <div className="icon-container">
                                 <MdHeadsetMic size={18} color={"#f5f4f4"} />
@@ -118,8 +119,10 @@ export default function Header() {
                                 Stream
                               </p>
                             </div>
+
                           </button>
                           <button type="button" className="dropdown-item" onClick={openUpload}>
+
                             <div className="icon-item">
                               <div className="icon-container">
                                 <FaUpload size={18} color={"#f5f4f4"} />
@@ -128,6 +131,7 @@ export default function Header() {
                                 Upload Video
                               </p>
                             </div>
+
                           </button>
                         </div>
                       </Dropdown.Menu>

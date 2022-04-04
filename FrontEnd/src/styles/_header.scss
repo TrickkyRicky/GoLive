@@ -61,12 +61,12 @@
   align-items: center;
   width: 172px;
   margin: 0 auto;
-  padding: 10px 0;
+  padding: 2.0rem 0;
 }
 
 .dropdown-avatar {
-  width: 51px;
-  height: 51px;
+  width: 5.1rem;
+  height: 5.1rem;
   border-radius: 50%;
 }
 
@@ -124,11 +124,21 @@
   width: 215px;
   height: 193px;
   border-radius: 10px;
+
+  .core-text {
+    font-family: $primary-font;
+    font-size: 1.5rem;
+    letter-spacing: 0.3px;
+  }
 }
 
 .create-container {
   background-color: transparent;
-  border: 0;
+  border: 0; 
+
+  &:hover {
+    background-color: #000;
+  }
 }
 
 .create-dropdown {
@@ -136,10 +146,12 @@
   width: 215px;
   height: 124px;
   border-radius: 10px;
-}
 
-.dropdown-toggle::after {
-  display: none;
+  .core-text {
+    font-family: $primary-font;
+    font-size: 1.5rem;
+    letter-spacing: 0.3px;
+  }
 }
 
 .site-text {

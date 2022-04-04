@@ -32,6 +32,34 @@ p {
   box-shadow: 0 0 0 0.25rem #F5F4F4;
   border: 0;
 }
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.show > .btn-primary.dropdown-toggle {
+  background-color: #000;
+  border-color: #000;
+
+  &:focus {
+    box-shadow: none;
+  }
+}
+
+.btn-primary {
+  &:focus {
+    box-shadow: 0 0 0 0.25rem #f5f4f4;
+  }
+}
+
+.dropdown-item:hover {
+  background-color: lighten($color: #323432, $amount: 10%);
+}
+
+a:hover {
+  color: #f5f4f4;
+}
+
 /*********************************       MainLayout          *************************************/
 .main-layout {
   background-color: #1f1f1f;
