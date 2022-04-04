@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+
 //Bootstrap
 import Container from "react-bootstrap/Container";
 import Navbar from "react-bootstrap/Navbar";
@@ -7,11 +8,9 @@ import Nav from "react-bootstrap/Nav";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
-import Offcanvas from "react-bootstrap/Offcanvas";
 import Image from "react-bootstrap/Image";
 
-import { useNavigate, Link } from "react-router-dom";
-import { LinkContainer } from "react-router-bootstrap";
+import { Link, useLocation } from "react-router-dom";
 import { logout } from "../../store/auth/auth-actions";
 import { getUser } from "../../store/user/user-actions";
 import { contentActions } from "../../store/content/content-slice";
@@ -20,7 +19,6 @@ import { Buffer } from "buffer";
 
 //Assets
 import logo from "../../assets/Logo.png";
-import videoCamera from "../../assets/video-plus-svgrepo-com.svg";
 import logoutIcon from "../../assets/right-from-bracket-solid.png";
 import gearIcon from "../../assets/gear-solid.png";
 import { FaSearch } from 'react-icons/fa';
@@ -30,13 +28,13 @@ import { HiThumbUp } from 'react-icons/hi';
 import { MdHeadsetMic } from 'react-icons/md';
 
 export default function Header() {
-  let navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const auth = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
  
-  // console.log(user);
+  // console.log(location);
 
   useEffect(() => {
     if(auth.jwtToken) {
@@ -49,10 +47,6 @@ export default function Header() {
     e.preventDefault();
 
     dispatch(logout());
-
-    navigate("/", {
-      replace: true,
-    });
   };
 
   const openUpload = (e) => {
@@ -66,15 +60,13 @@ export default function Header() {
       <Container fluid>
         <Navbar className="justify-content-between">
           
-          <LinkContainer to="/">
-            <Navbar.Brand>
+          <Navbar.Brand as={Link} to="/">
             <img
               src={logo}
               className="d-inline-block align-top"
               alt="Go Live Logo"
             />
-            </Navbar.Brand>
-          </LinkContainer>
+          </Navbar.Brand>
 
           <Form className="search-form">
             <Form.Control
@@ -92,15 +84,14 @@ export default function Header() {
             !auth.isAuth && (
               <Nav className="auth-nav">
                 <Nav.Item>
-                  <LinkContainer to="/auth/login">
-                    <Nav.Link>Login</Nav.Link>
-                  </LinkContainer>
+                  <Nav.Link as={Link} to="/auth/login" state={{ from: location.pathname }}>
+                    Login
+                  </Nav.Link>
                 </Nav.Item>
-
                 <Nav.Item>
-                  <LinkContainer to="/auth/register">
-                    <Nav.Link className="link-register">Register</Nav.Link>
-                  </LinkContainer>
+                  <Nav.Link as={Link} to="/auth/register" className="link-register">
+                    Register
+                  </Nav.Link>
                 </Nav.Item>
               </Nav>
             )

@@ -24,8 +24,13 @@ p {
 }
 
 //Boostrap overrides
+.form-control {
+  border: 0;
+}
+
 .form-control:focus {
   box-shadow: 0 0 0 0.25rem #F5F4F4;
+  border: 0;
 }
 /*********************************       MainLayout          *************************************/
 .main-layout {

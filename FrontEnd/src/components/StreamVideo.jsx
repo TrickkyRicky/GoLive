@@ -69,7 +69,7 @@ const StreamVideo = (props) => {
   }, [playerRef]);
 
   return (
-    <div style={{ width: "40%", height: "500px" }}>
+    <div style={{ height: "50px" }}>
       <video ref={videoRef} className="video-js vjs-big-play-centered" />
     </div>
   );

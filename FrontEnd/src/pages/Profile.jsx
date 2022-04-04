@@ -63,7 +63,7 @@ const Profile = () => {
                     {profileState.profile?.username}
                 </h2>
                 <p className="channel-pill">
-                    {profileState.profile?.subscribers.users.length} Subscribers
+                    {profileState.profile?.subscribers.users.length} {profileState.profile?.subscribers.users.length == 1 ? "Subscriber" : "Subscribers"}
                 </p>
                 {
                     auth.isAuth && profileState.profile?._id != auth.userIdLogin && (
@@ -121,13 +121,13 @@ const Profile = () => {
                         </Tab.Pane>
                         <Tab.Pane eventKey="Videos">
                             <div className="video-list">
-                                {
-                                    profileState.profile?.media.videos.map((video, i) => {
-                                        return (
-                                            
-                                                <div className="video-item" key={i}>
-                                                    <Link to={"/watch/" + video._id}>
-                                                        <Image className="video-thumbnail" 
+                            {
+                                profileState.profile?.media.videos.map((video, i) => {
+                                    return (
+                                        <div key={i} className="video-item">
+                                            <div className="video-overlay">
+                                                <Link to={"/watch/" + video._id}>
+                                                    <Image className="video-thumbnail" 
                                                         src={
                                                         video.thumbnail
                                                             ? `data:${video.thumbnail.contentType};base64,${Buffer.from(
@@ -135,21 +135,26 @@ const Profile = () => {
                                                             ).toString("base64")}`
                                                             : "http://localhost:8080/user/defaultAvatar"
                                                         }
-                                                        alt="thumbnail" />
-                                                    </Link>
-                                                    <div className="video-item-body">
-                                                        <Link to={"/watch/" + video._id}>
-                                                            <h5 className="video-title">{video.title}</h5>
-                                                        </Link>
-                                                        <div className="video-details">
-                                                            <p className="video-views">{video.views} Views</p>
-                                                            <p className="video-time">{new Date(video.createdAt).toDateString()}</p>
-                                                        </div>
+                                                    alt="thumbnail" />
+                                                </Link>
+                                            </div> 
+                                            <div className="video-item-body">
+                                                <Link to={"/Watch/" + video._id}>
+                                                    <h5 className="video-title">{video.title}</h5>
+                                                </Link>
+                                                <div className="video-details">
+                                                    <div className="video-views">
+                                                        {video.views} views
+                                                    </div>
+                                                    <div className="video-timestamp">
+                                                        {new Date(video.createdAt).toDateString()}
                                                     </div>
                                                 </div>
-                                        )
-                                    })
-                                }
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
                             </div>
                         </Tab.Pane>
                     </Tab.Content>

@@ -2,6 +2,9 @@ import React, { useRef, useEffect } from "react";
 import { Brush } from "@visx/brush";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
+import StreamVideo from "../components/StreamVideo";
+import io from "socket.io-client";
+
 const url = "http://localhost:8080/content/watch/6238feffd59f8385b8fdcc9c";
 // const url = "http://localhost:8080/content/watch/623a47ffcf8e15d3d466a5ef";
 const brushMargin = { top: 10, bottom: 15, left: 50, right: 20 };
@@ -22,6 +25,12 @@ const Clip = (props) => {
   const brushRef = useRef(null);
 
   console.log(playerRef);
+
+  useEffect(() => {
+    io.connect("http://localhost:8080", {
+      withCredentials: true,
+    });
+  }, []);
 
   const handlePlayerReady = (player) => {
     playerRef.current = player;
@@ -81,51 +90,60 @@ const Clip = (props) => {
       }
     };
   }, [playerRef]);
+
   return (
-    <div
-      style={{
-        width: "100%",
-        display: "flex",
-        flexDirection: "column",
-        height: "140vh",
-      }}
-    >
-      <video
-        ref={videoRef}
-        // style={{ height: 400 }}
-        className="video-js vjs-big-play-centered"
-      />
-      <svg
-        width={"100%"}
-        height={"100%"}
-        style={{ marginTop: "20px", display: "flex", justifyContent: "center" }}
+    <>
+      <StreamVideo streamKey={"STREAM_NAME"} />
+      <div
+        style={{
+          marginTop: "1000px",
+          width: "100%",
+          display: "flex",
+          flexDirection: "column",
+          height: "140vh",
+        }}
       >
-        <Brush
-          // xScale={brushDateScale}
-          // yScale={brushStockScale}
-          xScale={20}
-          yScale={10}
-          // width={xBrushMax}
-          // height={yBrushMax}
-          width={1500}
-          height={100}
-          margin={brushMargin}
-          handleSize={8}
-          innerRef={brushRef}
-          resizeTriggerAreas={["left", "right"]}
-          brushDirection="horizontal"
-          // initialBrushPosition={() => ({
-          //   start: { x: 1 },
-          //   end: { x: 10 },
-          // })}
-          // initialBrushPosition={initialBrushPosition}
-          // onChange={onBrushChange}
-          // onClick={() => setFilteredStock(stock)}
-          selectedBoxStyle={selectedBrushStyle}
-          useWindowMoveEvents
+        <video
+          ref={videoRef}
+          // style={{ height: 400 }}
+          className="video-js vjs-big-play-centered"
         />
-      </svg>
-    </div>
+        <svg
+          width={"100%"}
+          height={"100%"}
+          style={{
+            marginTop: "20px",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Brush
+            // xScale={brushDateScale}
+            // yScale={brushStockScale}
+            xScale={20}
+            yScale={10}
+            // width={xBrushMax}
+            // height={yBrushMax}
+            width={1500}
+            height={100}
+            margin={brushMargin}
+            handleSize={8}
+            innerRef={brushRef}
+            resizeTriggerAreas={["left", "right"]}
+            brushDirection="horizontal"
+            // initialBrushPosition={() => ({
+            //   start: { x: 1 },
+            //   end: { x: 10 },
+            // })}
+            // initialBrushPosition={initialBrushPosition}
+            // onChange={onBrushChange}
+            // onClick={() => setFilteredStock(stock)}
+            selectedBoxStyle={selectedBrushStyle}
+            useWindowMoveEvents
+          />
+        </svg>
+      </div>
+    </>
   );
 };
 

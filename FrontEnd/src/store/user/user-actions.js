@@ -225,7 +225,6 @@ export const subscribe = (jwt, followId) => {
       const response = await subscribeTo();
 console.log(response)
       dispatch(contentActions.addVideoInfo(response)); 
-      dispatch(contentActions.changeSubscribers(response.subscribers.users)); 
       dispatch(contentActions.subscribed(true)); 
 
     } catch (e) {
@@ -258,8 +257,8 @@ export const unsubscribe = (jwt, unfollowId) => {
 
     try {
       const response = await unsubscribeFrom();
+      console.log(response)
       dispatch(contentActions.addVideoInfo(response)); 
-      dispatch(contentActions.changeSubscribers(response.subscribers.users)); 
       dispatch(contentActions.subscribed(false));
     } catch (e) {
       console.log(e);

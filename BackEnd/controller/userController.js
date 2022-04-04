@@ -31,12 +31,12 @@ exports.getUserInfo = async (req, res, next) => {
     }
     next(err);
   }
-}; 
+};
 
 exports.getLikedVideos = async (req, res) => {
   try {
     const videos = await Video.find({
-      "likes": req.userId
+      likes: req.userId,
     }).populate("userId");
 
     res.status(200).json(videos);
@@ -45,7 +45,7 @@ exports.getLikedVideos = async (req, res) => {
       error: "Could not get liked videos",
     });
   }
-}; 
+};
 
 exports.updateUser = async (req, res) => {
   let form = new formidable.IncomingForm();
@@ -160,6 +160,7 @@ exports.uploadvideo = async (req, res) => {
   });
 };
 
+// THIS IS FNISHED YET
 exports.uploadStream = async (req, res, next) => {
   const title = req.body.title;
   const category = req.body.category;
@@ -225,70 +226,74 @@ exports.uploadStream = async (req, res, next) => {
     });
   });
 };
- 
+
 exports.likeVideo = async (req, res) => {
-
-    try {
-      let result = await Video.findByIdAndUpdate(req.body.videoId, {
+  try {
+    let result = await Video.findByIdAndUpdate(
+      req.body.videoId,
+      {
         $push: {
-          likes: req.userId
-        }
-      }, { new: true });
+          likes: req.userId,
+        },
+      },
+      { new: true }
+    );
 
-      res.status("200").json(result);
-    } catch (e) {
-      return res.status("400").json({
-        error: "Could not like video",
-      });
-    }
+    res.status("200").json(result);
+  } catch (e) {
+    return res.status("400").json({
+      error: "Could not like video",
+    });
+  }
 };
 
 exports.unlikeVideo = async (req, res) => {
-
-    try {
-      let result = await Video.findByIdAndUpdate(req.body.videoId, {
+  try {
+    let result = await Video.findByIdAndUpdate(
+      req.body.videoId,
+      {
         $pull: {
-          likes: req.userId
-        }
-      }, { new: true });
+          likes: req.userId,
+        },
+      },
+      { new: true }
+    );
 
-      res.status("200").json(result);
-    } catch (e) {
-      return res.status("400").json({
-        error: "Could not unlike video",
-      });
-    }
+    res.status("200").json(result);
+  } catch (e) {
+    return res.status("400").json({
+      error: "Could not unlike video",
+    });
+  }
 };
 
 exports.postComment = async (req, res) => {
+  //Create new comment
+  let newComment = new Comment(req.body);
+  newComment.userId = req.userId;
+  newComment.timestamps = Date.now();
 
-    //Create new comment
-    let newComment = new Comment(req.body);
-    newComment.userId = req.userId;
-    newComment.timestamps = Date.now();
+  try {
+    let data = await newComment.save();
 
-    try {
-      let data = await newComment.save();
+    let result = await data.populate("userId", "username avatar");
 
-      let result = await data.populate('userId', 'username avatar');
+    //Add comment to video
+    // await Video.findOneAndUpdate(
+    //   { _id: req.body.videoId },
+    //   { $push: { "chat.comments": newComment._id } },
+    //   { new: true }
+    // );
 
-      //Add comment to video
-      // await Video.findOneAndUpdate(
-      //   { _id: req.body.videoId },
-      //   { $push: { "chat.comments": newComment._id } },
-      //   { new: true }
-      // );
-
-      res.status("200").json(result);
-    } catch (e) {
-      return res.status("400").json({
-        error: "Could not save comment",
-      });
-    }
+    res.status("200").json(result);
+  } catch (e) {
+    return res.status("400").json({
+      error: "Could not save comment",
+    });
+  }
 };
 
 exports.addSubscribed = async (req, res, next) => {
-
   try {
     //followId is the user you're trying to subscribe to
     await User.findByIdAndUpdate(
@@ -305,7 +310,6 @@ exports.addSubscribed = async (req, res, next) => {
 };
 
 exports.addSubscriber = async (req, res) => {
-
   try {
     //followId is the user that has a new subscriber
     let result = await User.findByIdAndUpdate(
@@ -313,10 +317,10 @@ exports.addSubscriber = async (req, res) => {
       { $push: { "subscribers.users": req.userId } },
       { new: true }
     )
-    .populate('subscribed.users', '_id name')
-    .populate('subscribers.users', '_id name')
-    .select('_id username avatar')
-    .exec();
+      .populate("subscribed.users", "_id name")
+      .populate("subscribers.users", "_id name")
+      .select("_id username avatar")
+      .exec();
 
     res.json(result);
   } catch (e) {
@@ -327,7 +331,6 @@ exports.addSubscriber = async (req, res) => {
 };
 
 exports.removeSubscribed = async (req, res, next) => {
-
   try {
     //followId is the user you're trying to unsubscribe from
     await User.findByIdAndUpdate(
@@ -344,7 +347,6 @@ exports.removeSubscribed = async (req, res, next) => {
 };
 
 exports.removeSubscriber = async (req, res) => {
-
   try {
     //followId is the user that has a unsubscriber
     let result = await User.findByIdAndUpdate(
@@ -352,10 +354,10 @@ exports.removeSubscriber = async (req, res) => {
       { $pull: { "subscribers.users": req.userId } },
       { new: true }
     )
-    .populate('subscribed.users', '_id name')
-    .populate('subscribers.users', '_id name')
-    .select('_id username avatar')
-    .exec();
+      .populate("subscribed.users", "_id name")
+      .populate("subscribers.users", "_id name")
+      .select("_id username avatar")
+      .exec();
 
     res.json(result);
   } catch (e) {
