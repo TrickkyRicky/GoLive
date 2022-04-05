@@ -24,7 +24,7 @@ export const getUser = (jwt) => {
 
       return response;
     } catch (e) {
-      console.log('Error getting user data: ' + e);
+      console.log("Error getting user data: " + e);
     }
   };
 };
@@ -51,7 +51,7 @@ export const getLikedVideos = (jwt) => {
 
       return response;
     } catch (e) {
-      console.log('Error getting user data: ' + e);
+      console.log("Error getting user data: " + e);
     }
   };
 };
@@ -91,8 +91,8 @@ export const uploadVideo = (jwt, newVideo) => {
       const response = await fetch("http://localhost:8080/user/uploadvideo", {
         method: "POST",
         headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer " + jwt,
+          Accept: "application/json",
+          Authorization: "Bearer " + jwt,
         },
         body: newVideo,
       });
@@ -114,16 +114,15 @@ export const uploadVideo = (jwt, newVideo) => {
 export const likeVideo = (jwt, videoId) => {
   return async (dispatch) => {
     const like = async () => {
-
       const response = await fetch("http://localhost:8080/user/video/like", {
         method: "PUT",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + jwt,
+          Authorization: "Bearer " + jwt,
         },
         body: JSON.stringify({
-          videoId: videoId
+          videoId: videoId,
         }),
       });
       if (response.status !== 200) {
@@ -134,8 +133,8 @@ export const likeVideo = (jwt, videoId) => {
     try {
       const response = await like();
 
-      dispatch(contentActions.addVideoLikes(response)); 
-      dispatch(contentActions.liked(true)); 
+      dispatch(contentActions.addVideoLikes(response));
+      dispatch(contentActions.liked(true));
     } catch (e) {
       console.log(e);
     }
@@ -145,16 +144,15 @@ export const likeVideo = (jwt, videoId) => {
 export const unlikeVideo = (jwt, videoId) => {
   return async (dispatch) => {
     const unlike = async () => {
-
       const response = await fetch("http://localhost:8080/user/video/unlike", {
         method: "PUT",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + jwt,
+          Authorization: "Bearer " + jwt,
         },
         body: JSON.stringify({
-          videoId: videoId
+          videoId: videoId,
         }),
       });
       if (response.status !== 200) {
@@ -165,8 +163,8 @@ export const unlikeVideo = (jwt, videoId) => {
     try {
       const response = await unlike();
 
-      dispatch(contentActions.removeVideoLikes(response)); 
-      dispatch(contentActions.liked(false)); 
+      dispatch(contentActions.removeVideoLikes(response));
+      dispatch(contentActions.liked(false));
     } catch (e) {
       console.log(e);
     }
@@ -176,17 +174,16 @@ export const unlikeVideo = (jwt, videoId) => {
 export const postComment = (jwt, comment, videoId) => {
   return async (dispatch) => {
     const postComment = async () => {
-
       const response = await fetch("http://localhost:8080/user/video/comment", {
         method: "POST",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + jwt,
+          Authorization: "Bearer " + jwt,
         },
         body: JSON.stringify({
           comment: comment,
-          videoId: videoId
+          videoId: videoId,
         }),
       });
       if (response.status !== 200) {
@@ -197,7 +194,7 @@ export const postComment = (jwt, comment, videoId) => {
     try {
       const response = await postComment();
 
-      dispatch(contentActions.addComment(response)); 
+      dispatch(contentActions.addComment(response));
     } catch (e) {
       console.log(e);
     }
@@ -207,14 +204,16 @@ export const postComment = (jwt, comment, videoId) => {
 export const deleteComment = (jwt, commentId) => {
   return async (dispatch) => {
     const deleteComment = async () => {
-
-      const response = await fetch("http://localhost:8080/user/video/comment/" + commentId, {
-        method: "DELETE",
-        headers: {
-          "Accept": "application/json",
-          "Authorization": "Bearer " + jwt,
+      const response = await fetch(
+        "http://localhost:8080/user/video/comment/" + commentId,
+        {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + jwt,
+          },
         }
-      });
+      );
 
       if (response.status !== 200) {
         throw new Error("Failed to delete comment");
@@ -224,7 +223,7 @@ export const deleteComment = (jwt, commentId) => {
     try {
       const deletedComment = await deleteComment();
 
-      dispatch(contentActions.deleteComment(deletedComment)); 
+      dispatch(contentActions.deleteComment(deletedComment));
     } catch (e) {
       console.log(e);
     }
@@ -234,16 +233,15 @@ export const deleteComment = (jwt, commentId) => {
 export const subscribe = (jwt, followId) => {
   return async (dispatch) => {
     const subscribeTo = async () => {
-
       const response = await fetch("http://localhost:8080/user/subscribe", {
         method: "PUT",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + jwt,
+          Authorization: "Bearer " + jwt,
         },
         body: JSON.stringify({
-          followId: followId
+          followId: followId,
         }),
       });
 
@@ -255,29 +253,27 @@ export const subscribe = (jwt, followId) => {
 
     try {
       const response = await subscribeTo();
-console.log(response)
-      dispatch(contentActions.addVideoInfo(response)); 
-      dispatch(contentActions.subscribed(true)); 
-
+      console.log(response);
+      dispatch(contentActions.addVideoInfo(response));
+      dispatch(contentActions.subscribed(true));
     } catch (e) {
       console.log(e);
     }
   };
 };
- 
+
 export const unsubscribe = (jwt, unfollowId) => {
   return async (dispatch) => {
     const unsubscribeFrom = async () => {
-
       const response = await fetch("http://localhost:8080/user/unsubscribe", {
         method: "PUT",
         headers: {
-          "Accept": "application/json",
+          Accept: "application/json",
           "Content-Type": "application/json",
-          "Authorization": "Bearer " + jwt,
+          Authorization: "Bearer " + jwt,
         },
         body: JSON.stringify({
-          unfollowId: unfollowId
+          unfollowId: unfollowId,
         }),
       });
 
@@ -289,9 +285,41 @@ export const unsubscribe = (jwt, unfollowId) => {
 
     try {
       const response = await unsubscribeFrom();
-      console.log(response)
-      dispatch(contentActions.addVideoInfo(response)); 
+      console.log(response);
+      dispatch(contentActions.addVideoInfo(response));
       dispatch(contentActions.subscribed(false));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const postLiveComment = (jwt, comment) => {
+  return async (dispatch) => {
+    const postData = async () => {
+      const response = await fetch(
+        "http://localhost:8080/comment/liveComment",
+        {
+          method: "POST",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + jwt,
+          },
+          body: JSON.stringify({
+            liveComment: comment,
+          }),
+        }
+      );
+
+      if (response.status !== 200) {
+        throw new Error("Failed to send comment");
+      }
+      return response.json();
+    };
+
+    try {
+      await postData();
     } catch (e) {
       console.log(e);
     }
