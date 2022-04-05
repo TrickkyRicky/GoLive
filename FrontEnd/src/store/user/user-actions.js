@@ -84,6 +84,9 @@ export const updateUser = (jwt, updatedUser) => {
 
 export const uploadVideo = (jwt, newVideo) => {
   return async (dispatch) => {
+  //   for (let value of newVideo.values()) {
+  //     console.log(value);
+  //  }
     const uploadVideo = async () => {
       const response = await fetch("http://localhost:8080/user/uploadvideo", {
         method: "POST",
@@ -100,6 +103,7 @@ export const uploadVideo = (jwt, newVideo) => {
     };
     try {
       const response = await uploadVideo();
+      
       console.log(response);
     } catch (e) {
       console.log(e);

@@ -70,7 +70,6 @@ exports.getVideoContent = async (req, res) => {
   }
 
   const range = req.headers["range"];
-  console.log(range);
 
   //Skip through video
   if(range && typeof range === "string") {
@@ -102,13 +101,16 @@ exports.getVideoContent = async (req, res) => {
     downloadStream.on('end', () => {
         res.end()
     })
-  } else { //Press play start from beginning
+  } else { 
+    //Press play start from beginning
     res.header("Content-Length", files[0].length);
     res.header("Content-Type", files[0].contentType);
 
     let downloadStream = gridfs.openDownloadStream(files[0]._id);
+
     downloadStream.pipe(res);
-    downloadStream.on("error", () => {
+    downloadStream.on("error", (e) => {
+      console.log(e)
       res.sendStatus(404);
     });
     downloadStream.on("end", () => {
@@ -156,8 +158,39 @@ exports.listOtherVideos = async (req, res) => {
 exports.getCategories = (req, res) => {
   try {
     res.json([
-      "Gaming", "Education", "Art", "Beauty", "Chatting", "Music", "Sports", "Vlogs"
-    ]);
+      {
+        title: "Art",
+        icon: "FaPaintBrush" 
+      },
+      {
+        title: "Beauty",
+        icon: "FaShoppingBag"
+      },
+      {
+        title: "Chatting",
+        icon: "FaCommentAlt"
+      },
+      {
+        title: "Education",
+        icon: "FaBookOpen"
+      },
+      {
+        title: "Gaming",
+        icon: "FaGamepad"
+      },
+      {
+        title: "Music",
+        icon: "FaMusic"
+      },
+      {
+        title: "Sports",
+        icon: "FaBasketballBall"
+      },
+      {
+        title: "Vlogs",
+        icon: "FaCamera"
+      }
+    ])
   } catch (e) {
     return res.status(400).json({
       error: "Could not get category names"

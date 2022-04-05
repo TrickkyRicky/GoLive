@@ -16,7 +16,6 @@ import { likeVideo, unlikeVideo, postComment, deleteComment, subscribe, unsubscr
 import Video from "../components/Video"; 
 import { Buffer } from "buffer";
 
-
 const WatchVideo = () => {
   const location = useLocation();
   const [values, setValues] = useState({
@@ -107,7 +106,7 @@ const WatchVideo = () => {
                     </div>
                     <div className="primary-actions">
                       <div className="video-views-count">
-                        { videoInfo?.views } Views
+                        { videoInfo?.views } {videoInfo?.views == 1 ? "View" : "Views" }
                       </div>
                       <div className="like-video">
                         {

@@ -14,7 +14,7 @@ const chokidar = require("chokidar");
 const mongoose = require("mongoose");
 
 let gridfs = null;
-
+ 
 mongoose.connection.on("connected", () => {
   gridfs = new mongoose.mongo.GridFSBucket(mongoose.connection.db);
 });
@@ -98,15 +98,15 @@ exports.updateUser = async (req, res) => {
 //   }
 // };
 
-exports.getAvatar = (req, res, next) => {
-  //send back data
-  if (req.user.avatar) {
-    res.set("Content-Type", req.user.avatar.contentType);
-    return res.send(req.user.avatar.data);
-  }
+// exports.getAvatar = (req, res, next) => {
+//   //send back data
+//   if (req.user.avatar) {
+//     res.set("Content-Type", req.user.avatar.contentType);
+//     return res.send(req.user.avatar.data);
+//   }
 
-  next();
-};
+//   next();
+// };
 
 exports.uploadvideo = async (req, res) => {
   let form = new formidable.IncomingForm();
@@ -159,6 +159,33 @@ exports.uploadvideo = async (req, res) => {
     }
   });
 };
+
+exports.deleteVideo = async (req, res) => {
+  try {
+    //Delete from mongodb
+    let video = await Video.findById(req.params.videoId);
+    let deletedVideo = await video.remove();
+
+    await User.findByIdAndUpdate(
+      { _id: req.userId._id },
+      { $pull: { "media.videos": video._id } },
+      { new: true }
+    ).exec();
+
+    //Delete from gridfs
+    let files = await gridfs.find({
+      filename: video._id
+    }).toArray();
+
+    gridfs.delete(files[0]._id);
+
+    res.json(deletedVideo);
+  } catch (e) {
+    return res.status("400").json({
+      error: "Could not delete video"
+    })
+  }
+}
 
 // THIS IS FNISHED YET
 exports.uploadStream = async (req, res, next) => {
@@ -372,4 +399,8 @@ exports.removeSubscriber = async (req, res) => {
       error: "Could not remove subscriber from user",
     });
   }
+};
+
+exports.defaultAvatar = (req, res) => {
+  return res.sendFile(path.resolve("FrontEnd/src/assets/default-avatar.png"));
 };

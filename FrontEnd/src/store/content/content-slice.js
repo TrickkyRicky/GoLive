@@ -6,7 +6,7 @@ const contentSlice = createSlice({
     userProfile: null,
     profileLoader: false,
     videoInfo: null,
-    categoryNames: [],
+    categories: [],
     listShow: false,
     videos: [],
     otherVideos: [],
@@ -56,8 +56,8 @@ const contentSlice = createSlice({
       let index = state.videoInfo.likes.indexOf(action.payload);
       state.videoInfo.likes.splice(index, 1);
     },
-    setCategoryNames(state, action) {
-      state.categoryNames = action.payload
+    setCategories(state, action) {
+      state.categories = action.payload
     },
     setVideos(state, action) {
       state.videos = action.payload

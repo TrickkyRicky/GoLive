@@ -3,9 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 //Bootstrap
 import Container from "react-bootstrap/Container";
-import Card from "react-bootstrap/Card";
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
@@ -15,12 +12,23 @@ import { Link } from "react-router-dom";
 import { Buffer } from "buffer";
 
 import { BsEyeFill } from "react-icons/bs";
+import * as FaIcons from "react-icons/fa";
 import Following from "./core/Following";
+
+const DynamicFaIcon = ({ icon }) => {
+  const Icon = FaIcons[icon];
+
+  if(!Icon) {
+    return <FaIcons.FaCheck />
+  }
+
+  return <Icon />
+}
 
 const Home = () => {
   const dispatch = useDispatch();
 
-  const [active, setActive] = useState("Gaming");
+  const [active, setActive] = useState("Art");
 
   const homeState = useSelector((state) => state.content);
 
@@ -31,13 +39,12 @@ const Home = () => {
     //Default
     dispatch(
       listVideos({
-        category: "Gaming",
+        category: "Art",
       })
     );
   }, []);
 
   const clickCategory = (e, title) => {
-    console.log(e.target, title);
     setActive(title);
 
     dispatch(
@@ -63,16 +70,17 @@ const Home = () => {
             <h2 className="site-text">EXPLORE</h2>
           </div>
           <Nav className="category-list">
-            {homeState.categoryNames.map((title, i) => {
+            {homeState.categories.map((category, i) => {
               return (
                 <Button
                   key={i}
                   className={
-                    active === title ? "category-pill active" : "category-pill"
+                    active === category.title ? "category-pill active" : "category-pill"
                   }
-                  onClick={(e) => clickCategory(e, title)}
+                  onClick={(e) => clickCategory(e, category.title)}
                 >
-                  {title}
+                  <DynamicFaIcon icon={category.icon} />
+                  {category.title}
                 </Button>
               );
             })}

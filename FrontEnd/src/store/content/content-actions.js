@@ -70,8 +70,6 @@ export const getSingleVideo = (videoId) => {
       let following = checkSubscribed(response.userId);
       let hasLiked = checkLiked(response.likes);
 
-      console.log(hasLiked)
-
       dispatch(contentActions.subscribed(following)); 
       dispatch(contentActions.liked(hasLiked)); 
       
@@ -150,7 +148,7 @@ export const listCategories = () => {
     try {
       const response = await getNames();
 
-      dispatch(contentActions.setCategoryNames(response)); 
+      dispatch(contentActions.setCategories(response)); 
     } catch (e) {
       console.log(e)
     }

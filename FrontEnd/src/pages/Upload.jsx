@@ -38,7 +38,7 @@ const Upload = () => {
     thumbnail: ''
   });
 
-  const categoryNames = useSelector((state) => state.content.categoryNames);
+  const contentState = useSelector((state) => state.content);
 
   const handleChange = (e, field) => {
     let value = (field == 'video' || field == 'thumbnail') ? e.target.files[0] : e.target.value;
@@ -62,6 +62,16 @@ const Upload = () => {
     values.thumbnail && newVideo.append('thumbnail', values.thumbnail);
 
     dispatch(uploadVideo(auth.jwt, newVideo));
+    dispatch(contentActions.showUploadModal(false));
+
+    setValues({
+      title: '',
+      description: '',
+      category: '',
+      isStreamed: 'false',
+      video: '',
+      thumbnail: ''
+    })
   }
 
   const hideModal = () => {
@@ -89,7 +99,7 @@ const Upload = () => {
           <Form className="upload-form">
             <Form.Group controlId="formFile" className="mb-3">
               <Form.Label>Upload Video</Form.Label>
-              <Form.Control type="file" onChange={(e) => handleChange(e, 'video')}/>
+              <Form.Control type="file" onChange={(e) => handleChange(e, 'video')} accept="video/*"/>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicTitle">
@@ -114,7 +124,7 @@ const Upload = () => {
 
             <Form.Group controlId="formThumbnailFile" className="mb-3">
               <Form.Label>Upload Thumbnail</Form.Label>
-              <Form.Control type="file" onChange={(e) => handleChange(e, 'thumbnail')}/>
+              <Form.Control type="file" onChange={(e) => handleChange(e, 'thumbnail')} accept="image/*"/>
             </Form.Group>
 
             <Form.Group className="mb-3" controlId="formBasicCategory">
@@ -122,9 +132,9 @@ const Upload = () => {
               <Form.Select aria-label="Select Category"  onChange={(e) => handleChange(e, "category")} value={values.category}>
                 <option>Select Category</option>
                 {
-                  categoryNames.map((title, i) => {
+                  contentState.categories.map((category, i) => {
                     return (
-                      <option key={i} value={title}>{title}</option>
+                      <option key={i} value={category.title}>{category.title}</option>
                     )
                   })
                 }

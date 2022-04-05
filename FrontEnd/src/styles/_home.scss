@@ -31,10 +31,12 @@
 .explore {
   .video-list {
     display: flex;
+    flex-wrap: wrap;
     gap: 2.5rem;
   
     .video-item {
-      width: 450px;
+      flex: 1 0 350px;
+      max-width: 350px;
       height: 316px;
     
       .video-overlay {
