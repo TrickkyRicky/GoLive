@@ -3,7 +3,6 @@ import { Brush } from "@visx/brush";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import StreamVideo from "../components/StreamVideo";
-import io from "socket.io-client";
 
 const url = "http://localhost:8080/content/watch/6238feffd59f8385b8fdcc9c";
 // const url = "http://localhost:8080/content/watch/623a47ffcf8e15d3d466a5ef";
@@ -25,12 +24,6 @@ const Clip = (props) => {
   const brushRef = useRef(null);
 
   console.log(playerRef);
-
-  useEffect(() => {
-    io.connect("http://localhost:8080", {
-      withCredentials: true,
-    });
-  }, []);
 
   const handlePlayerReady = (player) => {
     playerRef.current = player;
