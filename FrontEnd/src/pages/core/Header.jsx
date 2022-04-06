@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 //Bootstrap
@@ -10,9 +10,10 @@ import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
 import Image from "react-bootstrap/Image";
 
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../store/auth/auth-actions";
 import { getUser } from "../../store/user/user-actions";
+import { searchSuggestions } from "../../store/content/content-actions";
 import { contentActions } from "../../store/content/content-slice";
 
 import { Buffer } from "buffer";
@@ -30,17 +31,73 @@ import { MdHeadsetMic } from 'react-icons/md';
 export default function Header() {
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const [searchValue, setSearchValue] = useState("");
+  const [showingResults, setShowingResults] = useState(false);
+  const formRef = useRef();
 
   const auth = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
- 
-  // console.log(location);
+  const content = useSelector((state) => state.content);
 
   useEffect(() => {
     if(auth.jwtToken) {
       dispatch(getUser(auth.jwtToken));
     }
   }, [auth.jwtToken]);
+
+  //Only for search suggestions
+  const onSearch = (e) => {
+    e.preventDefault();
+
+    setShowingResults(true);
+    setSearchValue(e.target.value);
+
+    document.addEventListener("click", clickOutside, false);
+
+    dispatch(
+      searchSuggestions({
+        search_query: e.target.value,
+      })
+    )
+  }
+
+  const searchSubmit = (e, name) => {
+    e.preventDefault();
+
+    if(searchValue == "") {
+      return;
+    }
+
+    let search = "";
+
+    setShowingResults(false);
+
+    if(name == "entered") {
+      search = searchValue;
+    } else {
+      search = name.toLowerCase();
+    }
+
+    navigate("/SearchResults", { state: search, replace: true });
+  }
+
+  //When user hits the enter key
+  const enterKey = (e) => {
+    if(e.keyCode == 13) {
+      searchSubmit(e, "entered");
+    }
+  }
+
+  const clickOutside = (e) => {
+
+    document.removeEventListener("click", clickOutside, false);
+
+    if (formRef.current && !formRef.current.contains(e.target)) {
+      setShowingResults(false);
+    }
+  }
 
   //logout
   const clickSubmit = (e) => {
@@ -49,6 +106,7 @@ export default function Header() {
     dispatch(logout());
   };
 
+  //Open modal
   const openUpload = (e) => {
     e.preventDefault();
 
@@ -68,16 +126,32 @@ export default function Header() {
             />
           </Navbar.Brand>
 
-          <Form className="search-form">
+          <Form className="search-form" ref={formRef}>
             <Form.Control
               type="search"
               className="core-search-input"
               placeholder="Search"
               aria-label="Search"
+              onKeyDown={enterKey}
+              onChange={onSearch}
+              value={searchValue}
             />
-            <Button className="core-search-btn">
+            <Button className="core-search-btn" onClick={(e) => searchSubmit(e, 'entered')}>
               <FaSearch size={28} />
             </Button>
+            {
+              showingResults && content.searchSuggestions.length > 0 && (
+                <section id="search-results">
+                  {
+                    content.searchSuggestions.map((video, i) => {
+                      return (
+                        <div key={i} className="search-match" onClick={(e) => searchSubmit(e, video.title)}>{video.title}</div>
+                      )
+                    })
+                  }
+                </section>
+              )
+            }
           </Form>
 
           {

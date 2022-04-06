@@ -198,7 +198,7 @@ exports.getCategories = (req, res) => {
   }
 };
 
-//Get all videos or under a specific category
+//Search, get all videos, or under a specific category
 exports.getAllVideos = async (req, res) => {
   try {
     let query = {};
@@ -207,12 +207,35 @@ exports.getAllVideos = async (req, res) => {
       query.category = req.query.category;
     }
 
+    if(req.query.search_query) {
+      query.title = {'$regex': req.query.search_query, '$options': "i"};
+    }
+
     const videos = await Video.find(query).populate("userId", "_id username avatar");
 
     res.json(videos);
   } catch (e) {
     return res.status(400).json({
       error: "Could not get videos"
+    });
+  }
+}
+
+//Search suggestions
+exports.getSearchSuggestions = async (req, res) => {
+  try {
+    let query = {};
+
+    if(req.query.search_query) {
+      query.title = {'$regex': req.query.search_query, '$options': "i"};
+    }
+
+    const videoTitles = await Video.find(query).select("title").limit(7);
+
+    res.json(videoTitles);
+  } catch (e) {
+    return res.status(400).json({
+      error: "Could not get video suggestions"
     });
   }
 }

@@ -33,6 +33,23 @@
     border: 0;
     padding: 8px 16px;
   }
+
+  #search-results {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    background-color: #fff;
+    padding: 0.5rem 0;
+
+    .search-match {
+      text-transform: lowercase;
+
+      &:hover {
+        background-color: #585858;
+        cursor: pointer;
+      }
+    }
+  }
 }
   
 .upload-video-img {

@@ -12,6 +12,7 @@ import Error404 from "./pages/Error404.jsx";
 import WatchVideo from "./pages/WatchVideo";
 import Stream from "./pages/Stream";
 import LikedVideos from "./pages/LikedVideos";
+import SearchResults from "./pages/SearchResults";
 import Clip from "./pages/Clip";
 import MainLayout from "./components/layouts/MainLayout";
 import AuthLayout from "./components/layouts/AuthLayout";
@@ -53,8 +54,9 @@ const App = () => {
         <Route path="Watch/:videoId" element={<WatchVideo />} />
         <Route path="Settings" element={<Settings />} />
         <Route path="Liked" element={<LikedVideos />} />
+        <Route path="SearchResults" element={<SearchResults />} />
+
         <Route path="Settings" element={<Settings jwt={jwtToken} />} />
-        {/* <Route path="Upload" element={<Upload jwt={jwtToken} />} /> */}
         <Route path="Clip" element={<Clip jwt={jwtToken} />} />
 
         {/* Socket Test Routes */}

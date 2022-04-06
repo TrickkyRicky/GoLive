@@ -13,6 +13,7 @@ const contentController = require("../controller/contentController");
 
 // // get every video or under a specific category
 router.get("/all/videos", contentController.getAllVideos);
+router.get("/search/videos", contentController.getSearchSuggestions);
 
 //List user profile/channel
 router.get("/profile/:userId", contentController.listUserProfile);

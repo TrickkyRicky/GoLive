@@ -15,6 +15,9 @@ import { BsEyeFill } from "react-icons/bs";
 import * as FaIcons from "react-icons/fa";
 import Following from "./core/Following";
 
+import Carousel from "react-multi-carousel";
+import "react-multi-carousel/lib/styles.css";
+
 const DynamicFaIcon = ({ icon }) => {
   const Icon = FaIcons[icon];
 
@@ -31,6 +34,26 @@ const Home = () => {
   const [active, setActive] = useState("Art");
 
   const homeState = useSelector((state) => state.content);
+
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
+    }
+  };
 
   useEffect(() => {
     //List Categories
@@ -56,6 +79,14 @@ const Home = () => {
 
   return (
     <Container fluid>
+      <div>
+      <Carousel infinite={true} responsive={responsive}>
+        <div>Item 1</div>
+        <div>Item 2</div>
+        <div>Item 3</div>
+        <div>Item 4</div>
+      </Carousel>
+      </div>
       <div className="home-bt-section">
         {
           homeState.listShow && (

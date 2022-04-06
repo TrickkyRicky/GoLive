@@ -15,9 +15,17 @@ const contentSlice = createSlice({
     newComment: null,
     showUploadModal: false,
     subscribed: false,
-    liked: false
+    liked: false,
+    searchSuggestions: [],
+    searchResults: []
   },
   reducers: {
+    setSearchSuggestions(state, action) {
+      state.searchSuggestions = action.payload
+    },
+    setSearchResults(state, action) {
+      state.searchResults = action.payload
+    },
     listShow(state, action) {
       state.listShow = action.payload
     },
