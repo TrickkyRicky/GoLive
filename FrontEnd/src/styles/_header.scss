@@ -40,13 +40,19 @@
     width: 100%;
     background-color: #fff;
     padding: 0.5rem 0;
+    z-index: 99;
 
     .search-match {
+      display: block;
+      font-family: $primary-font;
+      font-size: 1.6rem;
       text-transform: lowercase;
+      text-decoration: none;
+      padding: 0.5rem;
+      color: #585858;
 
       &:hover {
-        background-color: #585858;
-        cursor: pointer;
+        background-color: #c6c4c4;
       }
     }
   }

@@ -7,7 +7,7 @@ import Nav from "react-bootstrap/Nav";
 import Button from "react-bootstrap/Button";
 import Image from "react-bootstrap/Image";
 
-import { listCategories, listVideos } from "../store/content/content-actions";
+import { listCategories, listVideos, listLatestVideos } from "../store/content/content-actions";
 import { Link } from "react-router-dom";
 import { Buffer } from "buffer";
 
@@ -15,8 +15,9 @@ import { BsEyeFill } from "react-icons/bs";
 import * as FaIcons from "react-icons/fa";
 import Following from "./core/Following";
 
-import Carousel from "react-multi-carousel";
-import "react-multi-carousel/lib/styles.css";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const DynamicFaIcon = ({ icon }) => {
   const Icon = FaIcons[icon];
@@ -33,29 +34,22 @@ const Home = () => {
 
   const [active, setActive] = useState("Art");
 
-  const homeState = useSelector((state) => state.content);
+  const content = useSelector((state) => state.content);
 
-  const responsive = {
-    superLargeDesktop: {
-      // the naming can be any, depends on you.
-      breakpoint: { max: 4000, min: 3000 },
-      items: 5
-    },
-    desktop: {
-      breakpoint: { max: 3000, min: 1024 },
-      items: 3
-    },
-    tablet: {
-      breakpoint: { max: 1024, min: 464 },
-      items: 2
-    },
-    mobile: {
-      breakpoint: { max: 464, min: 0 },
-      items: 1
-    }
-  };
+  let settings = {
+    className: "slider variable-width",
+    infinite: true,
+    speed: 5000,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    centerMode: true,
+    variableWidth: true
+  }
 
   useEffect(() => {
+    //Latest Videos
+    dispatch(listLatestVideos());
+
     //List Categories
     dispatch(listCategories());
 
@@ -80,16 +74,32 @@ const Home = () => {
   return (
     <Container fluid>
       <div>
-      <Carousel infinite={true} responsive={responsive}>
-        <div>Item 1</div>
-        <div>Item 2</div>
-        <div>Item 3</div>
-        <div>Item 4</div>
-      </Carousel>
+        <Slider {...settings}>
+          {
+            content.latestVideos.map((video, i) => {
+              return (
+                  <Image
+                    key={i}
+                    className="video-thumbnail"
+                    src={
+                      video.thumbnail
+                        ? `data:${
+                            video.thumbnail.contentType
+                          };base64,${Buffer.from(
+                            video.thumbnail.data.data
+                          ).toString("base64")}`
+                        : "http://localhost:8080/user/defaultAvatar"
+                    }
+                    alt="thumbnail"
+                  />
+              )
+            })
+          }
+        </Slider>
       </div>
       <div className="home-bt-section">
         {
-          homeState.listShow && (
+          content.listShow && (
             <div className="column">
               <Following />
             </div>
@@ -101,7 +111,7 @@ const Home = () => {
             <h2 className="site-text">EXPLORE</h2>
           </div>
           <Nav className="category-list">
-            {homeState.categories.map((category, i) => {
+            {content.categories.map((category, i) => {
               return (
                 <Button
                   key={i}
@@ -117,7 +127,7 @@ const Home = () => {
             })}
           </Nav>
           <div className="video-list">
-            {homeState.videos.map((video, i) => {
+            {content.videos.map((video, i) => {
               return (
                 <div key={i} className="video-item">
                   <div className="video-overlay">

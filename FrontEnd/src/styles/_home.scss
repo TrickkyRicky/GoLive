@@ -1,3 +1,32 @@
+.slick-slide {
+  width: 80.0rem;
+  height: 45.0rem;
+
+  div {
+    width: calc(100% - 2.0rem);
+    height: 100%;
+    margin: 0 1.0rem;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+.slick-prev, .slick-next {
+  z-index: 1000;
+}
+
+.slick-prev {
+  left: 0;
+}
+
+.slick-next {
+  right: 0;
+}
+
 .home-bt-section {
   display: flex;
 

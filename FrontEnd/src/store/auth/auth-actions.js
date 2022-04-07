@@ -67,6 +67,9 @@ export const postLogin = (username, password) => {
             userIdLogin: result.userId,
           })
         );
+
+        dispatch(authActions.redirectLogin(true));
+
         // maybe expire in future
         localStorage.setItem("token", result.token);
         localStorage.setItem("userId", result.userId);
@@ -88,6 +91,7 @@ export const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     dispatch(authActions.LoggedOut());
+    //Hide Following
     dispatch(contentActions.listShow(false));
 
     try {

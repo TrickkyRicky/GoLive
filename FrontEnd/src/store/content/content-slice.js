@@ -16,6 +16,7 @@ const contentSlice = createSlice({
     showUploadModal: false,
     subscribed: false,
     liked: false,
+    latestVideos: [],
     searchSuggestions: [],
     searchResults: []
   },
@@ -25,6 +26,9 @@ const contentSlice = createSlice({
     },
     setSearchResults(state, action) {
       state.searchResults = action.payload
+    },
+    setLatestVideos(state, action) {
+      state.latestVideos = action.payload
     },
     listShow(state, action) {
       state.listShow = action.payload

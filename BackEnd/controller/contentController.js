@@ -239,3 +239,15 @@ exports.getSearchSuggestions = async (req, res) => {
     });
   }
 }
+
+exports.getLatestVideos = async (req, res) => {
+  try {
+    const videos = await Video.find({}).sort("-createdAt").limit(5);
+
+    res.json(videos);
+  } catch (e) {
+    res.status(400).json({
+      error: "Could not get latest videos"
+    })
+  }
+}

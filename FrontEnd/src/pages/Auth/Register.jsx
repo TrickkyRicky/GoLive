@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { Container, Row, Col, Form, Button, Modal, Image } from "react-bootstrap";
+import { Form, Button, Modal, Image } from "react-bootstrap";
 import { postRegister } from "../../store/auth/auth-actions";
 
 import logo from "../../assets/Logo.png";
 
-const Register = (props) => {
+const Register = () => {
   const dispatch = useDispatch();
 
   const [values, setValues] = useState({
@@ -50,7 +50,6 @@ const Register = (props) => {
       password: values.password || undefined
     }
 
-    //dispatch
     dispatch(postRegister(user.username, user.email, user.password)).then((data) => {
       if(data) {
         setValues({

@@ -6,6 +6,7 @@ const authSlice = createSlice({
     jwtToken: null,
     userIdLogin: null,
     isAuth: false,
+    redirect: false
   },
   reducers: {
     LoggedIn(state, action) {
@@ -18,6 +19,9 @@ const authSlice = createSlice({
       state.userIdLogin = null;
       state.isAuth = false;
     },
+    redirectLogin(state, action) {
+      state.redirect = action.payload;
+    }
   },
 });
 

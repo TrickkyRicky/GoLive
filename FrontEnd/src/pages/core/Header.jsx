@@ -13,7 +13,7 @@ import Image from "react-bootstrap/Image";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logout } from "../../store/auth/auth-actions";
 import { getUser } from "../../store/user/user-actions";
-import { searchSuggestions } from "../../store/content/content-actions";
+import { searchSuggestions } from "../../store/search/search-actions";
 import { contentActions } from "../../store/content/content-slice";
 
 import { Buffer } from "buffer";
@@ -39,7 +39,7 @@ export default function Header() {
 
   const auth = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
-  const content = useSelector((state) => state.content);
+  const search = useSelector((state) => state.search);
 
   useEffect(() => {
     if(auth.jwtToken) {
@@ -92,11 +92,18 @@ export default function Header() {
 
   const clickOutside = (e) => {
 
-    document.removeEventListener("click", clickOutside, false);
-
     if (formRef.current && !formRef.current.contains(e.target)) {
       setShowingResults(false);
     }
+
+    document.removeEventListener("click", clickOutside, false);
+  }
+
+  const clear = (e) => {
+    e.preventDefault();
+
+    setShowingResults(false);
+    setSearchValue("");
   }
 
   //logout
@@ -140,12 +147,12 @@ export default function Header() {
               <FaSearch size={28} />
             </Button>
             {
-              showingResults && content.searchSuggestions.length > 0 && (
-                <section id="search-results">
+              showingResults && search.searchSuggestions.length > 0 && (
+                <section id="search-results" onClick={clear}>
                   {
-                    content.searchSuggestions.map((video, i) => {
+                    search.searchSuggestions.map((video, i) => {
                       return (
-                        <div key={i} className="search-match" onClick={(e) => searchSubmit(e, video.title)}>{video.title}</div>
+                        <Link to="/SearchResults" key={i} className="search-match" state={video.title}>{video.title}</Link>
                       )
                     })
                   }

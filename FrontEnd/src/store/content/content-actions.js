@@ -155,6 +155,31 @@ export const listCategories = () => {
   }
 }
 
+//List latest videos
+export const listLatestVideos = () => {
+  return async (dispatch) => {
+    const getVideos = async () => {
+      const res = await fetch("http://localhost:8080/content/latestvideos", {
+        method: "GET"
+      });
+
+      if(res.status !== 200) {
+        throw new Error("Failed to fetch videos");
+      }
+ 
+      return res.json();
+    }
+
+    try {
+      const videos = await getVideos();
+
+      dispatch(contentActions.setLatestVideos(videos)); 
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
 //Get all videos or under a specific category
 export const listVideos = (params) => {
   return async (dispatch) => {

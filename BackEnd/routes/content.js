@@ -29,6 +29,6 @@ router.get("/info/:videoId", contentController.incrementViews, contentController
 
 router.get("/categories", contentController.getCategories);
 
-// router.param("userId", userController.userByID);
+router.get("/latestvideos", contentController.getLatestVideos);
 
 module.exports = router;
