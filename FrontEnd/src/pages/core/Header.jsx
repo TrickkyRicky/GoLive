@@ -99,11 +99,11 @@ export default function Header() {
     document.removeEventListener("click", clickOutside, false);
   }
 
-  const clear = (e) => {
+  const closeSearch = (e, title) => {
     e.preventDefault();
 
     setShowingResults(false);
-    setSearchValue("");
+    setSearchValue(title);
   }
 
   //logout
@@ -148,11 +148,13 @@ export default function Header() {
             </Button>
             {
               showingResults && search.searchSuggestions.length > 0 && (
-                <section id="search-results" onClick={clear}>
+                <section id="search-results">
                   {
                     search.searchSuggestions.map((video, i) => {
                       return (
-                        <Link to="/SearchResults" key={i} className="search-match" state={video.title}>{video.title}</Link>
+                        <div key={i} onClick={(e) => closeSearch(e, video.title)}>
+                          <Link to="/SearchResults" className="search-match" state={video.title}>{video.title}</Link>
+                        </div>
                       )
                     })
                   }
@@ -184,7 +186,7 @@ export default function Header() {
                 <div className="nav-collection">
                   <Nav.Item>
                     <Dropdown align="end">
-                      <Dropdown.Toggle className="create-container">
+                      <Dropdown.Toggle variant="create" className="create-container">
                         <RiVideoAddFill size={40} color={"#35C280"}/>
                       </Dropdown.Toggle>
 

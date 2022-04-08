@@ -94,7 +94,7 @@ const WatchVideo = () => {
     <Container>
         <div>
             <div className="video-container">
-              <Video videoId={videoId}/>
+              <Video video={videoInfo} videoId={videoId} />
             </div>
             <Container>
               <Row>

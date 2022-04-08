@@ -1,6 +1,7 @@
 #site-header {
   background-color: #323432;
   border-radius: 50px;
+  margin-bottom: 2.5rem;
 }
 
 .form-label {
@@ -40,6 +41,7 @@
     width: 100%;
     background-color: #fff;
     padding: 0.5rem 0;
+    border-radius: 5px;
     z-index: 99;
 
     .search-match {
@@ -49,7 +51,7 @@
       text-transform: lowercase;
       text-decoration: none;
       padding: 0.5rem;
-      color: #585858;
+      color: #000;
 
       &:hover {
         background-color: #c6c4c4;
@@ -155,13 +157,9 @@
   }
 }
 
-.create-container {
+//variant
+.btn-create {
   background-color: transparent;
-  border: 0; 
-
-  &:hover {
-    background-color: #000;
-  }
 }
 
 .create-dropdown {
@@ -215,7 +213,12 @@
     background-color: #1f1f1f;
     border: 0;
     border-radius: 10px;
+    font-size: 1.2rem;
     color: #f5f4f4;
+  }
+
+  #form-title, #formDescription {
+    padding: 1.0rem 1.5rem;
   }
 
   textarea.form-control {
@@ -236,4 +239,9 @@
   padding: 10px;
   width: 166px;
   height: 45px;
+
+  &:disabled {
+    background-color: #c6c4c4;
+    color: #000;
+  }
 }

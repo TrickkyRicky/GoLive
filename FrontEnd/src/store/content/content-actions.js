@@ -52,6 +52,7 @@ export const getUserProfile = (userId) => {
 export const getSingleVideo = (videoId) => {
   return async (dispatch) => {
     const getVideo = async () => {
+      
       const res = await fetch("http://localhost:8080/content/info/" + videoId, {
         method: "GET"
       });
@@ -79,6 +80,7 @@ export const getSingleVideo = (videoId) => {
     }
   }
 }
+
 //get other videos
 export const getOtherVideos = (videoId) => {
   return async (dispatch) => {

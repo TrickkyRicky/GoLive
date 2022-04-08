@@ -31,7 +31,11 @@ function SearchResults() {
                 (!location.state) ? (
                     <div>No Results Found</div>
                 ) : (
-                    <div className="results-list">
+                    <div>
+                        <div>
+                            <h2>Search Results for "{location.state}"</h2>
+                        </div>
+                        <div className="results-list">
                         {
                             search.searchResults.map((video, i) => {
                                 return (
@@ -77,6 +81,7 @@ function SearchResults() {
                                 )
                             })
                         }
+                        </div>
                     </div>
                 )
             }

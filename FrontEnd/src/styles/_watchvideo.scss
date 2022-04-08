@@ -6,7 +6,6 @@ $section-bg: #323432;
 $golive-green: #35c280;
 
 .video-container {
-  max-height: 78.8rem;
   margin-bottom: 2.5rem;
 }
   
@@ -251,6 +250,10 @@ $golive-green: #35c280;
 
 .video-section-list {
   .video-item {
+    &:not(:last-child) {
+      margin-bottom: 2.5rem;
+    }
+
     .video-row {
       display: flex;
 

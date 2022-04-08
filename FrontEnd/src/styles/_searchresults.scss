@@ -1,5 +1,9 @@
 .results-list {
     .video-item {
+      &:not(:last-child) {
+        margin-bottom: 2.5rem;
+      }
+
       .video-row {
         display: flex;
   

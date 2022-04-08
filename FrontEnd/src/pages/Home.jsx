@@ -26,14 +26,13 @@ const DynamicFaIcon = ({ icon }) => {
     return <FaIcons.FaCheck />
   }
 
-  return <Icon />
+  return <Icon className="category-icon" />
 }
 
 const Home = () => {
   const dispatch = useDispatch();
 
   const [active, setActive] = useState("Art");
-
   const content = useSelector((state) => state.content);
 
   let settings = {
@@ -115,6 +114,7 @@ const Home = () => {
               return (
                 <Button
                   key={i}
+                  variant="pill"
                   className={
                     active === category.title ? "category-pill active" : "category-pill"
                   }

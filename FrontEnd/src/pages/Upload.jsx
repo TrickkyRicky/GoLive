@@ -2,9 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 //Bootstrap
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Dropdown from "react-bootstrap/Dropdown";
@@ -19,13 +16,7 @@ import { contentActions } from "../store/content/content-slice";
 const Upload = () => {
   const dispatch = useDispatch();
 
-  const auth = useSelector((state) => {
-    return {
-      userId: state.auth.userIdLogin,
-      isAuth: state.auth.isAuth,
-      jwt: state.auth.jwtToken,
-    };
-  });
+  const auth = useSelector((state) => state.auth);
 
   const isShown = useSelector((state) => state.content.showUploadModal);
 
@@ -35,7 +26,8 @@ const Upload = () => {
     category: '',
     isStreamed: 'false',
     video: '',
-    thumbnail: ''
+    thumbnail: '',
+    publishDisabled: true
   });
 
   const contentState = useSelector((state) => state.content);
@@ -61,7 +53,7 @@ const Upload = () => {
     values.video && newVideo.append('video', values.video);
     values.thumbnail && newVideo.append('thumbnail', values.thumbnail);
 
-    dispatch(uploadVideo(auth.jwt, newVideo));
+    dispatch(uploadVideo(auth.jwtToken, newVideo));
     dispatch(contentActions.showUploadModal(false));
 
     setValues({
@@ -70,13 +62,28 @@ const Upload = () => {
       category: '',
       isStreamed: 'false',
       video: '',
-      thumbnail: ''
+      thumbnail: '',
+      publishDisabled: true
     })
   }
 
   const hideModal = () => {
     dispatch(contentActions.showUploadModal(false));
   }
+
+  useEffect(() => {
+    if(values.title && values.video) {
+      setValues({
+        ...values,
+        publishDisabled: false
+      })
+    } else {
+      setValues({
+        ...values,
+        publishDisabled: true
+      })
+    }
+  }, [values.title, values.video])
 
   useEffect(() => {
     dispatch(listCategories());
@@ -102,7 +109,7 @@ const Upload = () => {
               <Form.Control type="file" onChange={(e) => handleChange(e, 'video')} accept="video/*"/>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicTitle">
+            <Form.Group className="mb-3" controlId="formTitle">
               <Form.Label>Video Title</Form.Label>
               <Form.Control
                 type="text"
@@ -127,7 +134,7 @@ const Upload = () => {
               <Form.Control type="file" onChange={(e) => handleChange(e, 'thumbnail')} accept="image/*"/>
             </Form.Group>
 
-            <Form.Group className="mb-3" controlId="formBasicCategory">
+            <Form.Group className="mb-5" controlId="formBasicCategory">
               <Form.Label>Category</Form.Label>
               <Form.Select aria-label="Select Category"  onChange={(e) => handleChange(e, "category")} value={values.category}>
                 <option>Select Category</option>
@@ -141,7 +148,7 @@ const Upload = () => {
               </Form.Select>
             </Form.Group>
 
-            <button type="submit" className="publish-btn" onClick={clickSubmit}>
+            <button type="submit" className="publish-btn" onClick={clickSubmit} disabled={values.publishDisabled}>
               Publish
             </button>
           </Form>
