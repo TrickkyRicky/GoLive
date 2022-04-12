@@ -1,6 +1,8 @@
 const User = require("../models/user.js");
 const Video = require("../models/video.js");
 
+const path = require("path");
+
 //Gridfs
 const mongoose = require("mongoose");
 
@@ -21,13 +23,7 @@ exports.getStreams = async (req, res, next) => {
 
 exports.getVideoInfo = async (req, res) => {
   try {
-    let media = await Video.findById(req.params.videoId).populate('userId', 'username avatar subscribers');
-
-    if (!media) {
-      return res.status("400").json({
-        error: "Media not found",
-      });
-    }
+    let media = await Video.findById(req.params.videoId).populate('userId', '_id username subscribers').select("-thumbnail");
 
     return res.json(media);
   } catch (err) {
@@ -139,8 +135,7 @@ exports.listUserProfile = async (req, res) => {
           sort: query
         }
       })
-      .populate("subscribed.users", "-password -avatar")
-      .select("-password -streamKey -avatar");
+      .select("-email -password -streamKey -avatar");
 
     User.calcTotalViews(user);
  
@@ -159,6 +154,7 @@ exports.listUserPopularVideos = async (req, res) => {
     let videos = await User.findById(req.params.userId)
       .populate({
         path: "media.videos",
+        select: "-thumbnail",
         options: {
           sort: {
             views: -1
@@ -179,12 +175,12 @@ exports.listUserPopularVideos = async (req, res) => {
 exports.listOtherVideos = async (req, res) => {
   try {
 
-    let video = await Video.findById(req.params.videoId).select('userId');
+    let video = await Video.findById(req.params.videoId).select("userId");
     
     let videos = await Video.find({
         "_id": { "$ne": req.params.videoId },
         "userId": video.userId
-    }).limit(7).populate('userId', '_id username avatar').exec();
+    }).populate('userId', '_id username').select("-thumbnail").limit(7).exec();
 
     res.json(videos);
   } catch (e) {
@@ -250,7 +246,7 @@ exports.getAllVideos = async (req, res) => {
       query.title = {'$regex': req.query.search_query, '$options': "i"};
     }
 
-    const videos = await Video.find(query).populate("userId", "_id username avatar");
+    const videos = await Video.find(query).populate("userId", "_id username").select("_id title description views category userId createdAt");
 
     res.json(videos);
   } catch (e) {
@@ -281,7 +277,7 @@ exports.getSearchSuggestions = async (req, res) => {
 
 exports.getLatestVideos = async (req, res) => {
   try {
-    const videos = await Video.find({}).sort("-createdAt").limit(5);
+    const videos = await Video.find({}).sort("-createdAt").select("_id title views category").limit(5);
 
     res.json(videos);
   } catch (e) {
@@ -290,3 +286,20 @@ exports.getLatestVideos = async (req, res) => {
     })
   }
 }
+
+exports.getVideoThumbnail = async (req, res, next) => {
+  let video = await Video.findById(req.params.videoId);
+
+  //send back data
+  if (video.thumbnail.data) {
+    res.set("Content-Type", video.thumbnail.contentType);
+
+    return res.send(video.thumbnail.data);
+  }
+
+  next();
+};
+
+exports.defaultThumbnail = (req, res) => {
+  return res.sendFile(path.resolve("FrontEnd/src/assets/default-avatar.png"));
+};

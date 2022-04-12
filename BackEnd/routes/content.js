@@ -28,6 +28,9 @@ router.get("/watch/:videoId", contentController.getVideoContent);
 // Get a single videos info from collection
 router.get("/info/:videoId", contentController.incrementViews, contentController.getVideoInfo);
 
+router.get("/thumbnail/:videoId", contentController.getVideoThumbnail, contentController.defaultThumbnail);
+router.get("/defaultThumbnail", contentController.defaultThumbnail);
+
 router.get("/categories", contentController.getCategories);
 
 router.get("/latestvideos", contentController.getLatestVideos);

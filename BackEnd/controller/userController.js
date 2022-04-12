@@ -21,14 +21,15 @@ mongoose.connection.on("connected", () => {
 
 exports.getUserInfo = async (req, res, next) => {
   try {
-    const user = await User.findById(req.userId).populate('subscribed.users', 'username avatar').select(
-      "username avatar subscribed"
+    const user = await User.findById(req.userId).populate('subscribed.users', '_id username').select(
+      "_id username subscribed"
     );
     return res.status(200).json(user);
   } catch (err) {
     if (!err.statusCode) {
       err.statusCode = 500;
     }
+
     next(err);
   }
 };
@@ -37,7 +38,7 @@ exports.getLikedVideos = async (req, res) => {
   try {
     const videos = await Video.find({
       likes: req.userId,
-    }).populate("userId");
+    }).populate("userId", "_id username").select("-thumbnail");
 
     res.status(200).json(videos);
   } catch (err) {
@@ -96,16 +97,6 @@ exports.updateUser = async (req, res) => {
 //       error: "Could not delete.",
 //     });
 //   }
-// };
-
-// exports.getAvatar = (req, res, next) => {
-//   //send back data
-//   if (req.user.avatar) {
-//     res.set("Content-Type", req.user.avatar.contentType);
-//     return res.send(req.user.avatar.data);
-//   }
-
-//   next();
 // };
 
 exports.uploadvideo = async (req, res) => {
@@ -399,6 +390,19 @@ exports.removeSubscriber = async (req, res) => {
       error: "Could not remove subscriber from user",
     });
   }
+};
+
+exports.getAvatar = async (req, res, next) => {
+  let user = await User.findById(req.params.userId);
+
+  //send back data
+  if (user.avatar) {
+    res.set("Content-Type", user.avatar.contentType);
+
+    return res.send(user.avatar.data);
+  }
+
+  next();
 };
 
 exports.defaultAvatar = (req, res) => {

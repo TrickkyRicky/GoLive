@@ -13,16 +13,11 @@ import Tab from "react-bootstrap/Tab";
 import { getUserProfile, getPopularUploads } from "../store/content/content-actions";
 import { subscribe, unsubscribe } from "../store/user/user-actions";
 
-import { Buffer } from "buffer";
-
 const Profile = () => {
   const dispatch = useDispatch();
   let { userId } = useParams();
  
-  const profileState = useSelector((state) => state.content);
-
-  const isSubscribed = useSelector((state) => state.content.subscribed);
-
+  const content = useSelector((state) => state.content);
   const auth = useSelector((state) => state.auth);
 
   useEffect(() => {
@@ -30,22 +25,16 @@ const Profile = () => {
     dispatch(getPopularUploads(userId, { views: 1 }));
   }, [userId]);
 
-//   const handleSelect = (key) => {
-//       if(key == "Home") {
-//         dispatch(getPopularUploads(userId, { views: 1 }));
-//       }
-//   }
-
   const subscribeClick = (e) => {
     e.preventDefault();
 
-    dispatch(subscribe(auth.jwtToken, profileState.userProfile._id));
+    dispatch(subscribe(auth.jwtToken, content.userProfile._id));
   }
 
   const unsubscribeClick = (e) => {
     e.preventDefault();
 
-    dispatch(unsubscribe(auth.jwtToken, profileState.userProfile._id));
+    dispatch(unsubscribe(auth.jwtToken, content.userProfile._id));
   }
 
   return (
@@ -53,25 +42,24 @@ const Profile = () => {
         <div className="channel-header">
             <Image className="channel-avatar" 
                 src={
-                profileState.userProfile?.avatar
-                    ? `data:${profileState.userProfile.avatar.contentType};base64,${Buffer.from(
-                        profileState.userProfile.avatar.data.data
-                    ).toString("base64")}`
-                    : "http://localhost:8080/user/defaultAvatar"
+                    content.userProfile?._id
+                      ? "http://localhost:8080/user/avatar/" + content.userProfile._id
+                      : "http://localhost:8080/user/defaultAvatar"
                 }
-                alt="thumbnail" />
+                alt="avatar"
+            />
             <div className="channel-info-container">
                 <h2>
-                    {profileState.userProfile?.username}
+                    {content.userProfile?.username}
                 </h2>
                 <p className="channel-pill">
-                    {profileState.userProfile?.subscribers.users.length} {profileState.userProfile?.subscribers.users.length == 1 ? "Subscriber" : "Subscribers"}
+                    {content.userProfile?.subscribers.users.length} {content.userProfile?.subscribers.users.length == 1 ? "Subscriber" : "Subscribers"}
                 </p>
                 {
-                    auth.isAuth && profileState.userProfile?._id != auth.userIdLogin && (
+                    auth.isAuth && content.userProfile?._id != auth.userIdLogin && (
                     <div>
                         {
-                            isSubscribed ? (
+                            content.subscribed ? (
                                 <button type="button" className="channel-subscribe-btn" onClick={unsubscribeClick}>
                                     Unsubscribe
                                 </button>
@@ -109,24 +97,23 @@ const Profile = () => {
                         <h2>Popular Uploads</h2>
                         <div className="video-list">
                             {
-                                profileState.popularUploads?.map((video, i) => {
+                                content.popularUploads?.map((video, i) => {
                                     return (
                                         <div key={i} className="video-item">
                                             <div className="video-overlay">
                                                 <Link to={"/watch/" + video._id}>
                                                     <Image className="video-thumbnail" 
                                                         src={
-                                                        video.thumbnail
-                                                            ? `data:${video.thumbnail.contentType};base64,${Buffer.from(
-                                                                video.thumbnail.data.data
-                                                            ).toString("base64")}`
-                                                            : "http://localhost:8080/user/defaultAvatar"
+                                                            video._id
+                                                                ? "http://localhost:8080/content/thumbnail/" + video._id
+                                                                : "http://localhost:8080/content/defaultThumbnail"
                                                         }
-                                                    alt="thumbnail" />
+                                                        alt="thumbnail"
+                                                    />
                                                 </Link>
                                             </div> 
                                             <div className="video-item-body">
-                                                <Link to={"/Watch/" + video._id}>
+                                                <Link to={"/watch/" + video._id}>
                                                     <h5 className="video-title">{video.title}</h5>
                                                 </Link>
                                                 <div className="video-details">
@@ -148,39 +135,38 @@ const Profile = () => {
                             <div>
                                 <h2>Description</h2>
                                 <p>
-                                    {profileState.userProfile?.about}
+                                    {content.userProfile?.about}
                                 </p>
                                 <p>
-                                    Total Views: {profileState.userProfile?.totalViews}
+                                    Total Views: {content.userProfile?.totalViews}
                                 </p>
                             </div>
                             <div>
                                 <div>
-                                    <p>Joined {new Date(profileState.userProfile?.createdAt).toDateString()}</p>
+                                    <p>Joined {new Date(content.userProfile?.createdAt).toDateString()}</p>
                                 </div>
                             </div>
                         </Tab.Pane>
                         <Tab.Pane eventKey="Videos">
                             <div className="video-list">
                             {
-                                profileState.userProfile?.media.videos.map((video, i) => {
+                                content.userProfile?.media.videos.map((video, i) => {
                                     return (
                                         <div key={i} className="video-item">
                                             <div className="video-overlay">
                                                 <Link to={"/watch/" + video._id}>
                                                     <Image className="video-thumbnail" 
                                                         src={
-                                                        video.thumbnail
-                                                            ? `data:${video.thumbnail.contentType};base64,${Buffer.from(
-                                                                video.thumbnail.data.data
-                                                            ).toString("base64")}`
-                                                            : "http://localhost:8080/user/defaultAvatar"
+                                                            video._id
+                                                                ? "http://localhost:8080/content/thumbnail/" + video._id
+                                                                : "http://localhost:8080/content/defaultThumbnail"
                                                         }
-                                                    alt="thumbnail" />
+                                                        alt="thumbnail"
+                                                    />
                                                 </Link>
                                             </div> 
                                             <div className="video-item-body">
-                                                <Link to={"/Watch/" + video._id}>
+                                                <Link to={"/watch/" + video._id}>
                                                     <h5 className="video-title">{video.title}</h5>
                                                 </Link>
                                                 <div className="video-details">

@@ -3,18 +3,11 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    username: '',
-    avatar: null,
-    subscribed: []
+    user: null
   },
   reducers: {
     getUserInfo(state, action) {
-      state.username = action.payload.username;
-      state.avatar = action.payload.avatar;
-      state.subscribed = action.payload.subscribed.users;
-    },
-    setSubscribed(state, action) {
-      state.subscribed = action.payload;
+      state.user = action.payload;
     }
   },  
 }); 
