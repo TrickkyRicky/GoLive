@@ -28,44 +28,112 @@
 }
 
 /*********************************       Profile Pane         *************************************/
-.profile-picture {
-  height: 100px;
-  width: 100px;
-  position: absolute;
-  border-radius: 150px 150px 0 0;
-  background-color: #323432;
+// .profile-picture {
+//   height: 100px;
+//   width: 100px;
+//   position: absolute;
+//   border-radius: 150px 150px 0 0;
+//   background-color: #323432;
+// } 
+
+.left-side {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  
+  .avatar-image {
+    height: 172px;
+    width: 172px;
+    border-radius: 50%;
+    border: 1px solid black;
+  } 
+
+  .upload-button-width {
+    width: 75%;
+    
+    .upload-button {
+      font-size:1.75rem;
+      font-weight: bold;
+      width: 100%;
+      border-radius: 15px;
+      color: #F5F4F4;
+      background-color: #585858;
+      border: none;
+    }
+  }
+
+  .description-title {
+    color: #585858;
+  }
+  
+  .description-box-width {
+    width: 75%;
+
+    .description-input {
+      width: 100%;
+      min-height: 250px;
+      border-radius: 15px;
+      font-size: x-large;
+      align-content: flex-start;
+      background-color: #585858;
+      border: none;
+    }
+  }
 }
 
-.avatar-image {
-  height: 100px;
-  width: 100px;
-  z-index: 2;
-}  
+.right-side {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
 
-.form{
-    background-color: #323432;
-
-    .form-label-leftside {
-      color: #F5F4F4;
-      font-size: larger;
-    }
-    
-    .form-label-rightside {
-      display: flex;
-      justify-content: right;
-      align-items: center;
-      color: #F5F4F4;
-      font-size: larger;
+  .user-information {
+    .title{
+      font-weight: bold;
+      color: #585858;
     }
   
-    .edit-icon {
-      font-size: large;
+    .input {
+      width: 100%;
+      border-radius: 15px;
+      font-size: 15px;
+      font-weight: bold;
       color: #F5F4F4;
+      background-color: #585858;
+
+      //Google Chrome Placeholder text color
+      &::placeholder{
+        color: #F5F4F4;
+      }
+      //Microsoft Edge Placeholder text color
+      &:-ms-input-placeholder{
+        color: #F5F4F4;
+      }
     }
-    
-    .custom-padding {
-      padding-right: 20px;
+  }
+
+  .submit-button{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+
+    .button{
+      width: 70%;
+      border-radius: 20px;
+      font-size: 17px;
+      font-weight: bold;
+      color: #F5F4F4;
+      background-color: #35C280;
+      border: none;
     }
+  }
+}
+
+.purple {
+  background-color: purple;
+}
+
+.gold {
+  background-color: gold;
 }
 
 /*********************************       Subscriptions Pane         *************************************/
@@ -115,25 +183,127 @@
 
   .media-searchbar-row-width {
     width: 45%;
+    background-color: #323432;
+    border-radius: 15px;
+    justify-content: center;
+    align-items: center;
 
     .border-right {
-      border-right: 2px solid purple;
-      height: 30px;
+      border-right: 2px solid #585858;
+      height: 100%;
+
+      .search-input {
+        width: 100%;
+        align-items: center;
+        background-color: transparent;
+        color: #F5F4F4;
+        border: none;
+        // padding-top: 5px;
+        font-size: 15px;
+
+        &:focus-visible {
+          outline: none;
+        }
+      }
     }
 
-    .search-input {
-      width: 100%;
+    .searchbar-all-button {
+      background-color: transparent;
+      font-size: 2rem;
+      border: none;
+      box-shadow: none;
+      display: flex;
+
+      &:hover {
+        color: #35C280;
+      }
+
+      .down-text {
+        display: flex;
+      }
+
+      .down-icon-div{
+        .down-icon {
+          height: 15px;
+          width: 15px;
+        }
+      }
+
     }
+
+    .search-icon {
+      height: 17px;
+      width: 17px;
+      color: #F5F4F4;
+      float: right;
+
+      &:hover {
+        color: #35C280;
+        cursor: pointer;
+      }
+    }
+
   }
 
   .media-videos-row-width {
-    background-color: blue;
+    background-color: yellow;
     width: 55%;
+
+    .media-video-card {
+      display: flex;
+      flex-direction: row;
+
+      .img-thumbnail {
+        height: 90px;
+        width: 160px;
+        object-fit: cover;
+        object-position: 50% 50%;
+      }
+    
+      .video-text {
+        display: flex;
+        flex-direction: column;
+        width: fit-content;
+    
+        .video-title {
+          color: #1f1f1f;
+        }
+        
+        .video-description {
+          color: #1f1f1f;
+        }
+    
+        .video-type {
+          background-color: #35C280;
+          color: #F5F4F4;
+          font-weight: bold;
+          width: fit-content;
+          border-radius: 5px;
+        }
+      }
+    
+      .icons {
+        display: flex;
+        width: auto;
+        
+
+        .delete-icon{
+          float: right;
+          height: 20px;
+          width: 20px;
+        }
+      
+        .edit-icon{
+          float: right;
+          height: 20px;
+          width: 20px;
+        }
+      }
+    }
   }
+
 }
 
-.temp-green {
-  background-color: green;
+.blue-border-bottom {
+  border-bottom: 3px solid blue;
 }
-
-
