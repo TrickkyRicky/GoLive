@@ -58,7 +58,7 @@ export default function Header() {
 
     dispatch(
       searchSuggestions({
-        search_query: e.target.value,
+        search_query: e.target.value
       })
     )
   }

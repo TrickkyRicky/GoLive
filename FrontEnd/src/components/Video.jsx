@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
 import { Buffer } from "buffer";
-
+ 
 const Video = (props) => {
   const videoRef = useRef(null);
   const playerRef = useRef(null);
@@ -30,7 +30,7 @@ const Video = (props) => {
       fluid: true,
       sources: [
         {
-          src: "http://localhost:8080/content/watch/" + props.videoId,
+          src: "http://localhost:8080/content/watch/" + props.video._id,
           type: "video/mp4"
         },
       ],

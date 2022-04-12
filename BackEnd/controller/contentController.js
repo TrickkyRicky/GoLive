@@ -123,15 +123,54 @@ exports.getVideoContent = async (req, res) => {
 //List user profile
 exports.listUserProfile = async (req, res) => {
   try {
-    let user = await User.findById(req.params.userId)
-      .populate("media.videos")
-      .populate("subscribed.users", "-password")
-      .select("-password -streamKey");
+    let query = {};
 
+    if(req.query.views) {
+      query.views = -1;
+    } else {
+      query.createdAt = -1
+    }
+
+    let user = await User.findById(req.params.userId)
+      .populate({
+        path: "media.videos",
+        select: "-thumbnail",
+        options: {
+          sort: query
+        }
+      })
+      .populate("subscribed.users", "-password -avatar")
+      .select("-password -streamKey -avatar");
+
+    User.calcTotalViews(user);
+ 
     res.json(user);
   } catch (e) {
     return res.status(400).json({
       error: "Could not list media by user"
+    }); 
+  }
+};
+
+//List user popular videos
+exports.listUserPopularVideos = async (req, res) => {
+  try {
+
+    let videos = await User.findById(req.params.userId)
+      .populate({
+        path: "media.videos",
+        options: {
+          sort: {
+            views: -1
+          }
+        }
+      })
+      .select("media");
+
+    res.json(videos);
+  } catch (e) {
+    return res.status(400).json({
+      error: "Could not list users popular videos"
     }); 
   }
 };

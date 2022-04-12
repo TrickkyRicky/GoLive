@@ -13,7 +13,9 @@ import Image from 'react-bootstrap/Image';
 import { getSingleVideo, getOtherVideos, getVideoComments } from "../store/content/content-actions";
 import { likeVideo, unlikeVideo, postComment, deleteComment, subscribe, unsubscribe } from "../store/user/user-actions";
 
-import Video from "../components/Video"; 
+import ReactPlayer from "react-player";
+import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
+
 import { Buffer } from "buffer";
 
 const WatchVideo = () => {
@@ -90,11 +92,13 @@ const WatchVideo = () => {
     dispatch(deleteComment(auth.jwtToken, comment._id));
   }
 
+  const mediaUrl = videoInfo?._id ? "http://localhost:8080/content/watch/" + videoInfo._id : null
+
   return (
     <Container>
         <div>
-            <div className="video-container">
-              <Video video={videoInfo} videoId={videoId} />
+            <div className="player-wrapper">
+              <ReactPlayer className="react-player" url={mediaUrl} width="100%" height="100%" controls/>
             </div>
             <Container>
               <Row>
@@ -111,15 +115,15 @@ const WatchVideo = () => {
                       <div className="like-video">
                         {
                           auth.isAuth && (
-                            <div className="like-btn">
+                            <div className="like-btn-wrapper">
                               {
                                 liked ? (
-                                  <Button onClick={unlikeClick}>
-                                    Unlike
+                                  <Button variant="like" onClick={unlikeClick}>
+                                    <AiFillLike size={16} /> Unlike
                                   </Button>
                                 ) : (
-                                  <Button onClick={likeClick}>
-                                    Like
+                                  <Button variant="like" onClick={likeClick}>
+                                    <AiOutlineLike size={16} /> Like
                                   </Button>
                                 )
                               }

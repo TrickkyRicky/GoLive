@@ -18,12 +18,16 @@ const checkLiked = (likes) => {
 }
 
 //get users channel
-export const getUserProfile = (userId) => {
+export const getUserProfile = (userId, params) => {
   return async (dispatch) => {
-      dispatch(contentActions.profileLoader(true)); 
+    dispatch(contentActions.profileLoader(true)); 
+
     const getData = async () => {
 
-      const res = await fetch("http://localhost:8080/content/profile/" + userId, {
+      const query = queryString.stringify(params);
+      console.log(query)
+
+      const res = await fetch("http://localhost:8080/content/profile/" + userId + "?" + query, {
         method: "GET"
       });
 
@@ -41,6 +45,34 @@ export const getUserProfile = (userId) => {
       dispatch(contentActions.userProfile(response));
       dispatch(contentActions.subscribed(following)); 
       dispatch(contentActions.profileLoader(false)); 
+
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const getPopularUploads = (userId, params) => {
+  return async (dispatch) => {
+
+    const getData = async () => {
+
+      const query = queryString.stringify(params);
+      console.log(query)
+
+      const res = await fetch("http://localhost:8080/content/profile/" + userId + "/popular", {
+        method: "GET"
+      });
+
+      if (res.status !== 200) {
+        throw new Error("Failed to fetch user data");
+      }
+      return res.json();
+    };
+
+    try {
+      const response = await getData();
+      dispatch(contentActions.setPopularUploads(response.media.videos));
 
     } catch (e) {
       console.log(e);

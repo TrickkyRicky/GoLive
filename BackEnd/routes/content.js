@@ -17,6 +17,7 @@ router.get("/search/videos", contentController.getSearchSuggestions);
 
 //List user profile/channel
 router.get("/profile/:userId", contentController.listUserProfile);
+router.get("/profile/:userId/popular", contentController.listUserPopularVideos);
  
 //List other videos
 router.get("/other/:videoId", contentController.listOtherVideos);

@@ -17,15 +17,11 @@ const contentSlice = createSlice({
     subscribed: false,
     liked: false,
     latestVideos: [],
-    searchSuggestions: [],
-    searchResults: []
+    popularUploads: []
   },
   reducers: {
-    setSearchSuggestions(state, action) {
-      state.searchSuggestions = action.payload
-    },
-    setSearchResults(state, action) {
-      state.searchResults = action.payload
+    setPopularUploads(state, action) {
+      state.popularUploads = action.payload
     },
     setLatestVideos(state, action) {
       state.latestVideos = action.payload
