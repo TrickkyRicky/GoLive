@@ -64,24 +64,57 @@ const userSchema = new Schema(
         },
       ],
     },
+    totalViews: {
+      type: Number,
+      default: 0
+    },
     resetToken: String,
     resetTokenExpiration: Date,
   },
   { timestamps: true }
 );
 
-// userSchema.methods.addToVideos = function (id) {
-// };
+userSchema.statics.calcTotalViews = async function (user) {
+  const stats = await this.aggregate([
+    {
+      "$match": {
+        _id: user._id
+      }
+    },
+    {
+      "$lookup": {
+        from: "videos",
+        localField: "media.videos",
+        foreignField: "_id",
+        as: "media.videos"
+      }
+    },
+    {
+      "$addFields": {
+        "total": {
+          "$reduce": {
+            input: "$media.videos",
+            initialValue: 0,
+            in: {
+              $add: ["$$value", "$$this.views"]
+            }
+          }
+        }
+      }
+    },
+    {
+      "$project": {
+          _id: null,
+          total: "$total"
+      }
+    }
+  ])
 
-// userSchema.methods.addToClips = function (id) {};
+  // console.log(stats)
 
-// add and remove people you subscribed to
-userSchema.methods.subscribeToUser = function (id) {};
-userSchema.methods.unsubscribeUser = function (id) {};
-
-// other users that subscribe to this user
-userSchema.methods.addSubscriber = function (id) {};
-// other users that unsubscribe to this user
-userSchema.methods.removeSubscriber = function (id) {};
+  await this.findByIdAndUpdate(user._id, {
+    totalViews: stats[0].total
+  })
+};
 
 module.exports = mongoose.model("User", userSchema);

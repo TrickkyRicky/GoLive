@@ -1,4 +1,5 @@
 import { authActions } from "./auth-slice";
+import { contentActions } from "../content/content-slice";
 
 export const postRegister = (username, email, password) => {
   return async (dispatch) => {
@@ -66,9 +67,13 @@ export const postLogin = (username, password) => {
             userIdLogin: result.userId,
           })
         );
+
+        dispatch(authActions.redirectLogin(true));
+
         // maybe expire in future
         localStorage.setItem("token", result.token);
         localStorage.setItem("userId", result.userId);
+
         return result;
       } else {
         throw new Error("could not get data");
@@ -86,6 +91,9 @@ export const logout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
     dispatch(authActions.LoggedOut());
+    //Hide Following
+    dispatch(contentActions.listShow(false));
+
     try {
       let response = await fetch("http://localhost:8080/auth/logout", {
         method: "GET",

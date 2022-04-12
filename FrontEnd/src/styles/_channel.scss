@@ -54,12 +54,22 @@
 .tab-pane {
     .video-list {
       display: flex;
-      gap: 2.5rem;
+      flex-wrap: wrap;
+      gap: 1.0rem;
       padding: 1.0rem 0;
+
+      @include media-breakpoint-up(xxl) {
+        gap: 2.5rem;
+      }
     
       .video-item {
-        width: 450px;
-        height: 316px;
+        flex: 1 0 calc((100% / 3) - 1.0rem);
+        max-width: calc((100% / 3) - 1.0rem);
+
+        @include media-breakpoint-up(xxl) {
+          flex: 1 0 calc((100% / 4) - 2.5rem);
+          max-width: calc((100% / 4) - 2.5rem);
+        }
       
         .video-overlay {
           position: relative;
@@ -98,8 +108,7 @@
         }
       
         .video-item-body {
-          height: 62px;
-          padding: 0 1.0rem;
+          padding: 1.0rem;
           background-color: #323432;
           border-bottom-left-radius: 10px;
           border-bottom-right-radius: 10px;

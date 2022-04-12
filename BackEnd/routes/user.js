@@ -10,13 +10,16 @@ const isAuth = require("../middleware/isAuth");
 //   .route("/avatar/:userId")
 //   .get(userController.getAvatar, userController.defaultAvatar);
 
-// router.route("/defaultAvatar").get(userController.defaultAvatar);
+router.get("/defaultAvatar", userController.defaultAvatar);
 
-//User
+//User 
 router.get("/info", isAuth, userController.getUserInfo);
 router.get("/likedvideos", isAuth, userController.getLikedVideos);
 router.put("/updateinfo", isAuth, userController.updateUser);
+
+//videos
 router.post("/uploadvideo", isAuth, userController.uploadvideo);
+router.delete("/info/:videoId", isAuth, userController.deleteVideo);
 
 //Likes
 router.put("/video/like", isAuth, userController.likeVideo);
@@ -24,6 +27,7 @@ router.put("/video/unlike", isAuth, userController.unlikeVideo);
 
 //Comment
 router.post("/video/comment", isAuth, userController.postComment);
+router.delete("/video/comment/:commentId", isAuth, userController.deleteComment);
 
 // put isAuth middleware back when testing is done
 router.post("/golive", userController.uploadStream);

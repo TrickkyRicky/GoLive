@@ -13,21 +13,23 @@ const contentController = require("../controller/contentController");
 
 // // get every video or under a specific category
 router.get("/all/videos", contentController.getAllVideos);
+router.get("/search/videos", contentController.getSearchSuggestions);
 
 //List user profile/channel
 router.get("/profile/:userId", contentController.listUserProfile);
-
+router.get("/profile/:userId/popular", contentController.listUserPopularVideos);
+ 
 //List other videos
 router.get("/other/:videoId", contentController.listOtherVideos);
 
 // Get a single videos content
 router.get("/watch/:videoId", contentController.getVideoContent);
-
+ 
 // Get a single videos info from collection
 router.get("/info/:videoId", contentController.incrementViews, contentController.getVideoInfo);
 
 router.get("/categories", contentController.getCategories);
 
-// router.param("userId", userController.userByID);
+router.get("/latestvideos", contentController.getLatestVideos);
 
 module.exports = router;

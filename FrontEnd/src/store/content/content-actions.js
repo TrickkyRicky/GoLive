@@ -18,12 +18,16 @@ const checkLiked = (likes) => {
 }
 
 //get users channel
-export const getUserProfile = (userId) => {
+export const getUserProfile = (userId, params) => {
   return async (dispatch) => {
-      dispatch(contentActions.profileLoader(true)); 
+    dispatch(contentActions.profileLoader(true)); 
+
     const getData = async () => {
 
-      const res = await fetch("http://localhost:8080/content/profile/" + userId, {
+      const query = queryString.stringify(params);
+      console.log(query)
+
+      const res = await fetch("http://localhost:8080/content/profile/" + userId + "?" + query, {
         method: "GET"
       });
 
@@ -48,10 +52,39 @@ export const getUserProfile = (userId) => {
   };
 };
 
+export const getPopularUploads = (userId, params) => {
+  return async (dispatch) => {
+
+    const getData = async () => {
+
+      const query = queryString.stringify(params);
+      console.log(query)
+
+      const res = await fetch("http://localhost:8080/content/profile/" + userId + "/popular", {
+        method: "GET"
+      });
+
+      if (res.status !== 200) {
+        throw new Error("Failed to fetch user data");
+      }
+      return res.json();
+    };
+
+    try {
+      const response = await getData();
+      dispatch(contentActions.setPopularUploads(response.media.videos));
+
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
 //get video information
 export const getSingleVideo = (videoId) => {
   return async (dispatch) => {
     const getVideo = async () => {
+      
       const res = await fetch("http://localhost:8080/content/info/" + videoId, {
         method: "GET"
       });
@@ -70,8 +103,6 @@ export const getSingleVideo = (videoId) => {
       let following = checkSubscribed(response.userId);
       let hasLiked = checkLiked(response.likes);
 
-      console.log(hasLiked)
-
       dispatch(contentActions.subscribed(following)); 
       dispatch(contentActions.liked(hasLiked)); 
       
@@ -81,6 +112,7 @@ export const getSingleVideo = (videoId) => {
     }
   }
 }
+
 //get other videos
 export const getOtherVideos = (videoId) => {
   return async (dispatch) => {
@@ -150,7 +182,32 @@ export const listCategories = () => {
     try {
       const response = await getNames();
 
-      dispatch(contentActions.setCategoryNames(response)); 
+      dispatch(contentActions.setCategories(response)); 
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+//List latest videos
+export const listLatestVideos = () => {
+  return async (dispatch) => {
+    const getVideos = async () => {
+      const res = await fetch("http://localhost:8080/content/latestvideos", {
+        method: "GET"
+      });
+
+      if(res.status !== 200) {
+        throw new Error("Failed to fetch videos");
+      }
+ 
+      return res.json();
+    }
+
+    try {
+      const videos = await getVideos();
+
+      dispatch(contentActions.setLatestVideos(videos)); 
     } catch (e) {
       console.log(e)
     }
@@ -162,7 +219,7 @@ export const listVideos = (params) => {
   return async (dispatch) => {
     const getVideos = async () => {
       const query = queryString.stringify(params);
-
+      console.log(query)
       const res = await fetch("http://localhost:8080/content/all/videos?" + query, {
         method: "GET"
       });
@@ -170,7 +227,7 @@ export const listVideos = (params) => {
       if(res.status !== 200) {
         throw new Error("Failed to fetch videos");
       }
-
+ 
       return res.json();
     }
 
@@ -178,6 +235,58 @@ export const listVideos = (params) => {
       const response = await getVideos();
 
       dispatch(contentActions.setVideos(response)); 
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export const searchSuggestions = (params) => {
+  return async (dispatch) => {
+    const getVideos = async () => {
+      const query = queryString.stringify(params);
+      console.log(query)
+      const res = await fetch("http://localhost:8080/content/search/videos?" + query, {
+        method: "GET"
+      });
+
+      if(res.status !== 200) {
+        throw new Error("Failed to fetch videos");
+      }
+ 
+      return res.json();
+    }
+
+    try {
+      const videos = await getVideos();
+
+      dispatch(contentActions.setSearchSuggestions(videos)); 
+    } catch (e) {
+      console.log(e)
+    }
+  }
+}
+
+export const searchResults = (params) => {
+  return async (dispatch) => {
+    const getVideos = async () => {
+      const query = queryString.stringify(params);
+      console.log(query)
+      const res = await fetch("http://localhost:8080/content/all/videos?" + query, {
+        method: "GET"
+      });
+
+      if(res.status !== 200) {
+        throw new Error("Failed to fetch videos");
+      }
+ 
+      return res.json();
+    }
+
+    try {
+      const response = await getVideos();
+      
+      dispatch(contentActions.setSearchResults(response)); 
     } catch (e) {
       console.log(e)
     }

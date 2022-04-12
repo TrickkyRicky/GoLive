@@ -46,12 +46,23 @@ mongoose
   .then(() => {
     const nodeServer = server.listen(port);
     const io = require("./socket").init(nodeServer);
-    io.on("connection", (s) => {
+    io.on("connection", (socket) => {
       console.log("CONNNECTED IO SOCKET");
-      s.on("disconnect", () => {
-        console.log("SOCKET DC'D");
+      socket.on("join-room", (room) => {
+        console.log("ROOM CON::: ", room);
+        socket.join(room);
       });
-      console.log(s.handshake.query.foo);
+      socket.on("disconnect", (room) => {
+        console.log("ROOM DC::: ", room);
+        socket.leave(room);
+      });
+      socket.on("send-comment", (message, room) => {
+        console.log("MESSAGE::: ", message, room);
+        // sends message to everyone in room except self
+        // socket.to(room).emit("receive-comment", message);
+        // sends message to everyone in room including self
+        socket.nsp.to(room).emit("receive-comment", message);
+      });
     });
   })
   .then(() => {

@@ -12,9 +12,11 @@ import Error404 from "./pages/Error404.jsx";
 import WatchVideo from "./pages/WatchVideo";
 import Stream from "./pages/Stream";
 import LikedVideos from "./pages/LikedVideos";
+import SearchResults from "./pages/SearchResults";
 import Clip from "./pages/Clip";
 import MainLayout from "./components/layouts/MainLayout";
 import AuthLayout from "./components/layouts/AuthLayout";
+import Socket1 from "./pages/Socket1";
 // import Upload from "./pages/Upload";
 
 import { Routes, Route } from "react-router-dom";
@@ -52,9 +54,14 @@ const App = () => {
         <Route path="Watch/:videoId" element={<WatchVideo />} />
         <Route path="Settings" element={<Settings />} />
         <Route path="Liked" element={<LikedVideos />} />
+        <Route path="SearchResults" element={<SearchResults />} />
+
         <Route path="Settings" element={<Settings jwt={jwtToken} />} />
-        {/* <Route path="Upload" element={<Upload jwt={jwtToken} />} /> */}
         <Route path="Clip" element={<Clip jwt={jwtToken} />} />
+
+        {/* Socket Test Routes */}
+        <Route path="Socket1" element={<Socket1 jwt={jwtToken} />} />
+        <Route path="Socket2" element={<Clip jwt={jwtToken} />} />
 
         {/* after Stream will be Stream/username */}
         <Route path="Stream/:username" element={<Stream />} />

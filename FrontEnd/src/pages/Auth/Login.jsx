@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useLocation, Link } from "react-router-dom";
-import { Container, Row, Col, Form, Button, Image } from "react-bootstrap";
+import { Form, Button, Image } from "react-bootstrap";
 import { postLogin } from "../../store/auth/auth-actions";
 
 import logo from "../../assets/Logo.png";
@@ -9,12 +9,11 @@ import logo from "../../assets/Logo.png";
 const Login = () => {
   const location = useLocation();
   const dispatch = useDispatch();
+  const redirect = useSelector((state) => state.auth.redirect);
 
   const [values, setValues] = useState({
     username: "",
-    password: "",
-    error: "",
-    redirect: false,
+    password: ""
   });
 
   const handleChange = (event, field) => {
@@ -29,15 +28,7 @@ const Login = () => {
       password: values.password || undefined,
     };
 
-    dispatch(postLogin(user.username, user.password)).then((data) => {
-      if(data) {
-        setValues({ 
-          ...values, 
-          error: '', 
-          redirect: true
-        })
-      }
-    });
+    dispatch(postLogin(user.username, user.password));
   };
 
   const { from } = location.state || {
@@ -45,8 +36,6 @@ const Login = () => {
       pathname: "/",
     }
   };
-
-  const { redirect } = values;
 
   if (redirect) {
     return <Navigate replace to={from} />;

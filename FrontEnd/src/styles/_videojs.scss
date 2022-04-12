@@ -1,4 +1,5 @@
-.video-js.vjs-fluid {
-    height: 788px;
-    padding-top: 0;
+/* Change the border of the big play button. */
+.vjs-matrix .vjs-big-play-button {
+    border-color: #35c280;
+    color: #35c280;
 }

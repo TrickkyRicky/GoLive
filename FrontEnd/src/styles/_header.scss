@@ -1,6 +1,7 @@
 #site-header {
   background-color: #323432;
   border-radius: 50px;
+  margin-bottom: 2.5rem;
 }
 
 .form-label {
@@ -33,6 +34,30 @@
     border: 0;
     padding: 8px 16px;
   }
+
+  #search-results {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    background-color: #fff;
+    padding: 0.5rem 0;
+    border-radius: 5px;
+    z-index: 99;
+
+    .search-match {
+      display: block;
+      font-family: $primary-font;
+      font-size: 1.6rem;
+      text-transform: lowercase;
+      text-decoration: none;
+      padding: 0.5rem;
+      color: #000;
+
+      &:hover {
+        background-color: #c6c4c4;
+      }
+    }
+  }
 }
   
 .upload-video-img {
@@ -61,12 +86,12 @@
   align-items: center;
   width: 172px;
   margin: 0 auto;
-  padding: 10px 0;
+  padding: 2.0rem 0;
 }
 
 .dropdown-avatar {
-  width: 51px;
-  height: 51px;
+  width: 5.1rem;
+  height: 5.1rem;
   border-radius: 50%;
 }
 
@@ -124,11 +149,17 @@
   width: 215px;
   height: 193px;
   border-radius: 10px;
+
+  .core-text {
+    font-family: $primary-font;
+    font-size: 1.5rem;
+    letter-spacing: 0.3px;
+  }
 }
 
-.create-container {
+//variant
+.btn-create {
   background-color: transparent;
-  border: 0;
 }
 
 .create-dropdown {
@@ -136,10 +167,12 @@
   width: 215px;
   height: 124px;
   border-radius: 10px;
-}
 
-.dropdown-toggle::after {
-  display: none;
+  .core-text {
+    font-family: $primary-font;
+    font-size: 1.5rem;
+    letter-spacing: 0.3px;
+  }
 }
 
 .site-text {
@@ -180,7 +213,12 @@
     background-color: #1f1f1f;
     border: 0;
     border-radius: 10px;
+    font-size: 1.2rem;
     color: #f5f4f4;
+  }
+
+  #form-title, #formDescription {
+    padding: 1.0rem 1.5rem;
   }
 
   textarea.form-control {
@@ -201,4 +239,9 @@
   padding: 10px;
   width: 166px;
   height: 45px;
+
+  &:disabled {
+    background-color: #c6c4c4;
+    color: #000;
+  }
 }

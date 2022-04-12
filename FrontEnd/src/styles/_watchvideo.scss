@@ -5,8 +5,7 @@ $pill-bg: #585858;
 $section-bg: #323432;
 $golive-green: #35c280;
 
-.video-container {
-  max-height: 78.8rem;
+.player-wrapper {
   margin-bottom: 2.5rem;
 }
   
@@ -32,8 +31,16 @@ $golive-green: #35c280;
     .like-video {
       display: flex;
 
-      .like-btn {
+      .like-btn-wrapper {
         margin-right: 1.0rem;
+
+        .btn-like {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          border: 1px solid #fff;
+          color: #fff;
+        }
       }
 
       .video-likes-count {
@@ -251,6 +258,10 @@ $golive-green: #35c280;
 
 .video-section-list {
   .video-item {
+    &:not(:last-child) {
+      margin-bottom: 2.5rem;
+    }
+
     .video-row {
       display: flex;
 
@@ -271,12 +282,13 @@ $golive-green: #35c280;
       .video-details {
 
         .video-title {
+          display: block;
           font-family: $primary-font;
           font-size: 2.2rem;
           font-weight: 700;
           letter-spacing: 0.9px;
           color: $golive-text;
-          margin-bottom: 1.4rem;
+          margin-bottom: 1.5rem;
           text-decoration: none;
         }
 
@@ -300,7 +312,7 @@ $golive-green: #35c280;
             width: 5.1rem;
             height: 5.1rem;
             border-radius: 50%;
-            margin-right: 1.4rem;
+            margin-right: 1.2rem;
           }
   
           .video-username {

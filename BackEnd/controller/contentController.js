@@ -21,7 +21,7 @@ exports.getStreams = async (req, res, next) => {
 
 exports.getVideoInfo = async (req, res) => {
   try {
-    let media = await Video.findById(req.params.videoId).populate('userId', 'username avatar subscribers').populate('chat.comments');
+    let media = await Video.findById(req.params.videoId).populate('userId', 'username avatar subscribers');
 
     if (!media) {
       return res.status("400").json({
@@ -70,7 +70,6 @@ exports.getVideoContent = async (req, res) => {
   }
 
   const range = req.headers["range"];
-  console.log(range);
 
   //Skip through video
   if(range && typeof range === "string") {
@@ -102,13 +101,16 @@ exports.getVideoContent = async (req, res) => {
     downloadStream.on('end', () => {
         res.end()
     })
-  } else { //Press play start from beginning
+  } else { 
+    //Press play start from beginning
     res.header("Content-Length", files[0].length);
     res.header("Content-Type", files[0].contentType);
 
     let downloadStream = gridfs.openDownloadStream(files[0]._id);
+
     downloadStream.pipe(res);
-    downloadStream.on("error", () => {
+    downloadStream.on("error", (e) => {
+      console.log(e)
       res.sendStatus(404);
     });
     downloadStream.on("end", () => {
@@ -117,19 +119,58 @@ exports.getVideoContent = async (req, res) => {
   }
 
 };
-
+ 
 //List user profile
 exports.listUserProfile = async (req, res) => {
   try {
-    let user = await User.findById(req.params.userId)
-      .populate("media.videos")
-      .populate("subscribed.users", "-password")
-      .select("-password -streamKey");
+    let query = {};
 
+    if(req.query.views) {
+      query.views = -1;
+    } else {
+      query.createdAt = -1
+    }
+
+    let user = await User.findById(req.params.userId)
+      .populate({
+        path: "media.videos",
+        select: "-thumbnail",
+        options: {
+          sort: query
+        }
+      })
+      .populate("subscribed.users", "-password -avatar")
+      .select("-password -streamKey -avatar");
+
+    User.calcTotalViews(user);
+ 
     res.json(user);
   } catch (e) {
     return res.status(400).json({
       error: "Could not list media by user"
+    }); 
+  }
+};
+
+//List user popular videos
+exports.listUserPopularVideos = async (req, res) => {
+  try {
+
+    let videos = await User.findById(req.params.userId)
+      .populate({
+        path: "media.videos",
+        options: {
+          sort: {
+            views: -1
+          }
+        }
+      })
+      .select("media");
+
+    res.json(videos);
+  } catch (e) {
+    return res.status(400).json({
+      error: "Could not list users popular videos"
     }); 
   }
 };
@@ -156,8 +197,39 @@ exports.listOtherVideos = async (req, res) => {
 exports.getCategories = (req, res) => {
   try {
     res.json([
-      "Gaming", "Education", "Art", "Beauty", "Chatting", "Music", "Sports", "Vlogs"
-    ]);
+      {
+        title: "Art",
+        icon: "FaPaintBrush" 
+      },
+      {
+        title: "Beauty",
+        icon: "FaShoppingBag"
+      },
+      {
+        title: "Chatting",
+        icon: "FaCommentAlt"
+      },
+      {
+        title: "Education",
+        icon: "FaBookOpen"
+      },
+      {
+        title: "Gaming",
+        icon: "FaGamepad"
+      },
+      {
+        title: "Music",
+        icon: "FaMusic"
+      },
+      {
+        title: "Sports",
+        icon: "FaBasketballBall"
+      },
+      {
+        title: "Vlogs",
+        icon: "FaCamera"
+      }
+    ])
   } catch (e) {
     return res.status(400).json({
       error: "Could not get category names"
@@ -165,13 +237,17 @@ exports.getCategories = (req, res) => {
   }
 };
 
-//Get all videos or under a specific category
+//Search, get all videos, or under a specific category
 exports.getAllVideos = async (req, res) => {
   try {
     let query = {};
 
     if(req.query.category) {
       query.category = req.query.category;
+    }
+
+    if(req.query.search_query) {
+      query.title = {'$regex': req.query.search_query, '$options': "i"};
     }
 
     const videos = await Video.find(query).populate("userId", "_id username avatar");
@@ -181,5 +257,36 @@ exports.getAllVideos = async (req, res) => {
     return res.status(400).json({
       error: "Could not get videos"
     });
+  }
+}
+
+//Search suggestions
+exports.getSearchSuggestions = async (req, res) => {
+  try {
+    let query = {};
+
+    if(req.query.search_query) {
+      query.title = {'$regex': req.query.search_query, '$options': "i"};
+    }
+
+    const videoTitles = await Video.find(query).select("title").limit(7);
+
+    res.json(videoTitles);
+  } catch (e) {
+    return res.status(400).json({
+      error: "Could not get video suggestions"
+    });
+  }
+}
+
+exports.getLatestVideos = async (req, res) => {
+  try {
+    const videos = await Video.find({}).sort("-createdAt").limit(5);
+
+    res.json(videos);
+  } catch (e) {
+    res.status(400).json({
+      error: "Could not get latest videos"
+    })
   }
 }

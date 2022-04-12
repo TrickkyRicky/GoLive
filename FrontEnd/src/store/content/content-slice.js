@@ -6,7 +6,8 @@ const contentSlice = createSlice({
     userProfile: null,
     profileLoader: false,
     videoInfo: null,
-    categoryNames: [],
+    categories: [],
+    listShow: false,
     videos: [],
     otherVideos: [],
     likedVideos: [],
@@ -14,9 +15,20 @@ const contentSlice = createSlice({
     newComment: null,
     showUploadModal: false,
     subscribed: false,
-    liked: false
+    liked: false,
+    latestVideos: [],
+    popularUploads: []
   },
   reducers: {
+    setPopularUploads(state, action) {
+      state.popularUploads = action.payload
+    },
+    setLatestVideos(state, action) {
+      state.latestVideos = action.payload
+    },
+    listShow(state, action) {
+      state.listShow = action.payload
+    },
     liked(state, action) {
       state.liked = action.payload
     },
@@ -52,8 +64,8 @@ const contentSlice = createSlice({
       let index = state.videoInfo.likes.indexOf(action.payload);
       state.videoInfo.likes.splice(index, 1);
     },
-    setCategoryNames(state, action) {
-      state.categoryNames = action.payload
+    setCategories(state, action) {
+      state.categories = action.payload
     },
     setVideos(state, action) {
       state.videos = action.payload
@@ -62,12 +74,14 @@ const contentSlice = createSlice({
       state.likedVideos = action.payload
     },
     setVideoComments(state, action) {
-      // console.log(action.payload)
       state.comments = action.payload
     },
     addComment(state, action) {
-      // console.log(action.payload)
       state.comments.push(action.payload)
+    },
+    deleteComment(state, action) {
+      let index = state.comments.indexOf(action.payload);
+      state.comments.splice(index, 1);
     },
     showUploadModal(state, action) {
       state.showUploadModal = action.payload
