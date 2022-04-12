@@ -1,7 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import videojs from "video.js";
 import "video.js/dist/video-js.css";
-import { vPath } from "../utility/dev.js";
+import { vPath } from "../utility/utility.js";
 
 const StreamVideo = (props) => {
   const videoRef = useRef(null);
