@@ -21,9 +21,11 @@ mongoose.connection.on("connected", () => {
 
 exports.getUserInfo = async (req, res, next) => {
   try {
-    const user = await User.findById(req.userId).populate('subscribed.users', '_id username').select(
-      "_id username subscribed"
-    );
+    const user = await User.findById(req.userId)
+    .populate('subscribed.users', '_id username')
+    .populate('media.videos', '_id title description views category')
+    .select("_id username email about subscribed media");
+
     return res.status(200).json(user);
   } catch (err) {
     if (!err.statusCode) {
@@ -48,7 +50,7 @@ exports.getLikedVideos = async (req, res) => {
   }
 };
 
-exports.updateUser = async (req, res) => {
+exports.updateUser = (req, res) => {
   let form = new formidable.IncomingForm();
 
   //include extentions of files
@@ -62,7 +64,7 @@ exports.updateUser = async (req, res) => {
     }
 
     //Get user by its id
-    const user = await User.findById(req.userId);
+    const user = await User.findById(req.userId).populate('subscribed.users', '_id username').populate('media.videos', '_id title description views category').select("_id username email about subscribed media");
 
     //Extend user
     Object.assign(user, fields);
@@ -75,8 +77,10 @@ exports.updateUser = async (req, res) => {
     }
 
     try {
-      await user.save();
-      res.json(user);
+      let data = await user.save();
+      data.avatar = undefined;
+
+      res.json(data);
     } catch (e) {
       res.status("400").json({
         error: "Could not update user",
@@ -155,19 +159,21 @@ exports.deleteVideo = async (req, res) => {
   try {
     //Delete from mongodb
     let video = await Video.findById(req.params.videoId);
-    let deletedVideo = await video.remove();
 
-    await User.findByIdAndUpdate(
-      { _id: req.userId._id },
-      { $pull: { "media.videos": video._id } },
-      { new: true }
-    ).exec();
-
-    //Delete from gridfs
     let files = await gridfs.find({
       filename: video._id
     }).toArray();
+// console.log(files[0])
 
+    await User.findByIdAndUpdate(
+      { _id: req.userId },
+      { $pull: { "media.videos": video._id } },
+      { new: true }
+    );
+
+    let deletedVideo = await video.remove();
+
+    //Delete from gridfs
     gridfs.delete(files[0]._id);
 
     res.json(deletedVideo);
