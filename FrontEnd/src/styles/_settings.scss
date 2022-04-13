@@ -28,14 +28,6 @@
 }
 
 /*********************************       Profile Pane         *************************************/
-// .profile-picture {
-//   height: 100px;
-//   width: 100px;
-//   position: absolute;
-//   border-radius: 150px 150px 0 0;
-//   background-color: #323432;
-// } 
-
 .left-side {
   display: flex;
   flex-direction: column; 
@@ -87,6 +79,7 @@
   margin-top: 50px;
 
   .user-information {
+
     .title{
       font-weight: bold;
       color: #585858;
@@ -98,6 +91,7 @@
       font-size: 15px;
       font-weight: bold;
       color: #F5F4F4;
+      border: none;
       background-color: #585858;
 
       //Google Chrome Placeholder text color
@@ -124,16 +118,12 @@
       color: #F5F4F4;
       background-color: #35C280;
       border: none;
+
+      &:hover {
+        background-color: #238255;
+      }
     }
   }
-}
-
-.purple {
-  background-color: purple;
-}
-
-.gold {
-  background-color: gold;
 }
 
 /*********************************       Subscriptions Pane         *************************************/
