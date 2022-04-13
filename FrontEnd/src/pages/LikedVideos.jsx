@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 //Bootstrap
 import Container from "react-bootstrap/Container";
-import Card from 'react-bootstrap/Card';
+// import Card from 'react-bootstrap/Card';
 // import Row from 'react-bootstrap/Row';
 // import Col from 'react-bootstrap/Col';
 // import Nav from 'react-bootstrap/Nav';
@@ -12,7 +12,6 @@ import Image from 'react-bootstrap/Image';
 
 import { getLikedVideos } from "../store/user/user-actions";
 import { Link } from "react-router-dom";
-import { Buffer } from "buffer";
 
 import { BsEyeFill } from 'react-icons/bs';
 
@@ -38,15 +37,14 @@ function LikedVideos() {
                         return (
                             <div key={i} className="video-item">
                                 <div className="video-overlay">
-                                    <Image className="video-thumbnail" 
-                                    src={
-                                    video.thumbnail
-                                        ? `data:${video.thumbnail.contentType};base64,${Buffer.from(
-                                            video.thumbnail.data.data
-                                        ).toString("base64")}`
-                                        : "http://localhost:8080/user/defaultAvatar"
-                                    }
-                                    alt="thumbnail" />
+                                    <Image className="video-thumbnail"
+                                        src={
+                                            video._id
+                                                ? "http://localhost:8080/content/thumbnail/" + video._id
+                                                : "http://localhost:8080/content/defaultThumbnail"
+                                        }
+                                        alt="thumbnail"
+                                    />
                                     <div className="video-views">
                                         <BsEyeFill size={22} color={"#f5f4f4"} /> <p>{video.views}</p>
                                     </div>
@@ -55,18 +53,17 @@ function LikedVideos() {
                                     <div className="video-details">
                                     <Image className="video-user-avatar"
                                         src={
-                                        video.userId.avatar
-                                            ? `data:${video.userId.avatar.contentType};base64,${Buffer.from(
-                                                video.userId.avatar.data.data
-                                            ).toString("base64")}`
-                                            : "http://localhost:8080/user/defaultAvatar"
-                                        } 
+                                            video.userId._id
+                                              ? "http://localhost:8080/user/avatar/" + video.userId._id
+                                              : "http://localhost:8080/user/defaultAvatar"
+                                        }
+                                        alt="avatar"
                                     />
                                     <div>
-                                        <Link to={"/Watch/" + video._id}>
+                                        <Link to={"/watch/" + video._id}>
                                         <h5 className="video-title">{video.title}</h5>
                                         </Link>
-                                        <Link to={"/Profile/" + video.userId._id}>
+                                        <Link to={"/profile/" + video.userId._id}>
                                         <p className="video-username">
                                             {video.userId.username}
                                         </p>

@@ -6,10 +6,7 @@ const router = express.Router();
 const userController = require("../controller/userController");
 const isAuth = require("../middleware/isAuth");
 
-// router
-//   .route("/avatar/:userId")
-//   .get(userController.getAvatar, userController.defaultAvatar);
-
+router.get("/avatar/:userId", userController.getAvatar, userController.defaultAvatar);
 router.get("/defaultAvatar", userController.defaultAvatar);
 
 //User 
@@ -41,7 +38,5 @@ router.put("/unsubscribe", isAuth, userController.removeSubscribed, userControll
 //   .get(isAuth, userController.getUser)
 //   .put(isAuth, userController.updateUser)
 //   .delete(isAuth, userController.deleteUser);
-
-// router.param("userId", userController.userByID);
 
 module.exports = router;

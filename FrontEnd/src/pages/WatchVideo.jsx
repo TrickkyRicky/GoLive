@@ -16,10 +16,9 @@ import { likeVideo, unlikeVideo, postComment, deleteComment, subscribe, unsubscr
 import ReactPlayer from "react-player";
 import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
 
-import { Buffer } from "buffer";
-
 const WatchVideo = () => {
   const location = useLocation();
+  
   const [values, setValues] = useState({
     comment: ''
   });
@@ -141,15 +140,14 @@ const WatchVideo = () => {
                       <div className="video-owner">
                         <Image className="video-owner-avatar"
                           src={
-                            videoInfo?.userId.avatar
-                              ? `data:${videoInfo.userId.avatar.contentType};base64,${Buffer.from(
-                                  videoInfo.userId.avatar.data.data
-                                ).toString("base64")}`
+                            videoInfo?.userId._id
+                              ? "http://localhost:8080/user/avatar/" + videoInfo?.userId._id
                               : "http://localhost:8080/user/defaultAvatar"
-                          } 
+                          }
+                          alt="avatar"
                         />
                         <div>
-                          <Link to={"/Profile/" + videoInfo?.userId._id} className="video-owner-username">
+                          <Link to={"/profile/" + videoInfo?.userId._id} className="video-owner-username">
                             { videoInfo?.userId.username }
                           </Link>
                           <p className="video-owner-subscribers">
@@ -187,15 +185,13 @@ const WatchVideo = () => {
                   {
                     auth.isAuth ? (
                       <div className="comment-box">
-                        <Image
-                        className="comment-avatar"
-                        src={
-                          user.avatar
-                            ? `data:${user.avatar.contentType};base64,${Buffer.from(
-                                user.avatar.data.data
-                              ).toString("base64")}`
-                            : "http://localhost:8080/user/defaultAvatar"
+                        <Image className="comment-avatar"
+                          src={
+                            user.user?._id
+                              ? "http://localhost:8080/user/avatar/" + user.user._id
+                              : "http://localhost:8080/user/defaultAvatar"
                           }
+                          alt="avatar"
                         />
                         <Form className="comment-form">
                           <Form.Group className="mb-3" controlId="formBasicComment">
@@ -224,15 +220,13 @@ const WatchVideo = () => {
                       videoComments?.map((comment, i) => {
                         return (
                           <div className="comment-container" key={i}>
-                            <Image
-                              className="comment-avatar"
+                            <Image className="comment-avatar"
                               src={
-                                comment.userId.avatar
-                                  ? `data:${comment.userId.avatar.contentType};base64,${Buffer.from(
-                                    comment.userId.avatar.data.data
-                                    ).toString("base64")}`
+                                comment.userId._id
+                                  ? "http://localhost:8080/user/avatar/" + comment.userId._id
                                   : "http://localhost:8080/user/defaultAvatar"
-                                }
+                              }
+                              alt="avatar"
                               />
                             <div>
                               <div className="comment-header">
@@ -267,26 +261,24 @@ const WatchVideo = () => {
                                     <Image
                                       className="video-thumbnail"
                                       src={
-                                        video.thumbnail
-                                          ? `data:${video.thumbnail.contentType};base64,${Buffer.from(
-                                            video.thumbnail.data.data
-                                            ).toString("base64")}`
-                                          : "http://localhost:8080/user/defaultAvatar"
-                                        }
+                                        video._id
+                                          ? "http://localhost:8080/content/thumbnail/" + video._id
+                                          : "http://localhost:8080/content/defaultThumbnail"
+                                      }
+                                      alt="thumbnail"
                                     />
                                   </div>
                                   <div className="video-details">
-                                    <Link to={"/Watch/" + video._id} className="video-title">{video.title}</Link>
+                                    <Link to={"/watch/" + video._id} className="video-title">{video.title}</Link>
                                     <div className="video-owner">
                                       <Image
                                         className="video-user-avatar"
                                         src={
-                                          video.userId.avatar
-                                            ? `data:${video.userId.avatar.contentType};base64,${Buffer.from(
-                                              video.userId.avatar.data.data
-                                              ).toString("base64")}`
+                                          video.userId._id
+                                            ? "http://localhost:8080/user/avatar/" + video.userId._id
                                             : "http://localhost:8080/user/defaultAvatar"
-                                          }
+                                        }
+                                        alt="avatar"
                                       />
                                       <div>
                                         <p className="video-username">{video.userId.username}</p>

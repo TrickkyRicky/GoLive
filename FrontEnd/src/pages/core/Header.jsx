@@ -16,8 +16,6 @@ import { getUser } from "../../store/user/user-actions";
 import { searchSuggestions } from "../../store/search/search-actions";
 import { contentActions } from "../../store/content/content-slice";
 
-import { Buffer } from "buffer";
-
 //Assets
 import logo from "../../assets/Logo.png";
 import logoutIcon from "../../assets/right-from-bracket-solid.png";
@@ -153,7 +151,7 @@ export default function Header() {
                     search.searchSuggestions.map((video, i) => {
                       return (
                         <div key={i} onClick={(e) => closeSearch(e, video.title)}>
-                          <Link to="/SearchResults" className="search-match" state={video.title}>{video.title}</Link>
+                          <Link to="/searchresults" className="search-match" state={video.title}>{video.title}</Link>
                         </div>
                       )
                     })
@@ -232,12 +230,11 @@ export default function Header() {
                     <Image
                       className="avatar"
                       src={
-                        user.avatar
-                          ? `data:${user.avatar.contentType};base64,${Buffer.from(
-                              user.avatar.data.data
-                            ).toString("base64")}`
+                        user.user?._id
+                          ? "http://localhost:8080/user/avatar/" + user.user._id
                           : "http://localhost:8080/user/defaultAvatar"
                       }
+                      alt="avatar"
                     />
                   </Dropdown.Toggle>
  
@@ -246,15 +243,14 @@ export default function Header() {
                       <Image
                         className="dropdown-avatar"
                         src={
-                          user.avatar
-                            ? `data:${user.avatar.contentType};base64,${Buffer.from(
-                                user.avatar.data.data
-                              ).toString("base64")}`
+                          user.user?._id
+                            ? "http://localhost:8080/user/avatar/" + user.user._id
                             : "http://localhost:8080/user/defaultAvatar"
                         }
+                        alt="avatar"
                       />
                       <div>
-                        <Link to={"/profile/" + auth.userIdLogin} className="core-username">{user.username}</Link>
+                        <Link to={"/profile/" + auth.userIdLogin} className="core-username">{user.user?.username}</Link>
                       </div>
                     </div>
                     <Link to="/settings" className="dropdown-item">

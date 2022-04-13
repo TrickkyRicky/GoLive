@@ -17,11 +17,9 @@ import Clip from "./pages/Clip";
 import MainLayout from "./components/layouts/MainLayout";
 import AuthLayout from "./components/layouts/AuthLayout";
 import Socket1 from "./pages/Socket1";
-// import Upload from "./pages/Upload";
 
 import { Routes, Route } from "react-router-dom";
 import { authActions } from "./store/auth/auth-slice";
-import { getUser } from "./store/user/user-actions";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -39,32 +37,32 @@ const App = () => {
 
   return (
     <Routes>
-      <Route path="Auth" element={<AuthLayout />}>
+      <Route path="auth" element={<AuthLayout />}>
         <Route index element={<Login />} />
-        <Route path="Login" element={<Login />} />
-        <Route path="Register" element={<Register />} />
+        <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
         {/* <Route path="ForgotPass" element={<ForgotPass />} />
         <Route path="NewPass/:id" element={<NewPass />} /> */}
       </Route>
 
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
-        <Route path="Home" element={<Home />} />
-        <Route path="Profile/:userId" element={<Profile />} />
-        <Route path="Watch/:videoId" element={<WatchVideo />} />
-        <Route path="Settings" element={<Settings />} />
-        <Route path="Liked" element={<LikedVideos />} />
-        <Route path="SearchResults" element={<SearchResults />} />
+        <Route path="home" element={<Home />} />
+        <Route path="profile/:userId" element={<Profile />} />
+        <Route path="watch/:videoId" element={<WatchVideo />} />
+        <Route path="settings" element={<Settings />} />
+        <Route path="liked" element={<LikedVideos />} />
+        <Route path="searchresults" element={<SearchResults />} />
 
-        <Route path="Settings" element={<Settings jwt={jwtToken} />} />
-        <Route path="Clip" element={<Clip jwt={jwtToken} />} />
+        <Route path="settings" element={<Settings jwt={jwtToken} />} />
+        <Route path="clip" element={<Clip jwt={jwtToken} />} />
 
         {/* Socket Test Routes */}
-        <Route path="Socket1" element={<Socket1 jwt={jwtToken} />} />
-        <Route path="Socket2" element={<Clip jwt={jwtToken} />} />
+        <Route path="socket1" element={<Socket1 jwt={jwtToken} />} />
+        <Route path="socket2" element={<Clip jwt={jwtToken} />} />
 
         {/* after Stream will be Stream/username */}
-        <Route path="Stream/:username" element={<Stream />} />
+        <Route path="stream/:username" element={<Stream />} />
         <Route path="*" element={<Error404 />} />
       </Route>
     </Routes>

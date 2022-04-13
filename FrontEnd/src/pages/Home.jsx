@@ -9,7 +9,6 @@ import Image from "react-bootstrap/Image";
 
 import { listCategories, listVideos, listLatestVideos } from "../store/content/content-actions";
 import { Link } from "react-router-dom";
-import { Buffer } from "buffer";
 
 import { BsEyeFill } from "react-icons/bs";
 import * as FaIcons from "react-icons/fa";
@@ -52,12 +51,8 @@ const Home = () => {
     //List Categories
     dispatch(listCategories());
 
-    //Default
-    dispatch(
-      listVideos({
-        category: "Art",
-      })
-    );
+    //List Videos by Category
+    dispatch(listVideos({ category: "Art" }));
   }, []);
 
   const clickCategory = (e, title) => {
@@ -81,13 +76,9 @@ const Home = () => {
                     key={i}
                     className="video-thumbnail"
                     src={
-                      video.thumbnail
-                        ? `data:${
-                            video.thumbnail.contentType
-                          };base64,${Buffer.from(
-                            video.thumbnail.data.data
-                          ).toString("base64")}`
-                        : "http://localhost:8080/user/defaultAvatar"
+                      video._id
+                        ? "http://localhost:8080/content/thumbnail/" + video._id
+                        : "http://localhost:8080/content/defaultThumbnail"
                     }
                     alt="thumbnail"
                   />
@@ -134,13 +125,9 @@ const Home = () => {
                     <Image
                       className="video-thumbnail"
                       src={
-                        video.thumbnail
-                          ? `data:${
-                              video.thumbnail.contentType
-                            };base64,${Buffer.from(
-                              video.thumbnail.data.data
-                            ).toString("base64")}`
-                          : "http://localhost:8080/user/defaultAvatar"
+                        video._id
+                          ? "http://localhost:8080/content/thumbnail/" + video._id
+                          : "http://localhost:8080/content/defaultThumbnail"
                       }
                       alt="thumbnail"
                     />
@@ -154,20 +141,16 @@ const Home = () => {
                       <Image
                         className="video-user-avatar"
                         src={
-                          video.userId.avatar
-                            ? `data:${
-                                video.userId.avatar.contentType
-                              };base64,${Buffer.from(
-                                video.userId.avatar.data.data
-                              ).toString("base64")}`
+                          video.userId._id
+                            ? "http://localhost:8080/user/avatar/" + video.userId._id
                             : "http://localhost:8080/user/defaultAvatar"
                         }
                       />
                       <div>
-                        <Link to={"/Watch/" + video._id}>
+                        <Link to={"/watch/" + video._id}>
                           <h5 className="video-title">{video.title}</h5>
                         </Link>
-                        <Link to={"/Profile/" + video.userId._id}>
+                        <Link to={"/profile/" + video.userId._id}>
                           <p className="video-username">
                             {video.userId.username}
                           </p>

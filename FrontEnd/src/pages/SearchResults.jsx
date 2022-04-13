@@ -7,7 +7,6 @@ import { searchResults } from "../store/search/search-actions";
 import { searchActions } from "../store/search/search-slice";
 
 import Image from 'react-bootstrap/Image';
-import { Buffer } from "buffer";
 
 function SearchResults() {
     const location = useLocation();
@@ -20,7 +19,7 @@ function SearchResults() {
           search_query: location.state
       }));
 
-      return () => {
+      return () => { 
         dispatch(searchActions.setSearchResults([])); 
       }
     }, [location.state]);
@@ -42,32 +41,28 @@ function SearchResults() {
                                     <div className="video-item" key={i}>
                                         <div className="video-row">
                                             <div className="video-thumbnail-container">
-                                                <Image
-                                                className="video-thumbnail"
-                                                src={
-                                                    video.thumbnail
-                                                    ? `data:${video.thumbnail.contentType};base64,${Buffer.from(
-                                                        video.thumbnail.data.data
-                                                        ).toString("base64")}`
-                                                    : "http://localhost:8080/user/defaultAvatar"
+                                                <Image className="video-thumbnail"
+                                                    src={
+                                                        video._id
+                                                            ? "http://localhost:8080/content/thumbnail/" + video._id
+                                                            : "http://localhost:8080/content/defaultThumbnail"
                                                     }
+                                                    alt="thumbnail"
                                                 />
                                             </div>
                                             <div className="video-details">
-                                                <Link to={"/Watch/" + video._id} className="video-title">{video.title}</Link>
+                                                <Link to={"/watch/" + video._id} className="video-title">{video.title}</Link>
                                                 <div className="video-owner">
-                                                <Image
-                                                    className="video-user-avatar"
+                                                <Image className="video-user-avatar"
                                                     src={
-                                                    video.userId.avatar
-                                                        ? `data:${video.userId.avatar.contentType};base64,${Buffer.from(
-                                                        video.userId.avatar.data.data
-                                                        ).toString("base64")}`
-                                                        : "http://localhost:8080/user/defaultAvatar"
+                                                        video.userId._id
+                                                          ? "http://localhost:8080/user/avatar/" + video.userId._id
+                                                          : "http://localhost:8080/user/defaultAvatar"
                                                     }
+                                                    alt="avatar"
                                                 />
                                                 <div>
-                                                    <p className="video-username">{video.userId.username}</p>
+                                                    <Link to={"/profile/" + video.userId._id} className="video-username">{video.userId.username}</Link>
                                                     <p className="video-category">{ video.category }</p>
                                                 </div>
                                                 </div>
