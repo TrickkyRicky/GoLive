@@ -230,8 +230,8 @@ export default function Header() {
                     <Image
                       className="avatar"
                       src={
-                        user.user?._id
-                          ? "http://localhost:8080/user/avatar/" + user.user._id
+                        user.id
+                          ? "http://localhost:8080/user/avatar/" + user.id + "?" + new Date().getTime()
                           : "http://localhost:8080/user/defaultAvatar"
                       }
                       alt="avatar"
@@ -243,8 +243,8 @@ export default function Header() {
                       <Image
                         className="dropdown-avatar"
                         src={
-                          user.user?._id
-                            ? "http://localhost:8080/user/avatar/" + user.user._id
+                          user.id
+                            ? "http://localhost:8080/user/avatar/" + user.id + "?" + new Date().getTime()
                             : "http://localhost:8080/user/defaultAvatar"
                         }
                         alt="avatar"

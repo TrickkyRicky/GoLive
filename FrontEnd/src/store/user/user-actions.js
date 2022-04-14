@@ -17,10 +17,11 @@ export const getUser = (jwt) => {
     };
     try {
       const response = await getData();
-      console.log(response);
+      // console.log(response);
 
-      dispatch(userActions.getUserInfo(response));
+      dispatch(userActions.setUserInfo(response));
       dispatch(contentActions.listShow(true));
+      dispatch(userActions.setId(response._id));
 
       return response;
     } catch (e) {
@@ -56,7 +57,7 @@ export const getLikedVideos = (jwt) => {
   };
 };
 
-export const updateUser = (jwt, updatedUser) => {
+export const updateUser = (jwt, updatedUser) => { 
   return async (dispatch) => {
     const updateData = async () => {
       const response = await fetch("http://localhost:8080/user/updateinfo", {
@@ -68,14 +69,16 @@ export const updateUser = (jwt, updatedUser) => {
         body: updatedUser,
       });
       if (response.status !== 200) {
+        console.log(response)
         throw new Error("Failed to update user data");
       }
       return response.json();
     };
     try {
       const response = await updateData();
-      console.log(response);
-      // dispatch(userActions.getUserInfo(response));
+
+      dispatch(userActions.getUserInfo(response));
+      dispatch(userActions.setId(response._id));
     } catch (e) {
       console.log(e);
     }
@@ -105,6 +108,36 @@ export const uploadVideo = (jwt, newVideo) => {
       const response = await uploadVideo();
       
       console.log(response);
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
+export const deleteVideo = (jwt, videoId) => {
+  return async (dispatch) => {
+    const deleteVideo = async () => {
+      const response = await fetch("http://localhost:8080/user/info/" + videoId, {
+          method: "DELETE",
+          headers: {
+            Accept: "application/json",
+            Authorization: "Bearer " + jwt,
+          }
+        }
+      );
+
+      if (response.status !== 200) {
+        throw new Error("Failed to delete video");
+      }
+
+      return response.json();
+    };
+
+    try {
+      const deletedVideo = await deleteVideo();
+
+      console.log(deletedVideo)
+      dispatch(userActions.deleteVideo(deletedVideo));
     } catch (e) {
       console.log(e);
     }
@@ -204,20 +237,19 @@ export const postComment = (jwt, comment, videoId) => {
 export const deleteComment = (jwt, commentId) => {
   return async (dispatch) => {
     const deleteComment = async () => {
-      const response = await fetch(
-        "http://localhost:8080/user/video/comment/" + commentId,
-        {
+      const response = await fetch("http://localhost:8080/user/video/comment/" + commentId, {
           method: "DELETE",
           headers: {
             Accept: "application/json",
             Authorization: "Bearer " + jwt,
-          },
+          }
         }
       );
 
       if (response.status !== 200) {
         throw new Error("Failed to delete comment");
       }
+
       return response.json();
     };
     try {

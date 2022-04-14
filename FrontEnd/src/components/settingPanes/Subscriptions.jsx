@@ -1,67 +1,26 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 //Bootstrap
 import { Row, Col} from 'react-bootstrap';
 
-//Assets
-import ProfilePicture from '../../assets/CourageJD.jpg';
-
 //Components
 import FollowingCard from '../FollowingCard';
 
+import { getUser } from "../../store/user/user-actions";
+
 const Subscriptions = () => {
 
-  const followers = [
-    {
-      id: 1,
-      name: 'Ninja',
-      profilePicture: ProfilePicture,
-      durationOfFollow: 3
-    },
-    {
-      id: 2,
-      name: 'Pokimane',
-      profilePicture: ProfilePicture,
-      durationOfFollow: 5
-    },
-    {
-      id: 3,
-      name: 'CourageJD',
-      profilePicture: ProfilePicture,
-      durationOfFollow: 7
-    },
-    {
-      id: 4,
-      name: 'Timthetatman',
-      profilePicture: ProfilePicture,
-      durationOfFollow: 9
-    },
-    {
-      id: 5,
-      name: 'Valkyrie',
-      profilePicture: ProfilePicture,
-      durationOfFollow: 11
-    },
-    {
-      id: 6,
-      name: 'BrookeAB',
-      profilePicture: ProfilePicture,
-      durationOfFollow: 23
-    },
-    {
-      id: 7,
-      name: 'Yassuo',
-      profilePicture: ProfilePicture,
-      durationOfFollow: 37
-    },
-    {
-      id: 8,
-      name: 'Nadeshot',
-      profilePicture: ProfilePicture,
-      durationOfFollow: 48
-    }
-  ]
+  const dispatch = useDispatch();
 
+  const auth = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if(auth.jwtToken) {
+      dispatch(getUser(auth.jwtToken))
+    }
+  }, [auth.jwtToken]);
 
   return (
     <Row className='pt-4'>
@@ -69,9 +28,9 @@ const Subscriptions = () => {
       <Col sm={12} md={10}>
         <Row xs={1} sm={2} md={2} lg={3} xl={4} xxl={4} xtl={4} className="center-items">
         {
-          followers.map((follower) => (
-            <Col className='mx-3 mb-5 follower-column'>
-              <FollowingCard follower={follower}/>
+          user.user.subscribed.users.map((user) => (
+            <Col className='mx-3 mb-5 follower-column' key={user._id}>
+              <FollowingCard user={user}/>
             </Col>
           ))
         }

@@ -3,11 +3,26 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    user: null
+    user: {
+      subscribed: {
+        users: []
+      },
+      media: {
+        videos: []
+      }
+    },
+    id: ""
   },
   reducers: {
-    getUserInfo(state, action) {
+    setUserInfo(state, action) {
       state.user = action.payload;
+    },
+    setId(state, action) {
+      state.id = action.payload;
+    },
+    deleteVideo(state, action) {
+      let index = state.user.media.videos.indexOf(action.payload);
+      state.user.media.videos.splice(index, 1);
     }
   },  
 }); 

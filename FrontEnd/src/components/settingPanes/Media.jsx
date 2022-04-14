@@ -1,5 +1,5 @@
-//React
-import React from 'react'
+import React, { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 
 //Bootstrap
 import { Container, Row, Col, Button, Image } from 'react-bootstrap'
@@ -9,36 +9,28 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
 import { faAngleDown} from '@fortawesome/free-solid-svg-icons'
 
-import ThumbnailPhoto from '../../assets/Yassuo-Thumbnail.jpg';
-import MediaVideoCard from '../MediaVideoCard'
+import { getUser, deleteVideo } from "../../store/user/user-actions";
+
+import MediaVideoCard from '../MediaVideoCard';
 
 const Media = () => {
 
-  const videos = [
-    {
-      id: 1,
-      title: "How to 1v9 Every Game!!",
-      description: "This game I am able to win the fight by making sure I farm as much minions as I possibly could... ",
-      type: "Stream",
-      thumbnail: ThumbnailPhoto
-    },
-    {
-      id: 2,
-      title: "I beat my wordle first try ...",
-      description: "I found the word ‘Movie’ by luck when attempting to solve the Wordle game",
-      type: "Video",
-      thumbnail: ThumbnailPhoto
-    },
-    {
-      id: 3,
-      title: "Ultimate Trio w/ Nadeshot!",
-      description: "I played COD with my friends Cloakzy & Nadeshot, and ended up winning 3 games!",
-      type: "Clip",
-      thumbnail: ThumbnailPhoto
+  const dispatch = useDispatch();
+
+  const auth = useSelector((state) => state.auth);
+  const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if(auth.jwtToken) {
+      dispatch(getUser(auth.jwtToken))
     }
-  ]
+  }, [auth.jwtToken]);
 
+  const deleteVideoClick = (e, video) => {
+    e.preventDefault();
 
+    dispatch(deleteVideo(auth.jwtToken, video._id));
+  }
 
   return (
     <Container className='media-container'>
@@ -58,7 +50,13 @@ const Media = () => {
       </Row>
       <Row className='media-videos-row-width mx-auto mt-5'>
         <Col className='px-0 pb-3 blue-border-bottom'>
-          <MediaVideoCard />
+          {
+            user.user.media.videos.map((video) => {
+              return (
+                <MediaVideoCard video={video} onDelete={deleteVideoClick} key={video._id}/>
+              )
+            })
+          }
         </Col>
       </Row>
     </Container>

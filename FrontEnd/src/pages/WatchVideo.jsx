@@ -234,9 +234,9 @@ const WatchVideo = () => {
                                 <p>{new Date(comment.createdAt).toLocaleDateString()}</p>
                                 {
                                   auth.isAuth && auth.userIdLogin == comment.userId._id && (
-                                    <button type="button" className="btn btn-danger" onClick={(e) => deleteCommentClick(e, comment)}>
+                                    <Button variant="danger" onClick={(e) => deleteCommentClick(e, comment)}>
                                       Trash
-                                    </button>
+                                    </Button>
                                   )
                                 }
                               </div>
