@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import Home from "./pages/Home";
-import Profile from "./pages/Profile";
+import ChannelPage from "./pages/Channel-Page";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 // import ForgotPass from "./pages/auth/ForgotPass.jsx";
@@ -48,7 +48,7 @@ const App = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="home" element={<Home />} />
-        <Route path="profile/:userId" element={<Profile />} />
+        <Route path="profile/:userId" element={<ChannelPage />} />
         <Route path="watch/:videoId" element={<WatchVideo />} />
         <Route path="settings" element={<Settings />} />
         <Route path="liked" element={<LikedVideos />} />

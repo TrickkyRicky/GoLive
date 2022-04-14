@@ -3,15 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useParams } from "react-router-dom";
 
 //Bootstrap
-import Container from "react-bootstrap/Container";
-import Row from "react-bootstrap/Row";
-import Col from "react-bootstrap/Col";
-import Image from "react-bootstrap/Image";
-import Nav from "react-bootstrap/Nav";
-import Tab from "react-bootstrap/Tab";
+import {Container, Row, Col, Image, Nav, Tab} from "react-bootstrap";
 
 import { getUserProfile, getPopularUploads } from "../store/content/content-actions";
 import { subscribe, unsubscribe } from "../store/user/user-actions";
+
+//Assets
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar} from '@fortawesome/free-solid-svg-icons'
+import userProfilePicture from '../assets/CourageJD.jpg'
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -39,41 +39,29 @@ const Profile = () => {
 
   return (
     <Container>
-        <div className="channel-header">
-            <Image className="channel-avatar" 
-                src={
-                    content.userProfile?._id
-                      ? "http://localhost:8080/user/avatar/" + content.userProfile._id
-                      : "http://localhost:8080/user/defaultAvatar"
-                }
-                alt="avatar"
-            />
-            <div className="channel-info-container">
-                <h2>
-                    {content.userProfile?.username}
-                </h2>
-                <p className="channel-pill">
-                    {content.userProfile?.subscribers.users.length} {content.userProfile?.subscribers.users.length == 1 ? "Subscriber" : "Subscribers"}
-                </p>
-                {
-                    auth.isAuth && content.userProfile?._id != auth.userIdLogin && (
-                    <div>
-                        {
-                            content.subscribed ? (
-                                <button type="button" className="channel-subscribe-btn" onClick={unsubscribeClick}>
-                                    Unsubscribe
-                                </button>
-                            ) : (
-                                <button type="button" className="channel-subscribe-btn" onClick={subscribeClick}>
-                                    Subscribe
-                                </button>
-                            )
-                        }
+        <Row className="channel-header">
+            <Col></Col>
+            <Col xs={2} sm={6} md={7} lg={8} xl={8} xxl={8} xtl={8}>
+                <div className="channel-profile-picture">
+                    <Image className="channel-avatar" 
+                        src={userProfilePicture}
+                        alt="avatar"
+                    />
+                </div>
+                <div className="channel-info-container">
+                    <div className="user-info">CourageJD</div>
+                    <div className="user-info">325k Subscribers</div>
+                    <div className="subscribe-pill">
+                        <div>
+                            <button className="button px-5">
+                                Subscribe <FontAwesomeIcon className="star-icon" icon={faStar}/>
+                            </button>
+                        </div>
                     </div>
-                    )
-                }
-            </div>
-        </div>
+                </div>
+            </Col>
+            <Col></Col>
+        </Row>
         <Tab.Container defaultActiveKey="Home">       
             <Row>
                 <Col>
@@ -193,3 +181,28 @@ const Profile = () => {
 };
 
 export default Profile;
+
+
+/*<h2>
+    {content.userProfile?.username}
+</h2>
+<p className="channel-pill">
+    {content.userProfile?.subscribers.users.length} {content.userProfile?.subscribers.users.length == 1 ? "Subscriber" : "Subscribers"}
+</p>
+{
+    auth.isAuth && content.userProfile?._id != auth.userIdLogin && (
+    <div>
+        {
+            content.subscribed ? (
+                <button type="button" className="channel-subscribe-btn" onClick={unsubscribeClick}>
+                    Unsubscribe
+                </button>
+            ) : (
+                <button type="button" className="channel-subscribe-btn" onClick={subscribeClick}>
+                    Subscribe
+                </button>
+            )
+        }
+    </div>
+    )
+}*/ 
