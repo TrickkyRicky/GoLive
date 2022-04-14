@@ -30,7 +30,7 @@ export const getUserProfile = (userId, params) => {
       const res = await fetch("http://localhost:8080/content/profile/" + userId + "?" + query, {
         method: "GET"
       });
-
+ 
       if (res.status !== 200) {
         throw new Error("Failed to fetch user data");
       }
@@ -241,54 +241,54 @@ export const listVideos = (params) => {
   }
 }
 
-export const searchSuggestions = (params) => {
-  return async (dispatch) => {
-    const getVideos = async () => {
-      const query = queryString.stringify(params);
-      console.log(query)
-      const res = await fetch("http://localhost:8080/content/search/videos?" + query, {
-        method: "GET"
-      });
+// export const searchSuggestions = (params) => {
+//   return async (dispatch) => {
+//     const getVideos = async () => {
+//       const query = queryString.stringify(params);
+//       console.log(query)
+//       const res = await fetch("http://localhost:8080/content/search/videos?" + query, {
+//         method: "GET"
+//       });
 
-      if(res.status !== 200) {
-        throw new Error("Failed to fetch videos");
-      }
+//       if(res.status !== 200) {
+//         throw new Error("Failed to fetch videos");
+//       }
  
-      return res.json();
-    }
+//       return res.json();
+//     }
 
-    try {
-      const videos = await getVideos();
+//     try {
+//       const videos = await getVideos();
 
-      dispatch(contentActions.setSearchSuggestions(videos)); 
-    } catch (e) {
-      console.log(e)
-    }
-  }
-}
+//       dispatch(contentActions.setSearchSuggestions(videos)); 
+//     } catch (e) {
+//       console.log(e)
+//     }
+//   }
+// }
 
-export const searchResults = (params) => {
-  return async (dispatch) => {
-    const getVideos = async () => {
-      const query = queryString.stringify(params);
-      console.log(query)
-      const res = await fetch("http://localhost:8080/content/all/videos?" + query, {
-        method: "GET"
-      });
+// export const searchResults = (params) => {
+//   return async (dispatch) => {
+//     const getVideos = async () => {
+//       const query = queryString.stringify(params);
+//       console.log(query)
+//       const res = await fetch("http://localhost:8080/content/all/videos?" + query, {
+//         method: "GET"
+//       });
 
-      if(res.status !== 200) {
-        throw new Error("Failed to fetch videos");
-      }
+//       if(res.status !== 200) {
+//         throw new Error("Failed to fetch videos");
+//       }
  
-      return res.json();
-    }
+//       return res.json();
+//     }
 
-    try {
-      const response = await getVideos();
+//     try {
+//       const response = await getVideos();
       
-      dispatch(contentActions.setSearchResults(response)); 
-    } catch (e) {
-      console.log(e)
-    }
-  }
-}
+//       dispatch(contentActions.setSearchResults(response)); 
+//     } catch (e) {
+//       console.log(e)
+//     }
+//   }
+// }

@@ -20,11 +20,11 @@ const Media = () => {
   const auth = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
 
-  useEffect(() => {
-    if(auth.jwtToken) {
-      dispatch(getUser(auth.jwtToken))
-    }
-  }, [auth.jwtToken]);
+  // useEffect(() => {
+  //   if(auth.jwtToken) {
+  //     dispatch(getUser(auth.jwtToken))
+  //   }
+  // }, [auth.jwtToken]);
 
   const deleteVideoClick = (e, video) => {
     e.preventDefault();
@@ -40,13 +40,9 @@ const Media = () => {
         </Col>    
         <Col xs={2} sm={2} lg={2} xl={2} xxl={2} className='px-2'>
           <Button className="searchbar-all-button">
-            <div className='down-text'>All</div>
-            <div className='down-icon-div'><FontAwesomeIcon className='down-icon' icon={faAngleDown}/> </div>
+            <FontAwesomeIcon className="search-icon" icon={faMagnifyingGlass}/>
           </Button>  
-        </Col>    
-        <Col xs={2} sm={2} lg={2} xl={2} xxl={2} className='pe-3'>         
-          <FontAwesomeIcon className="search-icon" icon={faMagnifyingGlass}/>
-        </Col>
+        </Col>   
       </Row>
       <Row className='media-videos-row-width mx-auto mt-5'>
         <Col className='px-0 pb-3 blue-border-bottom'>

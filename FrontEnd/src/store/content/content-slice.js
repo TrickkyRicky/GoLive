@@ -37,6 +37,7 @@ const contentSlice = createSlice({
     },
     userProfile(state, action) {
       state.userProfile = {
+        ...state.userProfile,
         ...action.payload
       }
     }, 
@@ -73,7 +74,7 @@ const contentSlice = createSlice({
     setLikedVideos(state, action) {
       state.likedVideos = action.payload
     },
-    setVideoComments(state, action) {
+    setVideoComments(state, action) { 
       state.comments = action.payload
     },
     addComment(state, action) {

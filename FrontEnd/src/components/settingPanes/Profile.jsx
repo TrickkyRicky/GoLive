@@ -9,7 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPenToSquare} from '@fortawesome/free-solid-svg-icons'
 
 //Redux
-import { getUser, updateUser } from "../../store/user/user-actions";
+import { getData, updateUser } from "../../store/user/user-actions";
 import { useDispatch, useSelector } from "react-redux";
 
 const Profile = () => {
@@ -39,9 +39,27 @@ const Profile = () => {
 
   useEffect(() => {
     if(auth.jwtToken) {
-      dispatch(getUser(auth.jwtToken))
+      getData(auth.jwtToken).then(data => {
+        setValues({
+          ...values,
+          username: data.username,
+          email: data.email,
+          about: data.about
+        })
+      })
     }
   }, [auth.jwtToken]);
+
+  const clearFields = () => {
+    setValues({
+      avatar: '',
+      username: '',
+      email: '',
+      about: '',
+      password: '',
+      inputKey: Date.now()
+    })
+  }
   
   const clickSubmit = (e) => {
     e.preventDefault();
@@ -56,14 +74,7 @@ const Profile = () => {
 
     dispatch(updateUser(auth.jwtToken, updatedUser));
 
-    setValues({
-      avatar: '',
-      username: '',
-      email: '',
-      about: '',
-      password: '',
-      inputKey: Date.now()
-    })
+    clearFields();
   }
 
   return (
@@ -87,7 +98,7 @@ const Profile = () => {
             <h2 className='description-title'>Description</h2>
           </div>
           <div className='description-box-width '>
-            <input className='description-input' onChange={(e) => handleChange(e, "about")} value={values.about} />
+            <textarea className='description-input' onChange={(e) => handleChange(e, "about")} value={values.about} />
           </div>
         </Col>
         <Col className='right-side' sm={6} md={6} lg={5} xl={5} xxl={4}> 
@@ -103,9 +114,12 @@ const Profile = () => {
               <h1 className='title ps-3'>Email</h1>
               <input className='input py-2 ps-3' onChange={(e) => handleChange(e, "email")} value={values.email} />
             </div>
-            <div className='user-information pt-3'>
+            {/* <div className='user-information pt-3'>
               <h1 className='title ps-3'>Password</h1>
               <input className='input py-2 ps-3' onChange={(e) => handleChange(e, "password")} value={values.password}/>
+            </div> */}
+            <div className='submit-button pt-3 mt-5'>
+              <button className='button py-3' onClick={clearFields}>Discard Changes</button>
             </div>
             <div className='submit-button pt-3 mt-5'>
               <button className='button py-3' onClick={clickSubmit}>Submit Changes</button>

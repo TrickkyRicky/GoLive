@@ -7,7 +7,7 @@ import { Row, Col} from 'react-bootstrap';
 //Components
 import FollowingCard from '../FollowingCard';
 
-import { getUser } from "../../store/user/user-actions";
+import { getUser, unsubscribe } from "../../store/user/user-actions";
 
 const Subscriptions = () => {
 
@@ -16,11 +16,17 @@ const Subscriptions = () => {
   const auth = useSelector((state) => state.auth);
   const user = useSelector((state) => state.user);
 
-  useEffect(() => {
-    if(auth.jwtToken) {
-      dispatch(getUser(auth.jwtToken))
-    }
-  }, [auth.jwtToken]);
+  // useEffect(() => {
+  //   if(auth.jwtToken) {
+  //     dispatch(getUser(auth.jwtToken))
+  //   } 
+  // }, [auth.jwtToken]);
+
+  const unsubscribeClick = (e, unfollowId) => {
+    e.preventDefault();
+    
+    dispatch(unsubscribe(auth.jwtToken, unfollowId));
+  }
 
   return (
     <Row className='pt-4'>
@@ -30,8 +36,8 @@ const Subscriptions = () => {
         {
           user.user.subscribed.users.map((user) => (
             <Col className='mx-3 mb-5 follower-column' key={user._id}>
-              <FollowingCard user={user}/>
-            </Col>
+              <FollowingCard user={user} onRemove={(e) => unsubscribeClick(e, user._id)} />
+            </Col> 
           ))
         }
         </Row>

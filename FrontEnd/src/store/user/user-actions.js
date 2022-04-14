@@ -1,20 +1,38 @@
 import { userActions } from "./user-slice";
 import { contentActions } from "../content/content-slice";
 
+//To populate the profile in settings page
+export const getData = async (jwt) => {
+  const res = await fetch("http://localhost:8080/user/info", {
+    method: "GET",
+    headers: {
+      Authorization: "Bearer " + jwt
+    }
+  });
+
+  if (res.status !== 200) {
+    throw new Error("Failed to fetch user data");
+  }
+
+  return res.json();
+};
+
 export const getUser = (jwt) => {
   return async (dispatch) => {
+
     const getData = async () => {
       const res = await fetch("http://localhost:8080/user/info", {
         method: "GET",
         headers: {
-          Authorization: "Bearer " + jwt,
-        },
+          Authorization: "Bearer " + jwt
+        }
       });
       if (res.status !== 200) {
         throw new Error("Failed to fetch user data");
       }
       return res.json();
     };
+    
     try {
       const response = await getData();
       // console.log(response);
@@ -36,7 +54,7 @@ export const getLikedVideos = (jwt) => {
       const res = await fetch("http://localhost:8080/user/likedvideos", {
         method: "GET",
         headers: {
-          Authorization: "Bearer " + jwt,
+          Authorization: "Bearer " + jwt
         },
       });
       if (res.status !== 200) {
@@ -64,7 +82,7 @@ export const updateUser = (jwt, updatedUser) => {
         method: "PUT",
         headers: {
           Accept: "application/json",
-          Authorization: "Bearer " + jwt,
+          Authorization: "Bearer " + jwt
         },
         body: updatedUser,
       });
@@ -77,7 +95,7 @@ export const updateUser = (jwt, updatedUser) => {
     try {
       const response = await updateData();
 
-      dispatch(userActions.getUserInfo(response));
+      dispatch(userActions.setUserInfo(response));
       dispatch(userActions.setId(response._id));
     } catch (e) {
       console.log(e);
@@ -95,7 +113,7 @@ export const uploadVideo = (jwt, newVideo) => {
         method: "POST",
         headers: {
           Accept: "application/json",
-          Authorization: "Bearer " + jwt,
+          Authorization: "Bearer " + jwt
         },
         body: newVideo,
       });
@@ -121,7 +139,7 @@ export const deleteVideo = (jwt, videoId) => {
           method: "DELETE",
           headers: {
             Accept: "application/json",
-            Authorization: "Bearer " + jwt,
+            Authorization: "Bearer " + jwt
           }
         }
       );
@@ -136,7 +154,7 @@ export const deleteVideo = (jwt, videoId) => {
     try {
       const deletedVideo = await deleteVideo();
 
-      console.log(deletedVideo)
+      // console.log(deletedVideo)
       dispatch(userActions.deleteVideo(deletedVideo));
     } catch (e) {
       console.log(e);
@@ -155,7 +173,7 @@ export const likeVideo = (jwt, videoId) => {
           Authorization: "Bearer " + jwt,
         },
         body: JSON.stringify({
-          videoId: videoId,
+          videoId: videoId
         }),
       });
       if (response.status !== 200) {
@@ -185,7 +203,7 @@ export const unlikeVideo = (jwt, videoId) => {
           Authorization: "Bearer " + jwt,
         },
         body: JSON.stringify({
-          videoId: videoId,
+          videoId: videoId
         }),
       });
       if (response.status !== 200) {
@@ -216,7 +234,7 @@ export const postComment = (jwt, comment, videoId) => {
         },
         body: JSON.stringify({
           comment: comment,
-          videoId: videoId,
+          videoId: videoId
         }),
       });
       if (response.status !== 200) {
@@ -285,9 +303,11 @@ export const subscribe = (jwt, followId) => {
 
     try {
       const response = await subscribeTo();
-      console.log(response);
-      dispatch(contentActions.addVideoInfo(response));
-      dispatch(contentActions.subscribed(true));
+      // console.log(response);
+
+      dispatch(contentActions.userProfile(response)); //change subscribers count on channel page
+      dispatch(contentActions.addVideoInfo(response)); //change in watchvideo page
+      dispatch(contentActions.subscribed(true)); //change whether they subscribed or not
     } catch (e) {
       console.log(e);
     }
@@ -306,7 +326,7 @@ export const unsubscribe = (jwt, unfollowId) => {
         },
         body: JSON.stringify({
           unfollowId: unfollowId,
-        }),
+        })
       });
 
       if (response.status !== 200) {
@@ -318,8 +338,11 @@ export const unsubscribe = (jwt, unfollowId) => {
     try {
       const response = await unsubscribeFrom();
       console.log(response);
-      dispatch(contentActions.addVideoInfo(response));
-      dispatch(contentActions.subscribed(false));
+
+      dispatch(contentActions.userProfile(response)); //change subscribers count on channel page
+      dispatch(contentActions.addVideoInfo(response)); //change in watchvideo page
+      dispatch(contentActions.subscribed(false)); //change whether they are subscribed or not
+      dispatch(userActions.removeSubscriber(response)); //remove in settings page
     } catch (e) {
       console.log(e);
     }
