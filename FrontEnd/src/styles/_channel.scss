@@ -1,46 +1,52 @@
 
 .channel-header {
-    .channel-avatar {
-        max-width: 15.0rem;
-        max-height: 15.0rem;
-        width: 100%;
-        height: 100%;
-        border-radius: 50%;
-        margin-right: 2.4rem;
-    }
+    .flex-row{
+      display: flex;
+      flex-direction: row;
 
-    .channel-profile-picture {
-      display: flex;       
-      justify-content: center;
-      align-items: center;
-    }
-
-    .channel-info-container {
-        display: flex;
-        flex-direction: column;
+      .channel-profile-picture {
+        display: flex;       
         justify-content: center;
         align-items: center;
 
-        .user-info {
-          color: #F5F4F4;
-          font-size: 2.6rem;
+        .channel-avatar {
+          max-width: 15.0rem;
+          max-height: 15.0rem;
+          width: 100%;
+          height: 100%;
+          border-radius: 50%;
+          margin-right: 2.4rem;
         }
-
-        .subscribe-pill{
-          
-          
-          .button{
-            font-size: 2.7rem;
-            border-radius: 2.3rem;
+      }
+  
+      .channel-info-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+  
+          .user-info {
+            color: #F5F4F4;
+            font-size: 2.6rem;
           }
-
-          .star-icon{
-            color: green;
-            height: 3rem;
-            width: 3rem;
+  
+          .subscribe-pill{   
+            .button{
+              font-size: 2.7rem;
+              border-radius: 2.3rem;
+              border: none;
+              color: #F5F4F4;
+              background-color: #35C280;
+            }
+  
+            .star-icon{
+              color: #F5F4F4;
+              height: 3rem;
+              width: 3rem;
+            }
           }
-        }
-  }
+      }
+    }
 }
 
 .tab-pane {

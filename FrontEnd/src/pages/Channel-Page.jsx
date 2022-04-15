@@ -4,14 +4,11 @@ import { Link, useParams } from "react-router-dom";
 
 //Bootstrap
 import {Container, Row, Col, Image, Nav, Tab} from "react-bootstrap";
-
 import { getUserProfile, getPopularUploads } from "../store/content/content-actions";
 import { subscribe, unsubscribe } from "../store/user/user-actions";
 
 //Assets
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faStar} from '@fortawesome/free-solid-svg-icons'
-import userProfilePicture from '../assets/CourageJD.jpg'
+import  Home  from '../components/channelPagePanes/Home';
 
 const Profile = () => {
   const dispatch = useDispatch();
@@ -39,29 +36,7 @@ const Profile = () => {
 
   return (
     <Container>
-        <Row className="channel-header">
-            <Col></Col>
-            <Col xs={2} sm={6} md={7} lg={8} xl={8} xxl={8} xtl={8}>
-                <div className="channel-profile-picture">
-                    <Image className="channel-avatar" 
-                        src={userProfilePicture}
-                        alt="avatar"
-                    />
-                </div>
-                <div className="channel-info-container">
-                    <div className="user-info">CourageJD</div>
-                    <div className="user-info">325k Subscribers</div>
-                    <div className="subscribe-pill">
-                        <div>
-                            <button className="button px-5">
-                                Subscribe <FontAwesomeIcon className="star-icon" icon={faStar}/>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </Col>
-            <Col></Col>
-        </Row>
+        <Home />
         <Tab.Container defaultActiveKey="Home">       
             <Row>
                 <Col>
