@@ -134,7 +134,7 @@ const WatchVideo = () => {
                         </div>
                       </div>
                     </div>
-                  </div>
+                  </div> 
                   <div className="secondary-info">
                     <div className="d-flex justify-content-between align-items-center">
                       <div className="video-owner">

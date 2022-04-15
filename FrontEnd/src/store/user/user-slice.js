@@ -23,6 +23,10 @@ const userSlice = createSlice({
     deleteVideo(state, action) {
       let index = state.user.media.videos.indexOf(action.payload);
       state.user.media.videos.splice(index, 1);
+    },
+    removeSubscriber(state, action) {
+      let index = state.user.subscribed.users.indexOf(action.payload);
+      state.user.subscribed.users.splice(index, 1)
     }
   },  
 }); 

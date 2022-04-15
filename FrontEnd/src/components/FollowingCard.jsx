@@ -7,7 +7,7 @@ import { Card, Button} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCircleMinus} from '@fortawesome/free-solid-svg-icons'
 
-const FollowingCard = ({ user }) => {
+const FollowingCard = ({ user, onRemove }) => {
   
   return (
     <Card key={user._id} className="follower-card">
@@ -23,7 +23,7 @@ const FollowingCard = ({ user }) => {
          />
          <Card.Title className='pt-2'>{ user.username }</Card.Title>
          {/* <Card.Subtitle className='pt-2'>{`Following for ${follower.durationOfFollow} Months`}</Card.Subtitle> */}
-         <Button className='remove-button mt-5 mb-4'>
+         <Button className='remove-button mt-5 mb-4' onClick={onRemove}>
              <div className='remove-text'>Remove</div>
              <div className='remove-icon'><FontAwesomeIcon icon={faCircleMinus}/></div>
          </Button>

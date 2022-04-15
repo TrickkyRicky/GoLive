@@ -300,7 +300,7 @@ exports.postComment = async (req, res) => {
   try {
     let data = await newComment.save();
 
-    let result = await data.populate("userId", "username avatar");
+    let result = await data.populate("userId", "_id username");
 
     res.status("200").json(result);
   } catch (e) {
@@ -348,10 +348,10 @@ exports.addSubscriber = async (req, res) => {
       { $push: { "subscribers.users": req.userId } },
       { new: true }
     )
-      .populate("subscribed.users", "_id name")
-      .populate("subscribers.users", "_id name")
-      .select("_id username avatar")
-      .exec();
+    .populate("subscribed.users", "_id username")
+    .populate("subscribers.users", "_id username")
+    .select("_id username")
+    .exec();
 
     res.json(result);
   } catch (e) {
@@ -385,10 +385,10 @@ exports.removeSubscriber = async (req, res) => {
       { $pull: { "subscribers.users": req.userId } },
       { new: true }
     )
-      .populate("subscribed.users", "_id name")
-      .populate("subscribers.users", "_id name")
-      .select("_id username avatar")
-      .exec();
+    .populate("subscribed.users", "_id username")
+    .populate("subscribers.users", "_id username")
+    .select("_id username")
+    .exec();
 
     res.json(result);
   } catch (e) {
