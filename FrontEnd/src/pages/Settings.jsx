@@ -9,7 +9,6 @@ import Subscriptions from "../components/settingPanes/Subscriptions";
 import Media from "../components/settingPanes/Media";
 
 const Settings = () => {
-
   return (
     <Container>
       <Row>
