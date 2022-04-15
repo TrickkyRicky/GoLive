@@ -8,7 +8,7 @@ import Register from "./pages/auth/Register";
 // import NewPass from "./pages/auth/NewPass.jsx";
 import Settings from "./pages/Settings";
 import Error404 from "./pages/Error404.jsx";
-// import Upload from "./pages/Upload";
+import EditVideo from "./pages/EditVideo";
 import WatchVideo from "./pages/WatchVideo";
 import Stream from "./pages/Stream";
 import LikedVideos from "./pages/LikedVideos";
@@ -49,12 +49,13 @@ const App = () => {
         <Route index element={<Home />} />
         <Route path="home" element={<Home />} />
         <Route path="profile/:userId" element={<Profile />} />
+
         <Route path="watch/:videoId" element={<WatchVideo />} />
-        <Route path="settings" element={<Settings />} />
+        <Route path="edit/:videoId" element={<EditVideo />} />
         <Route path="liked" element={<LikedVideos />} />
         <Route path="searchresults" element={<SearchResults />} />
+        <Route path="settings" element={<Settings />} />
 
-        <Route path="settings" element={<Settings jwt={jwtToken} />} />
         <Route path="clip" element={<Clip jwt={jwtToken} />} />
 
         {/* Socket Test Routes */}

@@ -20,8 +20,14 @@ const userSlice = createSlice({
     setId(state, action) {
       state.id = action.payload;
     },
+    updateVideo(state, action) {
+      let index = state.user.media.videos.findIndex(video => video._id == action.payload._id);
+
+      state.user.media.videos[index] = action.payload;
+    },
     deleteVideo(state, action) {
-      let index = state.user.media.videos.indexOf(action.payload);
+      let index = state.user.media.videos.findIndex(video => video._id == action.payload._id);
+      
       state.user.media.videos.splice(index, 1);
     },
     removeSubscriber(state, action) {

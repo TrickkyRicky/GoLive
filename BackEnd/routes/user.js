@@ -15,7 +15,8 @@ router.get("/likedvideos", isAuth, userController.getLikedVideos);
 router.put("/updateinfo", isAuth, userController.updateUser);
 
 //videos
-router.post("/uploadvideo", isAuth, userController.uploadvideo);
+router.post("/uploadvideo", isAuth, userController.uploadVideo);
+router.put("/info/:videoId", isAuth, userController.updateVideo);
 router.delete("/info/:videoId", isAuth, userController.deleteVideo);
 
 //Likes

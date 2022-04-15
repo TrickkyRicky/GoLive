@@ -1,15 +1,14 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 
 //Bootstrap
-import { Container, Row, Col, Button, Image } from 'react-bootstrap'
+import { Container, Row, Col, Button, Image } from 'react-bootstrap';
 
 //Assets
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons'
-import { faAngleDown} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 
-import { getUser, deleteVideo } from "../../store/user/user-actions";
+import { deleteVideo } from "../../store/user/user-actions";
 
 import MediaVideoCard from '../MediaVideoCard';
 
@@ -60,4 +59,4 @@ const Media = () => {
 }
 
 
-export default Media
+export default Media;
