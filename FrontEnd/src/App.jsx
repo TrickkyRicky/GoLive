@@ -48,7 +48,7 @@ const App = () => {
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
         <Route path="home" element={<Home />} />
-        <Route path="profile/:userId" element={<ChannelPage />} />
+        <Route path="channel/:userId" element={<ChannelPage />} />
         <Route path="watch/:videoId" element={<WatchVideo />} />
         <Route path="edit/:videoId" element={<EditVideo />} />
         <Route path="liked" element={<LikedVideos />} />

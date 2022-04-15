@@ -250,7 +250,7 @@ export default function Header() {
                         alt="avatar"
                       />
                       <div>
-                        <Link to={"/profile/" + auth.userIdLogin} className="core-username">{user.user?.username}</Link>
+                        <Link to={"/channel/" + auth.userIdLogin} className="core-username">{user.user?.username}</Link>
                       </div>
                     </div>
                     <Link to="/settings" className="dropdown-item">

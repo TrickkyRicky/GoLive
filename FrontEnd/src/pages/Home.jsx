@@ -56,6 +56,8 @@ const Home = () => {
   }, []);
 
   const clickCategory = (e, title) => {
+    e.preventDefault();
+    
     setActive(title);
 
     dispatch(
@@ -150,7 +152,7 @@ const Home = () => {
                         <Link to={"/watch/" + video._id}>
                           <h5 className="video-title">{video.title}</h5>
                         </Link>
-                        <Link to={"/profile/" + video.userId._id}>
+                        <Link to={"/channel/" + video.userId._id}>
                           <p className="video-username">
                             {video.userId.username}
                           </p>

@@ -11,11 +11,13 @@ const userSlice = createSlice({
         videos: []
       }
     },
-    id: ""
+    id: "",
+    filteredData: []
   },
   reducers: {
     setUserInfo(state, action) {
       state.user = action.payload;
+      state.filteredData = action.payload.media.videos;
     },
     setId(state, action) {
       state.id = action.payload;
@@ -33,6 +35,13 @@ const userSlice = createSlice({
     removeSubscriber(state, action) {
       let index = state.user.subscribed.users.indexOf(action.payload);
       state.user.subscribed.users.splice(index, 1)
+    },
+    search(state, action) {
+      let filteredData = state.user.media.videos.filter(video => {
+        return video.title.toLowerCase().includes(action.payload);
+      })
+
+      state.filteredData = filteredData;
     }
   },  
 }); 

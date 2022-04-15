@@ -9,6 +9,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMagnifyingGlass} from '@fortawesome/free-solid-svg-icons';
 
 import { deleteVideo } from "../../store/user/user-actions";
+import { userActions } from "../../store/user/user-slice";
 
 import MediaVideoCard from '../MediaVideoCard';
 
@@ -25,6 +26,12 @@ const Media = () => {
   //   }
   // }, [auth.jwtToken]);
 
+  const handleChange = (e) => {
+    let value = e.target.value.toLowerCase();
+
+    dispatch(userActions.search(value));
+  }
+
   const deleteVideoClick = (e, video) => {
     e.preventDefault();
 
@@ -35,18 +42,18 @@ const Media = () => {
     <Container className='media-container'>
       <Row className='media-searchbar-row-width mt-4 mx-auto background-custom background-radius-custom'>
         <Col xs={8} sm={8} lg={8} xl={8} xxl={8} className='mt-1 px-3 border-right'>
-          <input type="text" className='search-input' placeholder='Search for Content...'/>
+          <input type="text" className='search-input' placeholder='Search for Content...' onChange={handleChange}/>
         </Col>    
         <Col xs={2} sm={2} lg={2} xl={2} xxl={2} className='px-2'>
-          <Button className="searchbar-all-button">
+          <div className="searchbar-all-button">
             <FontAwesomeIcon className="search-icon" icon={faMagnifyingGlass}/>
-          </Button>  
+          </div>  
         </Col>   
       </Row>
       <Row className='media-videos-row-width mx-auto mt-5'>
         <Col className='px-0 pb-3 blue-border-bottom'>
           {
-            user.user.media.videos.map((video) => {
+            user.filteredData.map((video) => {
               return (
                 <MediaVideoCard video={video} onDelete={deleteVideoClick} key={video._id}/>
               )

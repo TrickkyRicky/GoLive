@@ -44,7 +44,7 @@ const Following = () => {
                             alt="avatar"
                         />
                         <div>
-                            <Link to={"/profile/" + user._id} className="user-username">{user.username}</Link>
+                            <Link to={"/channel/" + user._id} className="user-username">{user.username}</Link>
                         </div>
                     </div>
                 )

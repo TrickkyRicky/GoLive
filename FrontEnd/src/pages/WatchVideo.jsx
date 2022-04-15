@@ -147,7 +147,7 @@ const WatchVideo = () => {
                           alt="avatar"
                         />
                         <div>
-                          <Link to={"/profile/" + videoInfo?.userId._id} className="video-owner-username">
+                          <Link to={"/channel/" + videoInfo?.userId._id} className="video-owner-username">
                             { videoInfo?.userId.username }
                           </Link>
                           <p className="video-owner-subscribers">
