@@ -69,12 +69,20 @@
   }
 
   .description-textarea{
+    background-color: #323432;
+    color: #F5F4F4;
     border-radius: 1.5rem;
     font-size: 1.5rem;
     outline: none;
     resize: none;
     overflow: hidden;
     width: 100%;
+    border: none;
+  }
+
+  .description-background {
+    background-color: #323432;
+    border-radius: 1.5rem;
   }
 }
 /*********************************       Videos Pane         *************************************/
