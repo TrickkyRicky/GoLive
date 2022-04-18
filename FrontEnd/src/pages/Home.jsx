@@ -72,18 +72,38 @@ const Home = () => {
       <div>
         <Slider {...settings}>
           {
-            content.latestVideos.map((video, i) => {
+            content.latestVideos.map((video) => {
               return (
+                <div key={video._id} className="video-overlay">
                   <Image
-                    key={i}
                     className="video-thumbnail"
                     src={
                       video._id
                         ? "http://localhost:8080/content/thumbnail/" + video._id
                         : "http://localhost:8080/content/defaultThumbnail"
                     }
-                    alt="thumbnail"
+                    alt={video.title + " thumbnail"}
                   />
+                  <div className="video-details">
+                    <Image
+                      className="video-user-avatar"
+                      src={
+                        video.userId._id
+                          ? "http://localhost:8080/user/avatar/" + video.userId._id
+                          : "http://localhost:8080/user/defaultThumbnail"
+                      }
+                      alt={video.userId.username + " avatar"}
+                    />
+                    <div>
+                      <h5 className="video-username">{video.userId.username}</h5>
+                      <p className="video-category">{video.category}</p>
+                    </div>
+                    <div className="video-stats">
+                      <BsEyeFill size={22} color={"#f5f4f4"} />
+                      <p className="video-views">{video.views}</p>
+                    </div>
+                  </div>
+                </div>
               )
             })
           }
@@ -134,7 +154,7 @@ const Home = () => {
                       alt="thumbnail"
                     />
                     <div className="video-views">
-                      <BsEyeFill size={22} color={"#f5f4f4"} />{" "}
+                      <BsEyeFill size={22} color={"#f5f4f4"} />
                       <p>{video.views}</p>
                     </div>
                   </div>

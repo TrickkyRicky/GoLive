@@ -277,7 +277,7 @@ exports.getSearchSuggestions = async (req, res) => {
 
 exports.getLatestVideos = async (req, res) => {
   try {
-    const videos = await Video.find({}).sort("-createdAt").select("_id title views category").limit(5);
+    const videos = await Video.find({}).populate("userId", "_id username").sort("-createdAt").select("_id title views category").limit(5);
 
     res.json(videos);
   } catch (e) {
