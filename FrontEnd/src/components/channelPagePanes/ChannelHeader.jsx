@@ -38,12 +38,10 @@ const ChannelHeader = () =>{
             <div className="channel-info-container">
                 <div className="user-info">CourageJD</div>
                 <div className="user-info pt-3">325k Subscribers</div>
-                <div className="subscribe-pill pt-4">
-                    <div>
-                        <button className="button px-5">
-                            Subscribe <FontAwesomeIcon className="star-icon" icon={faStar}/>
-                        </button>
-                    </div>
+                <div className="subscribe-pill pt-4">                   
+                    <button className="button px-5">
+                        Subscribe <FontAwesomeIcon className="star-icon" icon={faStar}/>
+                    </button>    
                 </div>
             </div>              
         </Col>
