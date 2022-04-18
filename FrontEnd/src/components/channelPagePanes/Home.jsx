@@ -11,6 +11,16 @@ const Home = () =>{
 
   return (
     <div>
+        <h1>Home Pane</h1>
+    </div>
+  )
+}
+
+export default Home;
+
+
+
+{/* <div>
         <h2>Popular Uploads</h2>
         <div className="video-list">
             {
@@ -47,8 +57,4 @@ const Home = () =>{
                 })
             }
         </div>
-    </div>
-  )
-}
-
-export default Home;
+    </div> */}
