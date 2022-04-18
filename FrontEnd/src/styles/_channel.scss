@@ -53,7 +53,31 @@
     }
 }
 
+/*********************************       About Pane         *************************************/
+.about-container {
 
+  @include media-breakpoint-up(sm){
+    width: 60%;
+  }
+
+  @include media-breakpoint-up(md){
+    width: 70%;
+  }
+
+  @include media-breakpoint-up(lg){
+    width: 60%;
+  }
+
+  .description-textarea{
+    border-radius: 1.5rem;
+    font-size: 1.5rem;
+    outline: none;
+    resize: none;
+    overflow: hidden;
+    width: 100%;
+  }
+}
+/*********************************       Videos Pane         *************************************/
 .videos-pane-container {
 
   .uploads-text{
