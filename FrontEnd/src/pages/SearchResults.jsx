@@ -62,7 +62,7 @@ function SearchResults() {
                                                     alt="avatar"
                                                 />
                                                 <div>
-                                                    <Link to={"/profile/" + video.userId._id} className="video-username">{video.userId.username}</Link>
+                                                    <Link to={"/channel/" + video.userId._id} className="video-username">{video.userId.username}</Link>
                                                     <p className="video-category">{ video.category }</p>
                                                 </div>
                                                 </div>

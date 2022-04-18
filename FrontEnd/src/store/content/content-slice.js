@@ -17,7 +17,8 @@ const contentSlice = createSlice({
     subscribed: false,
     liked: false,
     latestVideos: [],
-    popularUploads: []
+    popularUploads: [],
+    redirect: false
   },
   reducers: {
     setPopularUploads(state, action) {
@@ -86,6 +87,9 @@ const contentSlice = createSlice({
     },
     showUploadModal(state, action) {
       state.showUploadModal = action.payload
+    },
+    setRedirect(state, action) {
+      state.redirect  = action.payload
     }
   }
 });

@@ -89,21 +89,7 @@ exports.updateUser = (req, res) => {
   });
 };
 
-// exports.deleteUser = async (req, res) => {
-//   try {
-//     let user = req.user;
-
-//     let deletedUser = await user.remove();
-
-//     res.json(deletedUser);
-//   } catch (e) {
-//     return res.status(400).json({
-//       error: "Could not delete.",
-//     });
-//   }
-// };
-
-exports.uploadvideo = async (req, res) => {
+exports.uploadVideo = async (req, res) => {
   let form = new formidable.IncomingForm();
   form.keepExtensions = true;
 
@@ -154,6 +140,43 @@ exports.uploadvideo = async (req, res) => {
     }
   });
 };
+
+exports.updateVideo = async (req, res) => {
+  let form = new formidable.IncomingForm();
+  form.keepExtensions = true;
+
+  form.parse(req, async (err, fields, files) => {
+    if (err) {
+      return res.status("400").json({
+        error: "Video could not be uploaded",
+      });
+    }
+
+    console.log(files);
+
+    let video = await Video.findById(req.params.videoId).populate("userId", "_id username subscribers");
+    //Extend video
+    Object.assign(video, fields);
+
+    //If there is a thumbnail
+    if(files.thumbnail) {
+      video.thumbnail.data = fs.readFileSync(files.thumbnail.filepath);
+      video.thumbnail.contentType = files.thumbnail.mimetype;
+    }
+
+    try {
+      let result = await video.save();
+      result.thumbnail = undefined;
+
+      res.json(result);
+    } catch (e) {
+      return res.status('400').json({
+        error: "Could not update video"
+      })
+    }
+
+  });
+}
 
 exports.deleteVideo = async (req, res) => {
   try {

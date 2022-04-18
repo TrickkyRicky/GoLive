@@ -8,6 +8,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
+import { Link } from "react-router-dom";
+
 //Modal
 import DeleteModal from './DeleteModal';
 
@@ -39,7 +41,9 @@ const MediaVideoCard = ({ video, onDelete }) => {
           <Button variant="danger" onClick={() => setModalShow(true)}>
             <FontAwesomeIcon className="delete-icon mx-2 pt-0" icon={faXmark}/>
           </Button>
-          <FontAwesomeIcon className="edit-icon pt-0" icon={faPenToSquare}/>
+          <Link to={"/edit/" + video._id}>
+            <FontAwesomeIcon className="edit-icon pt-0" icon={faPenToSquare}/>
+          </Link>
       </div>   
 
       <DeleteModal

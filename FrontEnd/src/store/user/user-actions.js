@@ -132,6 +132,36 @@ export const uploadVideo = (jwt, newVideo) => {
   };
 };
 
+export const editVideo = (jwt, updatedVideo, videoId) => { 
+  return async (dispatch) => {
+    const updateData = async () => {
+      const response = await fetch("http://localhost:8080/user/info/" + videoId, {
+        method: "PUT",
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + jwt
+        },
+        body: updatedVideo,
+      });
+      if (response.status !== 200) {
+
+        throw new Error("Failed to update video info");
+      }
+      return response.json();
+    };
+    try {
+      const response = await updateData();
+
+      dispatch(contentActions.setVideoInfo(response));
+      dispatch(userActions.updateVideo(response));
+
+      dispatch(contentActions.setRedirect(true));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+};
+
 export const deleteVideo = (jwt, videoId) => {
   return async (dispatch) => {
     const deleteVideo = async () => {
